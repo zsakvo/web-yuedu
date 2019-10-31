@@ -15,6 +15,7 @@
           class="note"
           v-for="note in this.$store.state.catalog"
           :key="note.durChapterIndex"
+          @click="toChapter"
         >
           {{ note.durChapterName }}
         </div>
@@ -25,6 +26,7 @@
 
 <script>
 import Axios from "axios";
+var Base64 = require("js-base64").Base64;
 export default {
   data() {
     return {
@@ -33,11 +35,10 @@ export default {
   },
   mounted() {
     const that = this;
+
+    let noteUrl = Base64.decode(this.$route.query.id);
     Axios.get(
-      "http://" +
-        localStorage.url +
-        "/getChapterList?url=" +
-        this.$store.state.noteUrl
+      "http://" + localStorage.url + "/getChapterList?url=" + noteUrl
     ).then(
       res => {
         console.log(res.data);
@@ -47,6 +48,12 @@ export default {
         console.log(err);
       }
     );
+  },
+  methods: {
+    toChapter() {
+      var chapterUrl = Base64.decode(this.$route.query.id);
+      console.log(chapterUrl);
+    }
   }
 };
 </script>
@@ -83,10 +90,10 @@ export default {
       justify-content: space-between;
 
       .note {
-        width: 300px;
+        width: 200px;
         font-weight: 500;
-        font-size: 20px;
-        line-height: 48px;
+        font-size: 14px;
+        line-height: 40px;
         padding-left: 12px;
         padding-right: 12px;
         word-wrap: break-word;

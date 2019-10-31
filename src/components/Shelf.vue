@@ -11,10 +11,7 @@
             alt=""
           />
         </div>
-        <div
-          class="info"
-          @click="toDetail(book.bookInfoBean.name, book.bookInfoBean.noteUrl)"
-        >
+        <div class="info" @click="toDetail(book.bookInfoBean.noteUrl)">
           <div class="name">{{ book.bookInfoBean.name }}</div>
           <div class="sub">
             <div class="author">{{ book.bookInfoBean.author }}</div>
@@ -30,18 +27,19 @@
 </template>
 
 <script>
+var Base64 = require("js-base64").Base64;
 export default {
   name: "shelf",
   data() {
     return {};
   },
   methods: {
-    toDetail(name, noteUrl) {
+    toDetail(noteUrl) {
       this.$store.commit("setNoteUrl", noteUrl);
       this.$router.push({
         path: "/detail",
         query: {
-          id: name.MD5()
+          id: Base64.encode(noteUrl)
         }
       });
     }
