@@ -10,10 +10,10 @@ export default new Vuex.Store({
   },
   mutations: {
     increaseBookNum(state, n) {
-      state.bookNum += n;
+      state.bookNum = n;
     },
     addBooks(state, books) {
-      Object.assign(state.shelf, books);
+      state.shelf = books;
     }
   }
 });

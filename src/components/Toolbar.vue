@@ -34,7 +34,11 @@ export default {
               .get("http://" + instance.inputValue + "/getBookshelf")
               .then(function(response) {
                 instance.confirmButtonLoading = false;
-                that.$store.commit("addBooks", response.data);
+                that.$store.commit(
+                  "increaseBookNum",
+                  response.data.data.length
+                );
+                that.$store.commit("addBooks", response.data.data);
                 done();
               })
               .catch(function(error) {
@@ -68,7 +72,7 @@ export default {
 <style lang="stylus" scoped>
 .toolbar-wrapper {
   .bar {
-    padding: 2% 5%;
+    padding: 3% 8%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
