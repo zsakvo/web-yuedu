@@ -33,8 +33,8 @@ export default {
             axios
               .get("http://" + instance.inputValue + "/getBookshelf")
               .then(function(response) {
-                console.log(response.data);
                 instance.confirmButtonLoading = false;
+                that.$store.commit("addBooks", response.data);
                 done();
               })
               .catch(function(error) {
