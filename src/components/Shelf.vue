@@ -11,7 +11,10 @@
             alt=""
           />
         </div>
-        <div class="info">
+        <div
+          class="info"
+          @click="toDetail(book.bookInfoBean.name, book.bookInfoBean.noteUrl)"
+        >
           <div class="name">{{ book.bookInfoBean.name }}</div>
           <div class="sub">
             <div class="author">{{ book.bookInfoBean.author }}</div>
@@ -31,6 +34,17 @@ export default {
   name: "shelf",
   data() {
     return {};
+  },
+  methods: {
+    toDetail(name, noteUrl) {
+      this.$store.commit("setNoteUrl", noteUrl);
+      this.$router.push({
+        path: "/detail",
+        query: {
+          id: name.MD5()
+        }
+      });
+    }
   },
   computed: {
     bookNum() {

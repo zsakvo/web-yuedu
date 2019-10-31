@@ -18,6 +18,20 @@ export default {
       url: ""
     };
   },
+  mounted() {
+    if (localStorage.url) {
+      const that = this;
+      axios
+        .get("http://" + localStorage.url + "/getBookshelf")
+        .then(function(response) {
+          that.$store.commit("increaseBookNum", response.data.data.length);
+          that.$store.commit("addBooks", response.data.data);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+  },
   methods: {
     open() {
       const that = this;
@@ -53,6 +67,7 @@ export default {
         }
       })
         .then(({ value }) => {
+          localStorage.url = value;
           this.$message({
             type: "success",
             message: "与" + value + "连接成功"
