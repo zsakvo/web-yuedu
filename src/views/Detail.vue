@@ -15,7 +15,7 @@
           class="note"
           v-for="note in this.$store.state.catalog"
           :key="note.durChapterIndex"
-          @click="toChapter"
+          @click="toChapter(note.durChapterUrl)"
         >
           {{ note.durChapterName }}
         </div>
@@ -35,10 +35,12 @@ export default {
   },
   mounted() {
     const that = this;
-
     let noteUrl = Base64.decode(this.$route.query.id);
     Axios.get(
-      "http://" + localStorage.url + "/getChapterList?url=" + noteUrl
+      "http://" +
+        localStorage.url +
+        "/getChapterList?url=" +
+        encodeURIComponent(noteUrl)
     ).then(
       res => {
         console.log(res.data);
@@ -50,9 +52,13 @@ export default {
     );
   },
   methods: {
-    toChapter() {
-      var chapterUrl = Base64.decode(this.$route.query.id);
-      console.log(chapterUrl);
+    toChapter(chapterUrl) {
+      this.$router.push({
+        path: "/chapter",
+        query: {
+          id: Base64.encode(chapterUrl)
+        }
+      });
     }
   }
 };
