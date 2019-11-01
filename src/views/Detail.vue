@@ -15,7 +15,7 @@
           class="note"
           v-for="note in this.$store.state.catalog"
           :key="note.durChapterIndex"
-          @click="toChapter(note.durChapterUrl)"
+          @click="toChapter(note.durChapterUrl, note.durChapterName)"
         >
           {{ note.durChapterName }}
         </div>
@@ -51,11 +51,12 @@ export default {
     );
   },
   methods: {
-    toChapter(chapterUrl) {
+    toChapter(chapterUrl, name) {
       this.$router.push({
         path: "/chapter",
         query: {
-          id: Base64.encode(chapterUrl)
+          id: Base64.encode(chapterUrl),
+          name: Base64.encode(name)
         }
       });
     }

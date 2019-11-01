@@ -13,6 +13,7 @@ var Base64 = require("js-base64").Base64;
 export default {
   mounted() {
     const that = this;
+    var title = Base64.decode(this.$route.query.name);
     let chapterUrl = Base64.decode(this.$route.query.id);
     Axios.get(
       "http://" +
@@ -23,8 +24,8 @@ export default {
       res => {
         let data = res.data.data;
         let dataArray = data.split("\n\n");
+        that.title = title;
         if (dataArray.length > 1) {
-          that.title = dataArray[0];
           that.content = dataArray[1];
         } else {
           that.content = dataArray[0];
