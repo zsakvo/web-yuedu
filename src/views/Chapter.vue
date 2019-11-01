@@ -21,10 +21,16 @@ export default {
         encodeURIComponent(chapterUrl)
     ).then(
       res => {
-        let data = res.data.data.split("\n\n");
-        that.title = data[0];
-        that.content = data[1];
-        that.$store.commit("setCatalog", res.data.data);
+        let data = res.data.data;
+        // data.trim();
+        console.log(res.data);
+        let dataArray = data.split("\n\n");
+        if (dataArray.length > 1) {
+          that.title = dataArray[0];
+          that.content = dataArray[1];
+        } else {
+          that.content = dataArray[0];
+        }
       },
       err => {
         console.log(err);
