@@ -19,3 +19,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+#Carlo build output
+/dist_carlo
+/.profile

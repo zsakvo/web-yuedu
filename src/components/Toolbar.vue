@@ -28,7 +28,7 @@ export default {
           that.$store.commit("addBooks", response.data.data);
         })
         .catch(function(error) {
-          console.log(error);
+          throw error;
         });
     }
   },
@@ -56,10 +56,10 @@ export default {
                 done();
               })
               .catch(function(error) {
-                console.log(error);
                 instance.confirmButtonLoading = false;
                 instance.confirmButtonText = "确定";
                 that.$message.error("访问失败，请检查您输入的 url");
+                throw error;
               });
           } else {
             done();

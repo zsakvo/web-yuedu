@@ -22,8 +22,6 @@ export default {
     ).then(
       res => {
         let data = res.data.data;
-        // data.trim();
-        console.log(res.data);
         let dataArray = data.split("\n\n");
         if (dataArray.length > 1) {
           that.title = dataArray[0];
@@ -33,7 +31,7 @@ export default {
         }
       },
       err => {
-        console.log(err);
+        throw err;
       }
     );
   },

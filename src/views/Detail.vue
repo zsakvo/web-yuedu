@@ -43,11 +43,10 @@ export default {
         encodeURIComponent(noteUrl)
     ).then(
       res => {
-        console.log(res.data);
         that.$store.commit("setCatalog", res.data.data);
       },
       err => {
-        console.log(err);
+        throw err;
       }
     );
   },
