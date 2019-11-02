@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="index-wrapper">
     <toolbar />
     <shelf />
   </div>

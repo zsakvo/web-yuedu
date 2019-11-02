@@ -51,12 +51,14 @@ export default {
     );
   },
   methods: {
-    toChapter(chapterUrl, name) {
+    toChapter(chapterUrl, title) {
+      let name = this.$route.query.name;
       this.$router.push({
         path: "/chapter",
         query: {
           id: Base64.encode(chapterUrl),
-          name: Base64.encode(name)
+          title: Base64.encode(title),
+          name: name
         }
       });
     }

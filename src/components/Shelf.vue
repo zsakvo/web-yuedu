@@ -11,11 +11,14 @@
             alt=""
           />
         </div>
-        <div class="info" @click="toDetail(book.bookInfoBean.noteUrl)">
+        <div
+          class="info"
+          @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)"
+        >
           <div class="name">{{ book.bookInfoBean.name }}</div>
           <div class="sub">
-            <div class="author">{{ book.bookInfoBean.author }}</div>
-            <div class="size">共 {{ book.chapterListSize }} 章</div>
+            <div class="author">作者：{{ book.bookInfoBean.author }}</div>
+            <!-- <div class="size">共 {{ book.chapterListSize }} 章</div> -->
           </div>
           <div class="intro">
             {{ book.bookInfoBean.introduce }}
@@ -34,12 +37,13 @@ export default {
     return {};
   },
   methods: {
-    toDetail(noteUrl) {
+    toDetail(noteUrl, name) {
       this.$store.commit("setNoteUrl", noteUrl);
       this.$router.push({
         path: "/detail",
         query: {
-          id: Base64.encode(noteUrl)
+          id: Base64.encode(noteUrl),
+          name: Base64.encode(name)
         }
       });
     }
@@ -60,7 +64,7 @@ export default {
   width: 84vw;
   display: flex;
   flex-direction: column;
-  padding: 0 8%;
+  padding: 0;
   margin-top: -2%;
 
   .title {
@@ -82,12 +86,12 @@ export default {
       justify-content: space-around;
 
       .cover-img {
-        width: 96px;
-        height: 128px;
+        width: 84px;
+        height: 112px;
 
         .cover {
-          width: 96px;
-          height: 128px;
+          width: 84px;
+          height: 112px;
         }
       }
 
@@ -96,8 +100,8 @@ export default {
         flex-direction: column;
         justify-content: space-around;
         align-items: left;
-        height: 128px;
-        margin-left: 24px;
+        height: 112px;
+        margin-left: 20px;
 
         .name {
           width: fit-content;
@@ -109,16 +113,12 @@ export default {
         .sub {
           display: flex;
           flex-direction: row;
-          font-size: 14px;
+          font-size: 12px;
           font-weight: 600;
           color: #6b6b6b;
 
           .author {
-            margin-right: 12px;
-          }
-
-          .size {
-            margin-left: 12px;
+            margin-right: 5px;
           }
         }
 
@@ -131,7 +131,7 @@ export default {
           text-overflow: ellipsis;
           display: -webkit-box;
           -webkit-box-orient: vertical;
-          -webkit-line-clamp: 3;
+          -webkit-line-clamp: 2;
           text-align: left;
         }
       }
