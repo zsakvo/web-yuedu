@@ -87,7 +87,7 @@ export default {
 <style lang="stylus" scoped>
 .toolbar-wrapper {
   .bar {
-    padding: 3% 0;
+    padding: 2% 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -1,5 +1,15 @@
 <template>
   <div class="chapter-wrapper">
+    <div class="tool-bar">
+      <div class="tools">
+        <i class="el-icon-s-tools tool-icon"></i>
+        <el-popover placement="right" width="700" trigger="click">
+          <PopCata :cata="catalog" />
+          <i slot="reference" class="el-icon-s-operation tool-icon"></i>
+        </el-popover>
+        <i class="el-icon-collection-tag tool-icon"></i>
+      </div>
+    </div>
     <div class="chapter-bar">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }" class="item"
@@ -16,9 +26,13 @@
 </template>
 
 <script>
+import PopCata from "../components/PopCatalog.vue";
 import Axios from "axios";
 var Base64 = require("js-base64").Base64;
 export default {
+  components: {
+    PopCata
+  },
   mounted() {
     const that = this;
     this.name = Base64.decode(this.$route.query.name);
@@ -49,7 +63,11 @@ export default {
     return {
       name: "",
       title: "",
-      content: ""
+      content: "",
+      catalog: {
+        "233": "344",
+        "455": "566"
+      }
     };
   }
 };
@@ -57,6 +75,25 @@ export default {
 
 <style lang="stylus" scoped>
 .chapter-wrapper {
+  padding: 3% 4%;
+
+  .tool-bar {
+    position: fixed;
+    top: 6%;
+    left: 4%;
+    z-index: 100;
+
+    .tools {
+      display: flex;
+      flex-direction: column;
+
+      .tool-icon {
+        line-height: 48px;
+        font-size: 28px;
+      }
+    }
+  }
+
   .chapter-bar {
     .el-breadcrumb {
       .item {

@@ -68,7 +68,7 @@ export default {
 
 <style lang="stylus" scoped>
 .detail-wrapper {
-  padding: 3% 8%;
+  padding: 2% 0%;
 
   .detail {
     .bar {
