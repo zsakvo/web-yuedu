@@ -9,7 +9,10 @@ export default new Vuex.Store({
     bookNum: 0,
     currentBookID: "",
     noteUrl: "",
-    catalog: ""
+    catalog: "",
+    chapterName: "",
+    chapterUrl: "",
+    bookName: ""
   },
   mutations: {
     increaseBookNum(state, n) {
@@ -26,6 +29,15 @@ export default new Vuex.Store({
     },
     setCatalog(state, catalog) {
       state.catalog = catalog;
+    },
+    setChapterName(state, chapterName) {
+      state.chapterName = chapterName;
+    },
+    setChapterUrl(state, chapterUrl) {
+      state.chapterUrl = chapterUrl;
+    },
+    setBookName(state, bookName) {
+      state.bookName = bookName;
     }
   }
 });

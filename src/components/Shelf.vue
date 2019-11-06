@@ -30,21 +30,23 @@
 </template>
 
 <script>
-var Base64 = require("js-base64").Base64;
+// var Base64 = require("js-base64").Base64;
 export default {
   name: "shelf",
   data() {
     return {};
   },
   methods: {
-    toDetail(noteUrl, name) {
-      this.$store.commit("setNoteUrl", noteUrl);
+    toDetail(bookUrl, bookName) {
+      sessionStorage.setItem("bookUrl", bookUrl);
+      sessionStorage.setItem("bookName", bookName);
+      // this.$store.commit("setNoteUrl", noteUrl);
       this.$router.push({
-        path: "/detail",
-        query: {
-          id: Base64.encode(noteUrl),
-          name: Base64.encode(name)
-        }
+        path: "/detail"
+        // query: {
+        //   id: Base64.encode(noteUrl),
+        //   name: Base64.encode(name)
+        // }
       });
     }
   },

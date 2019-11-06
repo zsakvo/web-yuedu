@@ -6,8 +6,9 @@
     <div class="cata">
       <div
         class="log"
-        v-for="note in this.$store.state.catalog"
+        v-for="note in catalog"
         :key="note.durChapterIndex"
+        @click="gotoChapter(note.durChapterUrl, note.durChapterName)"
       >
         {{ note.durChapterName }}
       </div>
@@ -16,6 +17,7 @@
 </template>
 
 <script>
+// var Base64 = require("js-base64").Base64;
 export default {
   name: "PopCata",
   props: {
@@ -31,6 +33,31 @@ export default {
     return {
       key: "value"
     };
+  },
+  computed: {
+    catalog() {
+      return JSON.parse(sessionStorage.getItem("catalog"));
+    }
+  },
+  watch: {
+    $route(to) {
+      //   console.log(to);
+      //   console.log(from);
+      this.$store.commit("setChapterName", to.query.title);
+      this.$store.commit("setChapterUrl", to.query.chapterUrl);
+    }
+  },
+  methods: {
+    gotoChapter(chapterUrl, chapterName) {
+      sessionStorage.setItem("chapterUrl", chapterUrl);
+      sessionStorage.setItem("chapterName", chapterName);
+      // let name = this.$route.query.name;
+      //   console.log(chapterUrl);
+      //   console.log(title);
+      //   this.$route.query.id = Base64.encode(chapterUrl);
+      //   this.$route.query.title = Base64.encode(title);
+      this.$router.go(0);
+    }
   }
 };
 </script>
@@ -53,7 +80,7 @@ export default {
 
     .log {
       font-size: 14px;
-      line-height: 32px;
+      line-height: 42px;
     }
   }
 }

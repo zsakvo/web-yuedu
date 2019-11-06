@@ -28,16 +28,19 @@
 <script>
 import PopCata from "../components/PopCatalog.vue";
 import Axios from "axios";
-var Base64 = require("js-base64").Base64;
+// var Base64 = require("js-base64").Base64;
 export default {
   components: {
     PopCata
   },
   mounted() {
     const that = this;
-    this.name = Base64.decode(this.$route.query.name);
-    var title = Base64.decode(this.$route.query.title);
-    let chapterUrl = Base64.decode(this.$route.query.id);
+    // console.log(this.$store.state.bookName);
+    // console.log(this.$store.state.chapterName);
+    // console.log(this.$store.state.chapterUrl);
+    // this.name = sessionStorage.getItem("bookName");
+    var title = sessionStorage.getItem("chapterName");
+    var chapterUrl = sessionStorage.getItem("chapterUrl");
     Axios.get(
       "http://" +
         localStorage.url +
@@ -49,9 +52,9 @@ export default {
         let dataArray = data.split("\n\n");
         that.title = title;
         if (dataArray.length > 1) {
-          that.content = dataArray[1];
+          that.content = "　　" + dataArray[1];
         } else {
-          that.content = dataArray[0];
+          that.content = "　　" + dataArray[0];
         }
       },
       err => {
@@ -59,16 +62,29 @@ export default {
       }
     );
   },
+  watch: {
+    chapterName(to) {
+      console.log(to);
+      this.title = to;
+    }
+  },
   data() {
     return {
-      name: "",
+      // name: "",
       title: "",
       content: "",
       catalog: {
         "233": "344",
         "455": "566"
-      }
+      },
+      chapterName: this.$store.state.chapterName,
+      chapterUrl: this.$store.state.chapterUrl
     };
+  },
+  computed: {
+    name() {
+      return sessionStorage.getItem("bookName");
+    }
   }
 };
 </script>

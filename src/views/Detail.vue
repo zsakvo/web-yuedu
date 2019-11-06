@@ -26,7 +26,7 @@
 
 <script>
 import Axios from "axios";
-var Base64 = require("js-base64").Base64;
+// var Base64 = require("js-base64").Base64;
 export default {
   data() {
     return {
@@ -35,15 +35,16 @@ export default {
   },
   mounted() {
     const that = this;
-    let noteUrl = Base64.decode(this.$route.query.id);
+    // let noteUrl = Base64.decode(this.$route.query.id);
     Axios.get(
       "http://" +
         localStorage.url +
         "/getChapterList?url=" +
-        encodeURIComponent(noteUrl)
+        encodeURIComponent(sessionStorage.getItem("bookUrl"))
     ).then(
       res => {
         that.$store.commit("setCatalog", res.data.data);
+        sessionStorage.setItem("catalog", JSON.stringify(res.data.data));
       },
       err => {
         throw err;
@@ -51,15 +52,19 @@ export default {
     );
   },
   methods: {
-    toChapter(chapterUrl, title) {
-      let name = this.$route.query.name;
+    toChapter(chapterUrl, chapterName) {
+      // this.$store.commit("setChapterName", Base64.encode(title));
+      // this.$store.commit("setChapterUrl", Base64.encode(chapterUrl));
+      // this.$store.commit("setBookName", this.$route.query.name);
+      sessionStorage.setItem("chapterUrl", chapterUrl);
+      sessionStorage.setItem("chapterName", chapterName);
       this.$router.push({
-        path: "/chapter",
-        query: {
-          id: Base64.encode(chapterUrl),
-          title: Base64.encode(title),
-          name: name
-        }
+        path: "/chapter"
+        // query: {
+        //   id: Base64.encode(chapterUrl),
+        //   title: Base64.encode(title),
+        //   name: name
+        // }
       });
     }
   }
