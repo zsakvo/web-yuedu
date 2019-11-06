@@ -41,8 +41,6 @@ export default {
   },
   watch: {
     $route(to) {
-      //   console.log(to);
-      //   console.log(from);
       this.$store.commit("setChapterName", to.query.title);
       this.$store.commit("setChapterUrl", to.query.chapterUrl);
     }
@@ -53,12 +51,7 @@ export default {
       sessionStorage.setItem("chapterName", chapterName);
       this.$store.commit("setChapterUrl", chapterUrl);
       this.$store.commit("setChapterName", chapterName);
-      // let name = this.$route.query.name;
-      //   console.log(chapterUrl);
-      //   console.log(title);
-      //   this.$route.query.id = Base64.encode(chapterUrl);
-      //   this.$route.query.title = Base64.encode(title);
-      // this.$router.go(0);
+      this.$store.commit("setPopCataVisible", false);
     }
   }
 };

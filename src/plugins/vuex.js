@@ -12,7 +12,8 @@ export default new Vuex.Store({
     catalog: "",
     chapterName: "",
     chapterUrl: "",
-    bookName: ""
+    bookName: "",
+    popCataVisible: false
   },
   mutations: {
     increaseBookNum(state, n) {
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     },
     setBookName(state, bookName) {
       state.bookName = bookName;
+    },
+    setPopCataVisible(state, visible) {
+      state.popCataVisible = visible;
     }
   }
 });

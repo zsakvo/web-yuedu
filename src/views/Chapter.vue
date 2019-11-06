@@ -3,8 +3,13 @@
     <div class="tool-bar">
       <div class="tools">
         <i class="el-icon-s-tools tool-icon"></i>
-        <el-popover placement="right" width="700" trigger="click">
-          <PopCata :cata="catalog" />
+        <el-popover
+          placement="right"
+          width="700"
+          trigger="click"
+          v-model="popCataVisible"
+        >
+          <PopCata />
           <i slot="reference" class="el-icon-s-operation tool-icon"></i>
         </el-popover>
         <i class="el-icon-collection-tag tool-icon"></i>
@@ -62,7 +67,6 @@ export default {
     chapterName(to) {
       this.title = to;
     },
-
     chapterUrl(newChapterUrl) {
       let that = this;
       Axios.get(
@@ -91,12 +95,7 @@ export default {
     return {
       title: "",
       content: "",
-      catalog: {
-        "233": "344",
-        "455": "566"
-      }
-      // chapterName: this.$store.state.chapterName,
-      // chapterUrl: this.$store.state.chapterUrl
+      visible: false
     };
   },
   computed: {
@@ -108,6 +107,14 @@ export default {
     },
     chapterUrl() {
       return this.$store.state.chapterUrl;
+    },
+    popCataVisible: {
+      get() {
+        return this.$store.state.popCataVisible;
+      },
+      set(value) {
+        this.$store.commit("setPopCataVisible", value);
+      }
     }
   }
 };
