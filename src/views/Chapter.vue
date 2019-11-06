@@ -32,7 +32,8 @@
     <div class="chapter">
       <div class="title">{{ title }}</div>
       <div class="content">
-        {{ content }}
+        <!-- {{ content }} -->
+        <Pcontent :carray="content" />
       </div>
     </div>
   </div>
@@ -40,11 +41,13 @@
 
 <script>
 import PopCata from "../components/PopCatalog.vue";
+import Pcontent from "../components/Content.vue";
 import Axios from "axios";
 // var Base64 = require("js-base64").Base64;
 export default {
   components: {
-    PopCata
+    PopCata,
+    Pcontent
   },
   mounted() {
     const that = this;
@@ -61,9 +64,9 @@ export default {
         let dataArray = data.split("\n\n");
         that.title = title;
         if (dataArray.length > 1) {
-          that.content = "　　" + dataArray[1];
+          that.content = ("　　" + dataArray[1]).split("\n");
         } else {
-          that.content = "　　" + dataArray[0];
+          that.content = ("　　" + dataArray[0]).split("\n");
         }
       },
       err => {
@@ -87,9 +90,9 @@ export default {
           let data = res.data.data;
           let dataArray = data.split("\n\n");
           if (dataArray.length > 1) {
-            that.content = "　　" + dataArray[1];
+            that.content = ("　　" + dataArray[1]).split("\n");
           } else {
-            that.content = "　　" + dataArray[0];
+            that.content = ("　　" + dataArray[0]).split("\n");
           }
         },
         err => {
