@@ -35,10 +35,6 @@ export default {
   },
   mounted() {
     const that = this;
-    // console.log(this.$store.state.bookName);
-    // console.log(this.$store.state.chapterName);
-    // console.log(this.$store.state.chapterUrl);
-    // this.name = sessionStorage.getItem("bookName");
     var title = sessionStorage.getItem("chapterName");
     var chapterUrl = sessionStorage.getItem("chapterUrl");
     Axios.get(
@@ -64,26 +60,54 @@ export default {
   },
   watch: {
     chapterName(to) {
-      console.log(to);
       this.title = to;
+    },
+
+    chapterUrl(newChapterUrl) {
+      let that = this;
+      Axios.get(
+        "http://" +
+          localStorage.url +
+          "/getBookContent?url=" +
+          encodeURIComponent(newChapterUrl)
+      ).then(
+        res => {
+          let data = res.data.data;
+          let dataArray = data.split("\n\n");
+          if (dataArray.length > 1) {
+            that.content = "　　" + dataArray[1];
+          } else {
+            that.content = "　　" + dataArray[0];
+          }
+        },
+        err => {
+          that.content = "　　获取章节内容失败！";
+          throw err;
+        }
+      );
     }
   },
   data() {
     return {
-      // name: "",
       title: "",
       content: "",
       catalog: {
         "233": "344",
         "455": "566"
-      },
-      chapterName: this.$store.state.chapterName,
-      chapterUrl: this.$store.state.chapterUrl
+      }
+      // chapterName: this.$store.state.chapterName,
+      // chapterUrl: this.$store.state.chapterUrl
     };
   },
   computed: {
     name() {
       return sessionStorage.getItem("bookName");
+    },
+    chapterName() {
+      return this.$store.state.chapterName;
+    },
+    chapterUrl() {
+      return this.$store.state.chapterUrl;
     }
   }
 };

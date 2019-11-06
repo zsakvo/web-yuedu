@@ -51,12 +51,14 @@ export default {
     gotoChapter(chapterUrl, chapterName) {
       sessionStorage.setItem("chapterUrl", chapterUrl);
       sessionStorage.setItem("chapterName", chapterName);
+      this.$store.commit("setChapterUrl", chapterUrl);
+      this.$store.commit("setChapterName", chapterName);
       // let name = this.$route.query.name;
       //   console.log(chapterUrl);
       //   console.log(title);
       //   this.$route.query.id = Base64.encode(chapterUrl);
       //   this.$route.query.title = Base64.encode(title);
-      this.$router.go(0);
+      // this.$router.go(0);
     }
   }
 };
