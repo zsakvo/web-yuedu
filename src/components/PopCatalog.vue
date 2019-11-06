@@ -47,11 +47,13 @@ export default {
   },
   methods: {
     gotoChapter(chapterUrl, chapterName) {
+      this.$store.commit("setPopCataVisible", false);
+      this.$store.commit("setContentLoading", true);
+      document.documentElement.scrollTop = 0;
       sessionStorage.setItem("chapterUrl", chapterUrl);
       sessionStorage.setItem("chapterName", chapterName);
       this.$store.commit("setChapterUrl", chapterUrl);
       this.$store.commit("setChapterName", chapterName);
-      this.$store.commit("setPopCataVisible", false);
     }
   }
 };

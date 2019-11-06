@@ -1,5 +1,11 @@
 <template>
-  <div class="chapter-wrapper">
+  <div
+    class="chapter-wrapper"
+    v-loading.fullscreen.lock="loading"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgb(255,255,255)"
+  >
     <div class="tool-bar">
       <div class="tools">
         <i class="el-icon-s-tools tool-icon"></i>
@@ -16,16 +22,18 @@
       </div>
     </div>
     <div class="chapter-bar">
-      <el-breadcrumb separator="/">
+      <!-- <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }" class="item"
           >书架</el-breadcrumb-item
         >
         <el-breadcrumb-item class="item">{{ name }}</el-breadcrumb-item>
-      </el-breadcrumb>
+      </el-breadcrumb> -->
     </div>
     <div class="chapter">
       <div class="title">{{ title }}</div>
-      <div class="content">{{ content }}</div>
+      <div class="content">
+        {{ content }}
+      </div>
     </div>
   </div>
 </template>
@@ -89,13 +97,15 @@ export default {
           throw err;
         }
       );
+    },
+    content() {
+      this.$store.commit("setContentLoading", false);
     }
   },
   data() {
     return {
       title: "",
-      content: "",
-      visible: false
+      content: ""
     };
   },
   computed: {
@@ -115,6 +125,29 @@ export default {
       set(value) {
         this.$store.commit("setPopCataVisible", value);
       }
+    },
+    loading: {
+      get() {
+        return this.$store.state.contentLoading;
+      },
+      set(value) {
+        this.$store.commit("setContentLoading", value);
+      }
+    }
+  },
+  methods: {
+    scrollToTop() {
+      const that = this;
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      that.scrollTop = scrollTop;
+      if (that.scrollTop > 0) {
+        that.btnFlag = true;
+      } else {
+        that.btnFlag = false;
+      }
     }
   }
 };
@@ -126,7 +159,7 @@ export default {
 
   .tool-bar {
     position: fixed;
-    top: 6%;
+    top: 7%;
     left: 4%;
     z-index: 100;
 
@@ -154,12 +187,12 @@ export default {
     font-family: 'Microsoft YaHei', PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', sans-serif;
     text-align: left;
     color: #262626;
-    margin-top: 24px;
+    // margin-top: 24px;
     padding: 0 4%;
 
     .title {
       margin-bottom: 16px;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
     }
 
