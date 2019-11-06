@@ -8,6 +8,7 @@
   >
     <div class="tool-bar">
       <div class="tools">
+        <i class="el-icon-arrow-up tool-icon" @click="toTop"></i>
         <i class="el-icon-s-tools tool-icon"></i>
         <el-popover
           placement="right"
@@ -108,7 +109,7 @@ export default {
   data() {
     return {
       title: "",
-      content: ""
+      content: []
     };
   },
   computed: {
@@ -139,18 +140,17 @@ export default {
     }
   },
   methods: {
-    scrollToTop() {
-      const that = this;
-      let scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop;
-      that.scrollTop = scrollTop;
-      if (that.scrollTop > 0) {
-        that.btnFlag = true;
-      } else {
-        that.btnFlag = false;
-      }
+    toTop() {
+      let distance =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      let step = distance / 50;
+      (function jump() {
+        if (distance > 0) {
+          distance -= step;
+          window.scrollTo(0, distance);
+          setTimeout(jump, 10);
+        }
+      })();
     }
   }
 };
@@ -195,16 +195,15 @@ export default {
 
     .title {
       margin-bottom: 16px;
-      font-size: 18px;
-      font-weight: 600;
+      font: 24px / 32px PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', 'Microsoft YaHei', sans-serif;
     }
 
     .content {
-      white-space: pre-wrap;
+      font-size: 18px;
       line-height: 1.8;
       overflow: hidden;
-      font-size: 16px;
-      font-weight: 500;
+      margin: 0.8em 0;
+      font-family: 'Microsoft YaHei', PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', sans-serif;
     }
   }
 }
