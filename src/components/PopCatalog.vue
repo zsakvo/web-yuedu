@@ -78,6 +78,12 @@ export default {
     .log {
       font-size: 14px;
       line-height: 42px;
+      padding-right: 64px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      word-wrap: break-word;
+      text-overflow: ellipsis;
     }
   }
 }
