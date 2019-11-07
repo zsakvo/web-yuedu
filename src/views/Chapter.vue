@@ -155,6 +155,7 @@ export default {
           } else {
             contentData = ("　　" + dataArray[0]).split("\n");
           }
+          this.$store.commit("setContentLoading", true);
           if (!pre) {
             that.content = contentData;
           } else {
@@ -191,12 +192,14 @@ export default {
       });
     },
     toNextChapter() {
+      this.$store.commit("setContentLoading", true);
       this.currentID++;
       let nextUrl = this.catalog[this.currentID].durChapterUrl;
       sessionStorage.setItem("chapterID", this.currentID);
       this.getContent(nextUrl);
     },
     toLastChapter() {
+      this.$store.commit("setContentLoading", true);
       this.currentID--;
       let lastUrl = this.catalog[this.currentID].durChapterUrl;
       sessionStorage.setItem("chapterID", this.currentID);
