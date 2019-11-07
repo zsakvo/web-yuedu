@@ -85,7 +85,7 @@ export default {
     }
 
     .log {
-      font-size: 14px;
+      font-size: 16px;
       line-height: 42px;
       padding-right: 64px;
       display: -webkit-box;

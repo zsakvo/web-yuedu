@@ -8,8 +8,6 @@
   >
     <div class="tool-bar">
       <div class="tools">
-        <i class="el-icon-arrow-up tool-icon" @click="toTop"></i>
-        <i class="el-icon-s-tools tool-icon"></i>
         <el-popover
           placement="right"
           width="700"
@@ -17,38 +15,48 @@
           v-model="popCataVisible"
         >
           <PopCata />
-          <i slot="reference" class="el-icon-s-operation tool-icon"></i>
+
+          <div class="tool-icon" slot="reference" style="border-bottom:none">
+            <i class="el-icon-tickets"></i>
+            <div class="icon-text">目录</div>
+          </div>
         </el-popover>
-        <i class="el-icon-collection-tag tool-icon"></i>
+        <div class="tool-icon" style="border-bottom:none">
+          <i class="el-icon-s-tools " @click="toTop"></i>
+          <div class="icon-text">设置</div>
+        </div>
+        <div class="tool-icon" style="border-bottom:none">
+          <i class="el-icon-notebook-1"></i>
+          <div class="icon-text">书架</div>
+        </div>
+        <div class="tool-icon" style="border-bottom:none" @click="toTop">
+          <i class="el-icon-top-right"></i>
+          <div class="icon-text">顶部</div>
+        </div>
+        <div class="tool-icon" @click="toBottom">
+          <i class="el-icon-bottom-left"></i>
+          <div class="icon-text">底部</div>
+        </div>
       </div>
     </div>
     <div class="read-bar">
       <div class="tools">
-        <i class="el-icon-arrow-up tool-icon" @click="toTop"></i>
-        <i
-          class="el-icon-arrow-right
- tool-icon"
-          @click="toNextChapter"
-        ></i>
-        <i
-          class="el-icon-arrow-left
- tool-icon"
+        <div
+          class="tool-icon"
+          style="border-bottom:none"
           @click="toLastChapter"
-        ></i>
-        <i class="el-icon-arrow-down tool-icon" @click="toBottom"></i>
+        >
+          <i class="el-icon-arrow-up"></i>
+        </div>
+        <div class="tool-icon" @click="toNextChapter">
+          <i class="el-icon-arrow-down"></i>
+        </div>
       </div>
     </div>
-    <div class="chapter-bar">
-      <!-- <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }" class="item"
-          >书架</el-breadcrumb-item
-        >
-        <el-breadcrumb-item class="item">{{ name }}</el-breadcrumb-item>
-      </el-breadcrumb> -->
-    </div>
+    <div class="chapter-bar"></div>
     <div class="chapter" ref="content">
-      <div class="title">{{ title }}</div>
       <div class="content">
+        <div class="title">{{ title }}</div>
         <!-- {{ content }} -->
         <Pcontent :carray="content" />
       </div>
@@ -69,6 +77,16 @@ export default {
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
     var chapterUrl = sessionStorage.getItem("chapterUrl");
+    Axios.get(
+      "https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg?g_tk=1928093487&inCharset=utf-8&outCharset=utf-8&notice=0&format=jsonp&platform=h5&uin=0&needNewCode=1"
+    ).then(
+      res => {
+        console.log(res.data);
+      },
+      err => {
+        console.log(err);
+      }
+    );
     this.getContent(chapterUrl);
   },
   watch: {
@@ -220,11 +238,14 @@ export default {
 
 <style lang="stylus" scoped>
 .chapter-wrapper {
-  padding: 3% 4%;
+  padding: 0 4%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 
   .tool-bar {
     position: fixed;
-    top: 7%;
+    top: 75px;
     left: 4%;
     z-index: 100;
 
@@ -233,8 +254,16 @@ export default {
       flex-direction: column;
 
       .tool-icon {
-        line-height: 48px;
-        font-size: 28px;
+        font-size: 18px;
+        width: 58px;
+        height: 60px;
+        border: 1px solid #d8d8d8;
+        text-align: center;
+        padding-top: 16px;
+
+        .icon-text {
+          font-size: 12px;
+        }
       }
     }
   }
@@ -242,7 +271,7 @@ export default {
   .read-bar {
     position: fixed;
     bottom: 7%;
-    right: 4%;
+    right: 6%;
     z-index: 100;
 
     .tools {
@@ -250,8 +279,17 @@ export default {
       flex-direction: column;
 
       .tool-icon {
-        line-height: 48px;
-        font-size: 28px;
+        font-size: 18px;
+        width: 42px;
+        height: 42px;
+        line-height: 42px;
+        border: 1px solid #d8d8d8;
+        text-align: center;
+        align-items: center;
+
+        .icon-text {
+          font-size: 12px;
+        }
       }
     }
   }
@@ -269,19 +307,21 @@ export default {
     font-family: 'Microsoft YaHei', PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', sans-serif;
     text-align: left;
     color: #262626;
+
     // margin-top: 24px;
-    padding: 0 4%;
-
-    .title {
-      margin-bottom: 16px;
-      font: 24px / 32px PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', 'Microsoft YaHei', sans-serif;
-    }
-
     .content {
+      .title {
+        margin-bottom: 57px;
+        font: 24px / 32px PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', 'Microsoft YaHei', sans-serif;
+      }
+
       font-size: 18px;
       line-height: 1.8;
       overflow: hidden;
-      margin: 0.8em 0;
+      // margin: 0.8em 0;
+      width: 800px;
+      padding: 0 65px;
+      margin-top: 52px;
       font-family: 'Microsoft YaHei', PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', sans-serif;
     }
   }
