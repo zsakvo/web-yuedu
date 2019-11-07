@@ -7,6 +7,7 @@
       <div
         class="log"
         v-for="note in catalog"
+        :class="{ selected: index == note.durChapterIndex }"
         :key="note.durChapterIndex"
         @click="gotoChapter(note)"
       >
@@ -28,10 +29,12 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    console.log(this.currentID);
+  },
   data() {
     return {
-      key: "value"
+      index: sessionStorage.getItem("chapterID")
     };
   },
   computed: {
@@ -47,7 +50,8 @@ export default {
   },
   methods: {
     gotoChapter(note) {
-      sessionStorage.setItem("chapterID", this.catalog.indexOf(note));
+      this.index = this.catalog.indexOf(note);
+      sessionStorage.setItem("chapterID", this.index);
       this.$store.commit("setPopCataVisible", false);
       this.$store.commit("setContentLoading", true);
       document.documentElement.scrollTop = 0;
@@ -75,6 +79,10 @@ export default {
     overflow: auto;
     display: grid;
     grid-template-columns: repeat(2, 50%);
+
+    .selected {
+      color: #EB4259;
+    }
 
     .log {
       font-size: 14px;

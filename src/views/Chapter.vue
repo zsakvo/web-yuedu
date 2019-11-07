@@ -160,14 +160,6 @@ export default {
             that.content = contentData;
           } else {
             that.preContent = contentData;
-            // that.content = that.content.concat(contentData);
-            // that.nextFlag = true;
-            // that.currentID++;
-            // that.removeFlag++;
-            // if (that.removeFlag > 3) {
-            //   that.content.splice(0, that.preRemove);
-            //   that.removeFlag = 0;
-            // }
           }
         },
         err => {
