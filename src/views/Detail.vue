@@ -15,7 +15,13 @@
           class="note"
           v-for="note in this.$store.state.catalog"
           :key="note.durChapterIndex"
-          @click="toChapter(note.durChapterUrl, note.durChapterName)"
+          @click="
+            toChapter(
+              note.durChapterUrl,
+              note.durChapterName,
+              note.durChapterIndex
+            )
+          "
         >
           {{ note.durChapterName }}
         </div>
@@ -52,12 +58,13 @@ export default {
     );
   },
   methods: {
-    toChapter(chapterUrl, chapterName) {
+    toChapter(chapterUrl, chapterName, chapterID) {
       // this.$store.commit("setChapterName", Base64.encode(title));
       // this.$store.commit("setChapterUrl", Base64.encode(chapterUrl));
       // this.$store.commit("setBookName", this.$route.query.name);
       sessionStorage.setItem("chapterUrl", chapterUrl);
       sessionStorage.setItem("chapterName", chapterName);
+      sessionStorage.setItem("chapterID", chapterID);
       this.$router.push({
         path: "/chapter"
         // query: {

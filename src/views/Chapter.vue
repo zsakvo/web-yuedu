@@ -22,6 +22,20 @@
         <i class="el-icon-collection-tag tool-icon"></i>
       </div>
     </div>
+    <div class="read-bar">
+      <div class="tools">
+        <i class="el-icon-arrow-up tool-icon" @click="toTop"></i>
+        <i
+          class="el-icon-arrow-right
+ tool-icon"
+        ></i>
+        <i
+          class="el-icon-arrow-left
+ tool-icon"
+        ></i>
+        <i class="el-icon-arrow-down tool-icon" @click="toBottom"></i>
+      </div>
+    </div>
     <div class="chapter-bar">
       <!-- <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }" class="item"
@@ -30,7 +44,7 @@
         <el-breadcrumb-item class="item">{{ name }}</el-breadcrumb-item>
       </el-breadcrumb> -->
     </div>
-    <div class="chapter">
+    <div class="chapter" ref="content">
       <div class="title">{{ title }}</div>
       <div class="content">
         <!-- {{ content }} -->
@@ -51,56 +65,16 @@ export default {
     Pcontent
   },
   mounted() {
-    const that = this;
-    var title = sessionStorage.getItem("chapterName");
+    window.addEventListener("scroll", this.handleScroll);
     var chapterUrl = sessionStorage.getItem("chapterUrl");
-    Axios.get(
-      "http://" +
-        localStorage.url +
-        "/getBookContent?url=" +
-        encodeURIComponent(chapterUrl)
-    ).then(
-      res => {
-        let data = res.data.data;
-        let dataArray = data.split("\n\n");
-        that.title = title;
-        if (dataArray.length > 1) {
-          that.content = ("　　" + dataArray[1]).split("\n");
-        } else {
-          that.content = ("　　" + dataArray[0]).split("\n");
-        }
-      },
-      err => {
-        throw err;
-      }
-    );
+    this.getContent(chapterUrl);
   },
   watch: {
     chapterName(to) {
       this.title = to;
     },
     chapterUrl(newChapterUrl) {
-      let that = this;
-      Axios.get(
-        "http://" +
-          localStorage.url +
-          "/getBookContent?url=" +
-          encodeURIComponent(newChapterUrl)
-      ).then(
-        res => {
-          let data = res.data.data;
-          let dataArray = data.split("\n\n");
-          if (dataArray.length > 1) {
-            that.content = ("　　" + dataArray[1]).split("\n");
-          } else {
-            that.content = ("　　" + dataArray[0]).split("\n");
-          }
-        },
-        err => {
-          that.content = "　　获取章节内容失败！";
-          throw err;
-        }
-      );
+      this.getContent(newChapterUrl);
     },
     content() {
       this.$store.commit("setContentLoading", false);
@@ -109,10 +83,18 @@ export default {
   data() {
     return {
       title: "",
-      content: []
+      content: [],
+      nextFlag: true,
+      preContent: [],
+      currentID: parseInt(sessionStorage.getItem("chapterID")),
+      preRemove: 0,
+      removeFlag: false
     };
   },
   computed: {
+    catalog() {
+      return JSON.parse(sessionStorage.getItem("catalog"));
+    },
     name() {
       return sessionStorage.getItem("bookName");
     },
@@ -121,6 +103,12 @@ export default {
     },
     chapterUrl() {
       return this.$store.state.chapterUrl;
+    },
+    windowHeight() {
+      return window.innerHeight;
+    },
+    contentHeight() {
+      return this.$refs.content.offsetHeight;
     },
     popCataVisible: {
       get() {
@@ -140,17 +128,76 @@ export default {
     }
   },
   methods: {
-    toTop() {
-      let distance =
-        document.documentElement.scrollTop || document.body.scrollTop;
-      let step = distance / 50;
-      (function jump() {
-        if (distance > 0) {
-          distance -= step;
-          window.scrollTo(0, distance);
-          setTimeout(jump, 10);
+    getContent(url, pre) {
+      let that = this;
+      Axios.get(
+        "http://" +
+          localStorage.url +
+          "/getBookContent?url=" +
+          encodeURIComponent(url)
+      ).then(
+        res => {
+          var title = sessionStorage.getItem("chapterName");
+          that.title = title;
+          let data = res.data.data;
+          let dataArray = data.split("\n\n");
+          let contentData = "";
+          if (dataArray.length > 1) {
+            contentData = ("　　" + dataArray[1]).split("\n");
+          } else {
+            contentData = ("　　" + dataArray[0]).split("\n");
+          }
+          if (!pre) {
+            that.content = contentData;
+          } else {
+            that.preContent = contentData;
+            // that.content = that.content.concat(contentData);
+            // that.nextFlag = true;
+            // that.currentID++;
+            // that.removeFlag++;
+            // if (that.removeFlag > 3) {
+            //   that.content.splice(0, that.preRemove);
+            //   that.removeFlag = 0;
+            // }
+          }
+        },
+        err => {
+          that.content = "　　获取章节内容失败！";
+          throw err;
         }
-      })();
+      );
+    },
+    toTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    },
+    toBottom() {
+      let distance =
+        document.documentElement.scrollHeight || document.body.scrollHeight;
+
+      window.scrollTo({
+        top: distance,
+        behavior: "smooth"
+      });
+    },
+    handleScroll() {
+      let scrollHeight = document.documentElement.scrollTop;
+      // console.log(window.innerHeight);
+      // console.log(document.documentElement.scrollTop);
+      // console.log(this.$refs.content.offsetHeight
+      if (
+        this.windowHeight * 2 + scrollHeight >= this.contentHeight &&
+        this.nextFlag
+      ) {
+        this.getNext();
+      }
+    },
+    getNext() {
+      this.nextFlag = false;
+      let nextUrl = this.catalog[this.currentID + 1].durChapterUrl;
+      this.getContent(nextUrl, true);
     }
   }
 };
@@ -164,6 +211,23 @@ export default {
     position: fixed;
     top: 7%;
     left: 4%;
+    z-index: 100;
+
+    .tools {
+      display: flex;
+      flex-direction: column;
+
+      .tool-icon {
+        line-height: 48px;
+        font-size: 28px;
+      }
+    }
+  }
+
+  .read-bar {
+    position: fixed;
+    bottom: 7%;
+    right: 4%;
     z-index: 100;
 
     .tools {

@@ -10,7 +10,7 @@
         :key="note.durChapterIndex"
         @click="gotoChapter(note.durChapterUrl, note.durChapterName)"
       >
-        {{ note.durChapterName }}
+        {{ note.durChapterName.replace(/（.+）/g, "") }}
       </div>
     </div>
   </div>
