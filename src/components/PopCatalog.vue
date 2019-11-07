@@ -8,7 +8,7 @@
         class="log"
         v-for="note in catalog"
         :key="note.durChapterIndex"
-        @click="gotoChapter(note.durChapterUrl, note.durChapterName)"
+        @click="gotoChapter(note)"
       >
         {{ note.durChapterName.replace(/（.+）/g, "") }}
       </div>
@@ -46,14 +46,15 @@ export default {
     }
   },
   methods: {
-    gotoChapter(chapterUrl, chapterName) {
+    gotoChapter(note) {
+      sessionStorage.setItem("chapterID", this.catalog.indexOf(note));
       this.$store.commit("setPopCataVisible", false);
       this.$store.commit("setContentLoading", true);
       document.documentElement.scrollTop = 0;
-      sessionStorage.setItem("chapterUrl", chapterUrl);
-      sessionStorage.setItem("chapterName", chapterName);
-      this.$store.commit("setChapterUrl", chapterUrl);
-      this.$store.commit("setChapterName", chapterName);
+      sessionStorage.setItem("chapterUrl", note.durChapterUrl);
+      sessionStorage.setItem("chapterName", note.durChapterName);
+      this.$store.commit("setChapterUrl", note.durChapterUrl);
+      this.$store.commit("setChapterName", note.durChapterName);
     }
   }
 };

@@ -28,10 +28,12 @@
         <i
           class="el-icon-arrow-right
  tool-icon"
+          @click="toNextChapter"
         ></i>
         <i
           class="el-icon-arrow-left
  tool-icon"
+          @click="toLastChapter"
         ></i>
         <i class="el-icon-arrow-down tool-icon" @click="toBottom"></i>
       </div>
@@ -129,6 +131,10 @@ export default {
   },
   methods: {
     getContent(url, pre) {
+      this.title = this.catalog[
+        sessionStorage.getItem("chapterID")
+      ].durChapterName;
+      sessionStorage.setItem("chapterUrl", url);
       let that = this;
       Axios.get(
         "http://" +
@@ -137,8 +143,8 @@ export default {
           encodeURIComponent(url)
       ).then(
         res => {
-          var title = sessionStorage.getItem("chapterName");
-          that.title = title;
+          // var title = sessionStorage.getItem("chapterName");
+          // that.title = title;
           let data = res.data.data;
           let dataArray = data.split("\n\n");
           let contentData = "";
@@ -181,6 +187,18 @@ export default {
         top: distance,
         behavior: "smooth"
       });
+    },
+    toNextChapter() {
+      this.currentID++;
+      let nextUrl = this.catalog[this.currentID].durChapterUrl;
+      sessionStorage.setItem("chapterID", this.currentID);
+      this.getContent(nextUrl);
+    },
+    toLastChapter() {
+      this.this.currentID--;
+      let lastUrl = this.catalog[this.currentID].durChapterUrl;
+      sessionStorage.setItem("chapterID", this.currentID);
+      this.getContent(lastUrl);
     },
     handleScroll() {
       let scrollHeight = document.documentElement.scrollTop;
