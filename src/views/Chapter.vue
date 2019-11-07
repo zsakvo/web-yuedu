@@ -131,9 +131,11 @@ export default {
   },
   methods: {
     getContent(url, pre) {
-      this.title = this.catalog[
-        sessionStorage.getItem("chapterID")
-      ].durChapterName;
+      window.scrollTo({
+        top: 0
+      });
+      this.currentID = sessionStorage.getItem("chapterID");
+      this.title = this.catalog[this.currentID].durChapterName;
       sessionStorage.setItem("chapterUrl", url);
       let that = this;
       Axios.get(
@@ -195,7 +197,7 @@ export default {
       this.getContent(nextUrl);
     },
     toLastChapter() {
-      this.this.currentID--;
+      this.currentID--;
       let lastUrl = this.catalog[this.currentID].durChapterUrl;
       sessionStorage.setItem("chapterID", this.currentID);
       this.getContent(lastUrl);
