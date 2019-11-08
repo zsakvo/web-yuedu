@@ -3,15 +3,18 @@
     <div class="title">
       目录
     </div>
-    <div class="cata">
-      <div
-        class="log"
-        v-for="note in catalog"
-        :class="{ selected: index == note.durChapterIndex }"
-        :key="note.durChapterIndex"
-        @click="gotoChapter(note)"
-      >
-        {{ note.durChapterName }}
+    <div ref="cataData">
+      <div class="cata">
+        <div
+          class="log"
+          v-for="note in catalog"
+          :class="{ selected: index == note.durChapterIndex }"
+          :key="note.durChapterIndex"
+          @click="gotoChapter(note)"
+          ref="cata"
+        >
+          {{ note.durChapterName }}
+        </div>
       </div>
     </div>
   </div>
@@ -19,6 +22,7 @@
 
 <script>
 // var Base64 = require("js-base64").Base64;
+import BScroll from "better-scroll";
 import "../assets/catafont.css";
 export default {
   name: "PopCata",
@@ -30,7 +34,6 @@ export default {
       }
     }
   },
-  mounted() {},
   data() {
     return {
       index: sessionStorage.getItem("chapterID")
@@ -41,10 +44,21 @@ export default {
       return JSON.parse(sessionStorage.getItem("catalog"));
     }
   },
+  mounted() {
+    // console.log(this.$refs.cataData[this.index]);
+  },
   watch: {
     $route(to) {
+      console.log(this.index);
       this.$store.commit("setChapterName", to.query.title);
       this.$store.commit("setChapterUrl", to.query.chapterUrl);
+    },
+    index(to) {
+      console.log(this.$refs.cata[to]);
+      if (this.scroll == null)
+        this.scroll = new BScroll(this.$refs.cataData, {});
+      // this.BScroll.scrollToElement(this.$refs.cata[to]);
+      this.scroll.scrollTo(0, 455);
     }
   },
   methods: {
