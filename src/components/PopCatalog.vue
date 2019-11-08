@@ -3,7 +3,7 @@
     <div class="title">
       目录
     </div>
-    <div ref="cataData">
+    <div class="data-wrapper" ref="cataData">
       <div class="cata">
         <div
           class="log"
@@ -46,6 +46,7 @@ export default {
   },
   mounted() {
     // console.log(this.$refs.cataData[this.index]);
+    if (this.scroll == null) this.scroll = new BScroll(this.$refs.cataData, {});
   },
   watch: {
     $route(to) {
@@ -55,10 +56,9 @@ export default {
     },
     index(to) {
       console.log(this.$refs.cata[to]);
-      if (this.scroll == null)
-        this.scroll = new BScroll(this.$refs.cataData, {});
-      // this.BScroll.scrollToElement(this.$refs.cata[to]);
-      this.scroll.scrollTo(0, 455);
+      this.scroll = new BScroll(this.$refs.cataData, {});
+      this.scroll.scrollToElement(this.$refs.cata[to]);
+      // this.scroll.scrollTo(0, 455);
     }
   },
   methods: {
@@ -91,26 +91,31 @@ export default {
     border-bottom: 1px solid #ed4259;
   }
 
-  .cata {
+  .data-wrapper {
     height: 300px;
     overflow: auto;
-    display: grid;
-    grid-template-columns: repeat(2, 376px);
 
-    .selected {
-      color: #EB4259;
-    }
+    .cata {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
 
-    .log {
-      width: 376px;
-      height: 40px;
-      float: left;
-      max-width: 80%;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      border-bottom: 1px solid #F2F2F2;
-      font: 16px / 40px PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', 'Microsoft YaHei', sans-serif;
+      .selected {
+        color: #EB4259;
+      }
+
+      .log {
+        width: 340px;
+        height: 40px;
+        float: left;
+        max-width: 80%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        border-bottom: 1px solid #F2F2F2;
+        font: 16px / 40px PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', 'Microsoft YaHei', sans-serif;
+      }
     }
   }
 }
