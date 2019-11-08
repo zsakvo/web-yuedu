@@ -2,16 +2,11 @@
 /* text: 录目 */
 @font-face {
   font-family: "FZZCYSK";
-  src: url("https://webfontsource.yuewen.com/api/v1/yfont/font.eot?base64=0&font=FZZCYSK&text=%E5%BD%95%E7%9B%AE");
+  src: url("./font.eot");
   /* IE9 */
-  src: local("☺"),
-    url("https://webfontsource.yuewen.com/api/v1/yfont/font.woff2?base64=0&font=FZZCYSK&text=%E5%BD%95%E7%9B%AE")
-      format("woff2"),
-    /* chrome, firefox */
-      url("https://webfontsource.yuewen.com/api/v1/yfont/font.woff?base64=0&font=FZZCYSK&text=%E5%BD%95%E7%9B%AE")
-      format("woff"),
-    /* chrome, firefox */
-      url("https://webfontsource.yuewen.com/api/v1/yfont/font.ttf?base64=0&font=FZZCYSK&text=%E5%BD%95%E7%9B%AE");
+  src: local("☺"), url("./font.woff2") format("woff2"),
+    /* chrome, firefox */ url("./font.woff") format("woff"),
+    /* chrome, firefox */ url("./font.ttf");
   /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
   font-style: normal;
   font-weight: normal;
