@@ -10,7 +10,7 @@
       <div class="tools">
         <el-popover
           placement="right"
-          width="700"
+          width="820"
           trigger="click"
           v-model="popCataVisible"
         >
@@ -25,7 +25,7 @@
           <i class="el-icon-s-tools " @click="toTop"></i>
           <div class="icon-text">设置</div>
         </div>
-        <div class="tool-icon" style="border-bottom:none">
+        <div class="tool-icon" style="border-bottom:none" @click="toShelf">
           <i class="el-icon-notebook-1"></i>
           <div class="icon-text">书架</div>
         </div>
@@ -57,7 +57,6 @@
     <div class="chapter" ref="content">
       <div class="content">
         <div class="title">{{ title }}</div>
-        <!-- {{ content }} -->
         <Pcontent :carray="content" />
       </div>
     </div>
@@ -77,16 +76,6 @@ export default {
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
     var chapterUrl = sessionStorage.getItem("chapterUrl");
-    Axios.get(
-      "https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg?g_tk=1928093487&inCharset=utf-8&outCharset=utf-8&notice=0&format=jsonp&platform=h5&uin=0&needNewCode=1"
-    ).then(
-      res => {
-        console.log(res.data);
-      },
-      err => {
-        console.log(err);
-      }
-    );
     this.getContent(chapterUrl);
   },
   watch: {
@@ -105,10 +94,7 @@ export default {
       title: "",
       content: [],
       nextFlag: true,
-      preContent: [],
-      currentID: parseInt(sessionStorage.getItem("chapterID")),
-      preRemove: 0,
-      removeFlag: false
+      currentID: parseInt(sessionStorage.getItem("chapterID"))
     };
   },
   computed: {
@@ -148,7 +134,7 @@ export default {
     }
   },
   methods: {
-    getContent(url, pre) {
+    getContent(url) {
       window.scrollTo({
         top: 0
       });
@@ -174,11 +160,7 @@ export default {
             contentData = ("　　" + dataArray[0]).split("\n");
           }
           this.$store.commit("setContentLoading", true);
-          if (!pre) {
-            that.content = contentData;
-          } else {
-            that.preContent = contentData;
-          }
+          that.content = contentData;
         },
         err => {
           that.content = "　　获取章节内容失败！";
@@ -215,6 +197,9 @@ export default {
       sessionStorage.setItem("chapterID", this.currentID);
       this.getContent(lastUrl);
     },
+    toShelf() {
+      this.$router.push("/");
+    },
     handleScroll() {
       let scrollHeight = document.documentElement.scrollTop;
       // console.log(window.innerHeight);
@@ -245,8 +230,8 @@ export default {
 
   .tool-bar {
     position: fixed;
-    top: 75px;
-    left: 4%;
+    top: 0;
+    left: 6vw;
     z-index: 100;
 
     .tools {
@@ -270,8 +255,8 @@ export default {
 
   .read-bar {
     position: fixed;
-    bottom: 7%;
-    right: 6%;
+    bottom: 0;
+    right: 8vw;
     z-index: 100;
 
     .tools {
@@ -319,8 +304,7 @@ export default {
       line-height: 1.8;
       overflow: hidden;
       // margin: 0.8em 0;
-      width: 800px;
-      padding: 0 65px;
+      width: 630px;
       margin-top: 52px;
       font-family: 'Microsoft YaHei', PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', sans-serif;
     }

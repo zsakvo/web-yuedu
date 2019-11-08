@@ -11,7 +11,7 @@
         :key="note.durChapterIndex"
         @click="gotoChapter(note)"
       >
-        {{ note.durChapterName.replace(/（.+）/g, "") }}
+        {{ note.durChapterName }}
       </div>
     </div>
   </div>
@@ -19,6 +19,7 @@
 
 <script>
 // var Base64 = require("js-base64").Base64;
+import "../assets/catafont.css";
 export default {
   name: "PopCata",
   props: {
@@ -29,9 +30,7 @@ export default {
       }
     }
   },
-  mounted() {
-    console.log(this.currentID);
-  },
+  mounted() {},
   data() {
     return {
       index: sessionStorage.getItem("chapterID")
@@ -66,33 +65,38 @@ export default {
 
 <style lang="stylus" scoped>
 .cata-wrapper {
-  padding: 24px 0 24px 48px;
+  padding: 18px 0 24px 48px;
 
   .title {
-    font-size: 23px;
-    font-weight: 600;
-    line-height: 64px;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: FZZCYSK;
+    margin: 0 0 20px 0;
+    color: #ed4259;
+    width: fit-content;
+    border-bottom: 1px solid #ed4259;
   }
 
   .cata {
-    height: 400px;
+    height: 300px;
     overflow: auto;
     display: grid;
-    grid-template-columns: repeat(2, 50%);
+    grid-template-columns: repeat(2, 376px);
 
     .selected {
       color: #EB4259;
     }
 
     .log {
-      font-size: 16px;
-      line-height: 42px;
-      padding-right: 64px;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 1;
-      word-wrap: break-word;
+      width: 376px;
+      height: 40px;
+      float: left;
+      max-width: 80%;
+      overflow: hidden;
+      white-space: nowrap;
       text-overflow: ellipsis;
+      border-bottom: 1px solid #F2F2F2;
+      font: 16px / 40px PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', 'Microsoft YaHei', sans-serif;
     }
   }
 }
