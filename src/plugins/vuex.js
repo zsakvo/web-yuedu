@@ -12,7 +12,9 @@ export default new Vuex.Store({
     catalog: "",
     chapterName: "",
     chapterUrl: "",
+    chapterID: 0,
     bookName: "",
+    readingBook: {},
     popCataVisible: false,
     contentLoading: true
   },
@@ -38,6 +40,9 @@ export default new Vuex.Store({
     setChapterUrl(state, chapterUrl) {
       state.chapterUrl = chapterUrl;
     },
+    setChapterID(state, chapterID) {
+      state.chapterID = chapterID;
+    },
     setBookName(state, bookName) {
       state.bookName = bookName;
     },
@@ -46,6 +51,9 @@ export default new Vuex.Store({
     },
     setContentLoading(state, loading) {
       state.contentLoading = loading;
+    },
+    setReadingBook(state, readingBook) {
+      state.readingBook = readingBook;
     }
   }
 });

@@ -14,7 +14,7 @@
           trigger="click"
           v-model="popCataVisible"
         >
-          <PopCata />
+          <PopCata @getContent="getContent" ref="popCata" />
 
           <div class="tool-icon" slot="reference" style="border-bottom:none">
             <i class="el-icon-tickets"></i>
@@ -74,17 +74,45 @@ export default {
     Pcontent
   },
   mounted() {
-    window.addEventListener("scroll", this.handleScroll);
-    var chapterUrl = sessionStorage.getItem("chapterUrl");
-    this.getContent(chapterUrl);
+    //获取书籍数据
+    const that = this;
+    let bookUrl = sessionStorage.getItem("bookUrl");
+    let bookName = sessionStorage.getItem("bookName");
+    var book = JSON.parse(localStorage.getItem(bookUrl));
+    if (book == null) {
+      book = JSON.stringify({
+        bookName: bookName,
+        bookUrl: bookUrl,
+        index: 0
+      });
+      localStorage.setItem(bookUrl, book);
+    }
+    // that.$store.commit("setReadingBook", book);
+    this.getCatalog(bookUrl).then(
+      res => {
+        let catalog = res.data.data;
+        book.catalog = catalog;
+        that.$store.commit("setReadingBook", book);
+        var index = that.$store.state.readingBook.index || 0;
+        this.getContent(index);
+        // sessionStorage.setItem("catalog", JSON.stringify(res.data.data));
+      },
+      err => {
+        console.log(err);
+        throw err;
+      }
+    );
+    // window.addEventListener("scroll", this.handleScroll);
+    // this.$store.state.chapterID = chapterID;
+    // var chapterUrl = that.$store.state.readingBook.catalog[index].durChapterUrl;
   },
   watch: {
     chapterName(to) {
       this.title = to;
     },
-    chapterUrl(newChapterUrl) {
-      this.getContent(newChapterUrl);
-    },
+    // chapterUrl(newChapterUrl) {
+    //   this.getContent(newChapterUrl);
+    // },
     content() {
       this.$store.commit("setContentLoading", false);
     }
@@ -99,7 +127,8 @@ export default {
   },
   computed: {
     catalog() {
-      return JSON.parse(sessionStorage.getItem("catalog"));
+      // return JSON.parse(sessionStorage.getItem("catalog"));
+      return this.$store.state.catalog;
     },
     name() {
       return sessionStorage.getItem("bookName");
@@ -134,19 +163,45 @@ export default {
     }
   },
   methods: {
-    getContent(url) {
-      window.scrollTo({
-        top: 0
-      });
-      this.currentID = sessionStorage.getItem("chapterID");
-      this.title = this.catalog[this.currentID].durChapterName;
-      sessionStorage.setItem("chapterUrl", url);
+    getCatalog(bookUrl) {
+      return Axios.get(
+        "http://" +
+          localStorage.url +
+          "/getChapterList?url=" +
+          encodeURIComponent(bookUrl)
+      );
+    },
+    getContent(index) {
+      // window.scrollTo({
+      //   top: 0
+      // });
+      // this.currentID = sessionStorage.getItem("chapterID");
+      // this.currentID = localStorage.getItem("chapterID");
+      // sessionStorage.setItem("chapterID", this.currentID);
+      // this.title = this.catalog[this.currentID].durChapterName;
+      // let contentUrl = this.catalog[this.currentID].durChapterUrl;
+      // sessionStorage.setItem("chapterUrl", contentUrl);
+
+      //保存阅读进度
+      let bookUrl = sessionStorage.getItem("bookUrl");
+      let book = JSON.parse(localStorage.getItem(bookUrl));
+      book.index = index;
+      localStorage.setItem(bookUrl, JSON.stringify(book));
+      this.$store.state.readingBook.index = index;
+      let chapterUrl = this.$store.state.readingBook.catalog[index]
+        .durChapterUrl;
+      let chapterName = this.$store.state.readingBook.catalog[index]
+        .durChapterName;
+      this.title = chapterName;
+
+      // this.$refs.popCata.beginScroll(index);
+
       let that = this;
       Axios.get(
         "http://" +
           localStorage.url +
           "/getBookContent?url=" +
-          encodeURIComponent(url)
+          encodeURIComponent(chapterUrl)
       ).then(
         res => {
           // var title = sessionStorage.getItem("chapterName");
@@ -185,17 +240,26 @@ export default {
     },
     toNextChapter() {
       this.$store.commit("setContentLoading", true);
-      this.currentID++;
-      let nextUrl = this.catalog[this.currentID].durChapterUrl;
-      sessionStorage.setItem("chapterID", this.currentID);
-      this.getContent(nextUrl);
+      let index = this.$store.state.readingBook.index;
+      index++;
+      // let chapterUrl = this.$store.state.readingBook.catalog[index]
+      //   .durChapterUrl;
+      // this.currentID++;
+      // let nextUrl = this.catalog[this.currentID].durChapterUrl;
+      // sessionStorage.setItem("chapterID", this.currentID);
+      this.getContent(index);
     },
     toLastChapter() {
       this.$store.commit("setContentLoading", true);
-      this.currentID--;
-      let lastUrl = this.catalog[this.currentID].durChapterUrl;
-      sessionStorage.setItem("chapterID", this.currentID);
-      this.getContent(lastUrl);
+      let index = this.$store.state.readingBook.index;
+      index--;
+      // let chapterUrl = this.$store.state.readingBook.catalog[index]
+      //   .durChapterUrl;
+
+      // this.currentID--;
+      // let lastUrl = this.catalog[this.currentID].durChapterUrl;
+      // sessionStorage.setItem("chapterID", this.currentID);
+      this.getContent(index);
     },
     toShelf() {
       this.$router.push("/");
@@ -211,11 +275,6 @@ export default {
       ) {
         this.getNext();
       }
-    },
-    getNext() {
-      this.nextFlag = false;
-      let nextUrl = this.catalog[this.currentID + 1].durChapterUrl;
-      this.getContent(nextUrl, true);
     }
   }
 };

@@ -41,7 +41,6 @@ export default {
   },
   mounted() {
     const that = this;
-    // let noteUrl = Base64.decode(this.$route.query.id);
     Axios.get(
       "http://" +
         localStorage.url +
@@ -62,8 +61,8 @@ export default {
       // this.$store.commit("setChapterName", Base64.encode(title));
       // this.$store.commit("setChapterUrl", Base64.encode(chapterUrl));
       // this.$store.commit("setBookName", this.$route.query.name);
-      sessionStorage.setItem("chapterUrl", chapterUrl);
-      sessionStorage.setItem("chapterName", chapterName);
+      // sessionStorage.setItem("chapterUrl", chapterUrl);
+      // sessionStorage.setItem("chapterName", chapterName);
       sessionStorage.setItem("chapterID", chapterID);
       this.$router.push({
         path: "/chapter"

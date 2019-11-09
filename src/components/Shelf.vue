@@ -42,7 +42,7 @@ export default {
       sessionStorage.setItem("bookName", bookName);
       // this.$store.commit("setNoteUrl", noteUrl);
       this.$router.push({
-        path: "/detail"
+        path: "/chapter"
         // query: {
         //   id: Base64.encode(noteUrl),
         //   name: Base64.encode(name)
