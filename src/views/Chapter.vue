@@ -87,7 +87,6 @@ export default {
       });
       localStorage.setItem(bookUrl, book);
     }
-    // that.$store.commit("setReadingBook", book);
     this.getCatalog(bookUrl).then(
       res => {
         let catalog = res.data.data;
@@ -95,24 +94,17 @@ export default {
         that.$store.commit("setReadingBook", book);
         var index = that.$store.state.readingBook.index || 0;
         this.getContent(index);
-        // sessionStorage.setItem("catalog", JSON.stringify(res.data.data));
       },
       err => {
         console.log(err);
         throw err;
       }
     );
-    // window.addEventListener("scroll", this.handleScroll);
-    // this.$store.state.chapterID = chapterID;
-    // var chapterUrl = that.$store.state.readingBook.catalog[index].durChapterUrl;
   },
   watch: {
     chapterName(to) {
       this.title = to;
     },
-    // chapterUrl(newChapterUrl) {
-    //   this.getContent(newChapterUrl);
-    // },
     content() {
       this.$store.commit("setContentLoading", false);
     }
@@ -127,7 +119,6 @@ export default {
   },
   computed: {
     catalog() {
-      // return JSON.parse(sessionStorage.getItem("catalog"));
       return this.$store.state.catalog;
     },
     name() {
@@ -172,16 +163,6 @@ export default {
       );
     },
     getContent(index) {
-      // window.scrollTo({
-      //   top: 0
-      // });
-      // this.currentID = sessionStorage.getItem("chapterID");
-      // this.currentID = localStorage.getItem("chapterID");
-      // sessionStorage.setItem("chapterID", this.currentID);
-      // this.title = this.catalog[this.currentID].durChapterName;
-      // let contentUrl = this.catalog[this.currentID].durChapterUrl;
-      // sessionStorage.setItem("chapterUrl", contentUrl);
-
       //保存阅读进度
       let bookUrl = sessionStorage.getItem("bookUrl");
       let book = JSON.parse(localStorage.getItem(bookUrl));
@@ -193,9 +174,6 @@ export default {
       let chapterName = this.$store.state.readingBook.catalog[index]
         .durChapterName;
       this.title = chapterName;
-
-      // this.$refs.popCata.beginScroll(index);
-
       let that = this;
       Axios.get(
         "http://" +
@@ -242,23 +220,12 @@ export default {
       this.$store.commit("setContentLoading", true);
       let index = this.$store.state.readingBook.index;
       index++;
-      // let chapterUrl = this.$store.state.readingBook.catalog[index]
-      //   .durChapterUrl;
-      // this.currentID++;
-      // let nextUrl = this.catalog[this.currentID].durChapterUrl;
-      // sessionStorage.setItem("chapterID", this.currentID);
       this.getContent(index);
     },
     toLastChapter() {
       this.$store.commit("setContentLoading", true);
       let index = this.$store.state.readingBook.index;
       index--;
-      // let chapterUrl = this.$store.state.readingBook.catalog[index]
-      //   .durChapterUrl;
-
-      // this.currentID--;
-      // let lastUrl = this.catalog[this.currentID].durChapterUrl;
-      // sessionStorage.setItem("chapterID", this.currentID);
       this.getContent(index);
     },
     toShelf() {
@@ -266,9 +233,6 @@ export default {
     },
     handleScroll() {
       let scrollHeight = document.documentElement.scrollTop;
-      // console.log(window.innerHeight);
-      // console.log(document.documentElement.scrollTop);
-      // console.log(this.$refs.content.offsetHeight
       if (
         this.windowHeight * 2 + scrollHeight >= this.contentHeight &&
         this.nextFlag

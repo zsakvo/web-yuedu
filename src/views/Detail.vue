@@ -32,7 +32,6 @@
 
 <script>
 import Axios from "axios";
-// var Base64 = require("js-base64").Base64;
 export default {
   data() {
     return {
@@ -58,19 +57,9 @@ export default {
   },
   methods: {
     toChapter(chapterUrl, chapterName, chapterID) {
-      // this.$store.commit("setChapterName", Base64.encode(title));
-      // this.$store.commit("setChapterUrl", Base64.encode(chapterUrl));
-      // this.$store.commit("setBookName", this.$route.query.name);
-      // sessionStorage.setItem("chapterUrl", chapterUrl);
-      // sessionStorage.setItem("chapterName", chapterName);
       sessionStorage.setItem("chapterID", chapterID);
       this.$router.push({
         path: "/chapter"
-        // query: {
-        //   id: Base64.encode(chapterUrl),
-        //   title: Base64.encode(title),
-        //   name: name
-        // }
       });
     }
   }

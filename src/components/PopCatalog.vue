@@ -26,25 +26,12 @@ import BScroll from "better-scroll";
 import "../assets/catafont.css";
 export default {
   name: "PopCata",
-  // props: {
-  //   cata: {
-  //     type: Object,
-  //     default: function() {
-  //       return {};
-  //     }
-  //   }
-  // },
   data() {
     return {
       index: this.$store.state.readingBook.index
     };
   },
   computed: {
-    // index: {
-    //   get() {
-    //     return this.$store.state.readingBook.index;
-    //   }
-    // },
     catalog() {
       return this.$store.state.readingBook.catalog;
     },
@@ -52,64 +39,25 @@ export default {
       return this.$store.state.popCataVisible;
     }
   },
-  mounted() {
-    // console.log(this.$refs.cataData[this.index]);
-    // if (this.scroll == null) this.scroll = new BScroll(this.$refs.cataData, {});
-    // this.$nextTick(function() {
-    //   this.index =
-    //   console.log(this.index);
-    //   console.log(this.$refs.cata[this.index]);
-    //   this.scroll = new BScroll(this.$refs.cataData, {});
-    //   this.scroll.scrollToElement(this.$refs.cata[this.index]);
-    // });
-  },
+  mounted() {},
   watch: {
-    $route(to) {
-      console.log(this.index);
-      this.$store.commit("setChapterName", to.query.title);
-      this.$store.commit("setChapterUrl", to.query.chapterUrl);
-    },
-    index(to) {
-      this.scroll = new BScroll(this.$refs.cataData, {});
-      this.scroll.scrollToElement(this.$refs.cata[to]);
-      // this.scroll.scrollTo(0, 455);
-    },
     popCataVisible() {
-      let that = this;
       this.$nextTick(function() {
         let index = this.$store.state.readingBook.index;
-        that.index = index;
+        this.scroll = new BScroll(this.$refs.cataData, {});
+        this.scroll.scrollToElement(this.$refs.cata[index]);
       });
     }
-    // popCataVisible(to) {
-    //   if (to) {
-    //     this.index = this.$store.state.readingBook.index;
-    //     this.scroll.scrollToElement(this.$refs.cata[this.index]);
-    //   }
-    // }
   },
   methods: {
-    beginScroll(index) {
-      let that = this;
-      this.$nextTick(function() {
-        console.log(index);
-        that.index = index;
-      });
-    },
     isSelected(index) {
       return index == this.$store.state.readingBook.index;
     },
     gotoChapter(note) {
       this.index = this.catalog.indexOf(note);
-      // sessionStorage.setItem("chapterID", this.index);
       this.$store.commit("setPopCataVisible", false);
       this.$store.commit("setContentLoading", true);
       this.$emit("getContent", this.index);
-      // document.documentElement.scrollTop = 0;
-      // sessionStorage.setItem("chapterUrl", note.durChapterUrl);
-      // sessionStorage.setItem("chapterName", note.durChapterName);
-      // this.$store.commit("setChapterUrl", note.durChapterUrl);
-      // this.$store.commit("setChapterName", note.durChapterName);
     }
   }
 };
