@@ -202,7 +202,7 @@ export default {
   }
 
   .shelf-wrapper {
-    padding: 48px 72px;
+    padding: 48px 48px;
 
     .books-wrapper {
       height: 100%;
@@ -210,7 +210,9 @@ export default {
 
       .book {
         display: flex;
-        padding-bottom: 36px;
+        cursor: pointer;
+        margin-bottom: 18px;
+        padding: 24px 24px;
         flex-direction: row;
         justify-content: space-around;
 
@@ -264,6 +266,10 @@ export default {
             text-align: left;
           }
         }
+      }
+
+      .book:hover {
+        background-color: #f2f2f2;
       }
     }
 
