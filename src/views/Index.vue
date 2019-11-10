@@ -36,7 +36,7 @@
           基本设定
         </div>
         <div class="setting-item">
-          <div class="setting-connect">
+          <div class="setting-connect" @click="setIP">
             已连接 192.168.0.120:1122
           </div>
         </div>
@@ -103,6 +103,52 @@ export default {
     }
   },
   methods: {
+    setIP() {
+      const that = this;
+      this.$prompt("请输入 IP 和端口 ( 如：127.0.0.1:9527 )", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        inputPattern: /^((2[0-4]\d|25[0-5]|[1]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[1]?\d\d?):([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-6][0-5][0-5][0-3][0-5])$/,
+        inputErrorMessage: "url 形式不正确",
+        beforeClose: (action, instance, done) => {
+          if (action === "confirm") {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = "校验中……";
+            Axios.get("http://" + instance.inputValue + "/getBookshelf")
+              .then(function(response) {
+                instance.confirmButtonLoading = false;
+                that.$store.commit(
+                  "increaseBookNum",
+                  response.data.data.length
+                );
+                that.$store.commit("addBooks", response.data.data);
+                done();
+              })
+              .catch(function(error) {
+                instance.confirmButtonLoading = false;
+                instance.confirmButtonText = "确定";
+                that.$message.error("访问失败，请检查您输入的 url");
+                throw error;
+              });
+          } else {
+            done();
+          }
+        }
+      })
+        .then(({ value }) => {
+          localStorage.url = value;
+          this.$message({
+            type: "success",
+            message: "与" + value + "连接成功"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消输入"
+          });
+        });
+    },
     toDetail(bookUrl, bookName) {
       sessionStorage.setItem("bookUrl", bookUrl);
       sessionStorage.setItem("bookName", bookName);
@@ -171,7 +217,7 @@ export default {
       }
 
       .reading-recent {
-        margin: 18px 0 0 18px;
+        margin: 18px 0;
 
         .recent-book {
           font-size: 14px;
@@ -179,6 +225,12 @@ export default {
           margin: 12px 0;
           font-weight: 500;
           color: #6B7C87;
+          cursor: pointer;
+          padding: 6px 18px;
+        }
+
+        .recent-book:hover {
+          background-color: #e6e6e6;
         }
       }
     }
@@ -193,10 +245,16 @@ export default {
       }
 
       .setting-connect {
-        margin: 18px 0 0 18px;
+        margin: 18px 0;
         font-size: 14px;
         font-weight: 500;
         color: #6B7C87;
+        cursor: pointer;
+        padding: 6px 18px;
+      }
+
+      .setting-connect:hover {
+        background-color: #e6e6e6;
       }
     }
   }
