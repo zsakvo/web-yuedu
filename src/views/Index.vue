@@ -142,12 +142,7 @@ export default {
             message: "与" + value + "连接成功"
           });
         })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "取消输入"
-          });
-        });
+        .catch(() => {});
     },
     toDetail(bookUrl, bookName) {
       sessionStorage.setItem("bookUrl", bookUrl);
