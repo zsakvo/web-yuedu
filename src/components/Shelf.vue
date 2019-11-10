@@ -3,7 +3,12 @@
     <div class="title">共有{{ bookNum }}本书籍</div>
     <el-divider />
     <div class="shelf">
-      <div class="book" v-for="book in shelf" :key="book.noteUrl">
+      <div
+        class="book"
+        v-for="book in shelf"
+        :key="book.noteUrl"
+        @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)"
+      >
         <div class="cover-img">
           <img
             class="cover"
@@ -11,14 +16,10 @@
             alt=""
           />
         </div>
-        <div
-          class="info"
-          @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)"
-        >
+        <div class="info">
           <div class="name">{{ book.bookInfoBean.name }}</div>
           <div class="sub">
             <div class="author">作者：{{ book.bookInfoBean.author }}</div>
-            <!-- <div class="size">共 {{ book.chapterListSize }} 章</div> -->
           </div>
           <div class="intro">
             {{ book.bookInfoBean.introduce }}
@@ -40,13 +41,8 @@ export default {
     toDetail(bookUrl, bookName) {
       sessionStorage.setItem("bookUrl", bookUrl);
       sessionStorage.setItem("bookName", bookName);
-      // this.$store.commit("setNoteUrl", noteUrl);
       this.$router.push({
         path: "/chapter"
-        // query: {
-        //   id: Base64.encode(noteUrl),
-        //   name: Base64.encode(name)
-        // }
       });
     }
   },
