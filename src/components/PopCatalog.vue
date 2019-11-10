@@ -95,6 +95,7 @@ export default {
       .log {
         width: 365px;
         height: 40px;
+        cursor: pointer;
         padding-right: 25px;
         float: left;
         max-width: 80%;

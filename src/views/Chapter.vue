@@ -206,20 +206,9 @@ export default {
     },
     toTop() {
       jump(this.$refs.top);
-      // window.scrollTo({
-      //   top: 0,
-      //   behavior: "smooth"
-      // });
     },
     toBottom() {
       jump(this.$refs.bottom);
-      // let distance =
-      //   document.documentElement.scrollHeight || document.body.scrollHeight;
-      // this.contentScroll.scrollTo(0, distance);
-      // window.scrollTo({
-      //   top: distance,
-      //   behavior: "smooth"
-      // });
     },
     toNextChapter() {
       this.$store.commit("setContentLoading", true);
@@ -274,6 +263,7 @@ export default {
         border: 1px solid #d8d8d8;
         text-align: center;
         padding-top: 16px;
+        cursor: pointer;
 
         .icon-text {
           font-size: 12px;
@@ -300,6 +290,7 @@ export default {
         border: 1px solid #d8d8d8;
         text-align: center;
         align-items: center;
+        cursor: pointer;
 
         .icon-text {
           font-size: 12px;
