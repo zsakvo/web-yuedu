@@ -56,8 +56,10 @@
     <div class="chapter-bar"></div>
     <div class="chapter" ref="content">
       <div class="content">
-        <div class="title">{{ title }}</div>
+        <div class="top-bar" ref="top"></div>
+        <div class="title" ref="title">{{ title }}</div>
         <Pcontent :carray="content" />
+        <div class="bottom-bar" ref="bottom"></div>
       </div>
     </div>
   </div>
@@ -67,7 +69,7 @@
 import PopCata from "../components/PopCatalog.vue";
 import Pcontent from "../components/Content.vue";
 import Axios from "axios";
-// var Base64 = require("js-base64").Base64;
+import jump from "../plugins/jump";
 export default {
   components: {
     PopCata,
@@ -174,6 +176,8 @@ export default {
       let chapterName = this.$store.state.readingBook.catalog[index]
         .durChapterName;
       this.title = chapterName;
+      //强制滚回顶层
+      jump(this.$refs.top, { duration: 0 });
       let that = this;
       Axios.get(
         "http://" +
@@ -182,8 +186,6 @@ export default {
           encodeURIComponent(chapterUrl)
       ).then(
         res => {
-          // var title = sessionStorage.getItem("chapterName");
-          // that.title = title;
           let data = res.data.data;
           let dataArray = data.split("\n\n");
           let contentData = "";
@@ -192,8 +194,9 @@ export default {
           } else {
             contentData = ("　　" + dataArray[0]).split("\n");
           }
-          this.$store.commit("setContentLoading", true);
           that.content = contentData;
+          this.$store.commit("setContentLoading", true);
+          // this.contentScroll = new BScroll(this.$refs.content);
         },
         err => {
           that.content = "　　获取章节内容失败！";
@@ -202,19 +205,21 @@ export default {
       );
     },
     toTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+      jump(this.$refs.top);
+      // window.scrollTo({
+      //   top: 0,
+      //   behavior: "smooth"
+      // });
     },
     toBottom() {
-      let distance =
-        document.documentElement.scrollHeight || document.body.scrollHeight;
-
-      window.scrollTo({
-        top: distance,
-        behavior: "smooth"
-      });
+      jump(this.$refs.bottom);
+      // let distance =
+      //   document.documentElement.scrollHeight || document.body.scrollHeight;
+      // this.contentScroll.scrollTo(0, distance);
+      // window.scrollTo({
+      //   top: distance,
+      //   behavior: "smooth"
+      // });
     },
     toNextChapter() {
       this.$store.commit("setContentLoading", true);
@@ -248,8 +253,9 @@ export default {
 .chapter-wrapper {
   padding: 0 4%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 
   .tool-bar {
     position: fixed;
@@ -315,6 +321,7 @@ export default {
     font-family: 'Microsoft YaHei', PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', sans-serif;
     text-align: left;
     color: #262626;
+    height: 100vh;
 
     // margin-top: 24px;
     .content {
@@ -328,8 +335,12 @@ export default {
       overflow: hidden;
       // margin: 0.8em 0;
       width: 630px;
-      margin-top: 52px;
+      // margin-top: 52px;
       font-family: 'Microsoft YaHei', PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', sans-serif;
+
+      .bottom-bar, .top-bar {
+        height: 64px;
+      }
     }
   }
 }

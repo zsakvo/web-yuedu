@@ -21,8 +21,7 @@
 </template>
 
 <script>
-// var Base64 = require("js-base64").Base64;
-import BScroll from "better-scroll";
+import jump from "../plugins/jump";
 import "../assets/catafont.css";
 export default {
   name: "PopCata",
@@ -44,8 +43,10 @@ export default {
     popCataVisible() {
       this.$nextTick(function() {
         let index = this.$store.state.readingBook.index;
-        this.scroll = new BScroll(this.$refs.cataData, {});
-        this.scroll.scrollToElement(this.$refs.cata[index]);
+        let wrapper = this.$refs.cataData;
+        // this.scroll = new BScroll(this.$refs.cataData, {});
+        // this.scroll.scrollToElement(this.$refs.cata[index]);
+        jump(this.$refs.cata[index], { container: wrapper, duration: 0 });
       });
     }
   },
