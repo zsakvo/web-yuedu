@@ -23,11 +23,11 @@
         </div>
         <div class="reading-recent">
           <div
-            v-for="book in readingRecent"
-            :key="book.url"
             class="recent-book"
+            @click="toDetail(readingRecent.url, readingRecent.name)"
+            :class="{ 'no-point': readingRecent.url == '' }"
           >
-            {{ book.name }}
+            {{ readingRecent.name }}
           </div>
         </div>
       </div>
@@ -86,16 +86,25 @@ export default {
   data() {
     return {
       search: "",
-      readingRecent: [
-        { name: "诡秘之主", url: "https://www.baidu.com/1" },
-        { name: "特拉福买家俱乐部", url: "https://www.baidu.com/2" },
-        { name: "未来天王", url: "https://www.baidu.com/3" }
-      ],
+      // readingRecent: [
+      //   { name: "诡秘之主", url: "https://www.baidu.com/1" },
+      //   { name: "特拉福买家俱乐部", url: "https://www.baidu.com/2" },
+      //   { name: "未来天王", url: "https://www.baidu.com/3" }
+      // ],
+      readingRecent: {
+        name: "尚无阅读记录",
+        url: ""
+      },
       connectStatus: "正在连接后端服务器……",
       newConnect: true
     };
   },
   mounted() {
+    //获取最近阅读书籍
+    let readingRecentStr = localStorage.getItem("readingRecent");
+    if (readingRecentStr != null) {
+      this.readingRecent = JSON.parse(readingRecentStr);
+    }
     this.loading = this.$loading({
       target: this.$refs.shelfWrapper,
       lock: true,
@@ -174,6 +183,11 @@ export default {
     toDetail(bookUrl, bookName) {
       sessionStorage.setItem("bookUrl", bookUrl);
       sessionStorage.setItem("bookName", bookName);
+      this.readingRecent = {
+        name: bookName,
+        url: bookUrl
+      };
+      localStorage.setItem("readingRecent", JSON.stringify(this.readingRecent));
       this.$router.push({
         path: "/chapter"
       });
