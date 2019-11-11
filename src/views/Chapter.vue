@@ -296,6 +296,7 @@ export default {
         text-align: center;
         padding-top: 16px;
         cursor: pointer;
+        outline: none;
 
         .icon-text {
           font-size: 12px;
@@ -323,6 +324,7 @@ export default {
         text-align: center;
         align-items: center;
         cursor: pointer;
+        outline: none;
 
         .icon-text {
           font-size: 12px;
