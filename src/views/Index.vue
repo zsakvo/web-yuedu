@@ -8,13 +8,12 @@
         清风不识字，何故乱翻书
       </div>
       <div class="search-wrapper">
-        <el-input
-          size="mini"
-          placeholder="搜索书籍"
-          v-model="search"
-          class="search-input"
-        >
-          <i slot="prefix" class="el-input__icon el-icon-search"></i>
+        <el-input size="mini"
+                  placeholder="搜索书籍"
+                  v-model="search"
+                  class="search-input">
+          <i slot="prefix"
+             class="el-input__icon el-icon-search"></i>
         </el-input>
       </div>
       <div class="recent-wrapper">
@@ -22,11 +21,9 @@
           最近阅读
         </div>
         <div class="reading-recent">
-          <div
-            v-for="book in readingRecent"
-            :key="book.url"
-            class="recent-book"
-          >
+          <div v-for="book in readingRecent"
+               :key="book.url"
+               class="recent-book">
             {{ book.name }}
           </div>
         </div>
@@ -36,31 +33,27 @@
           基本设定
         </div>
         <div class="setting-item">
-          <div class="setting-connect" @click="setIP">
-            已连接 192.168.0.120:1122
+          <div class="setting-connect"
+               @click="setIP">
+            {{ connectStatus }}
           </div>
         </div>
       </div>
     </div>
-    <div class="shelf-wrapper">
+    <div class="shelf-wrapper"
+         ref="shelfWrapper">
       <div class="books-wrapper">
-        <div
-          class="book"
-          v-for="book in shelf"
-          :key="book.noteUrl"
-          @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)"
-        >
+        <div class="book"
+             v-for="book in shelf"
+             :key="book.noteUrl"
+             @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)">
           <div class="cover-img">
-            <img
-              class="cover"
-              :src="book.customCoverPath || book.bookInfoBean.coverUrl"
-              alt=""
-            />
+            <img class="cover"
+                 :src="book.customCoverPath || book.bookInfoBean.coverUrl"
+                 alt="" />
           </div>
-          <div
-            class="info"
-            @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)"
-          >
+          <div class="info"
+               @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)">
             <div class="name">{{ book.bookInfoBean.name }}</div>
             <div class="sub">
               <div class="author">作者：{{ book.bookInfoBean.author }}</div>
@@ -86,18 +79,32 @@ export default {
         { name: "诡秘之主", url: "https://www.baidu.com/1" },
         { name: "特拉福买家俱乐部", url: "https://www.baidu.com/2" },
         { name: "未来天王", url: "https://www.baidu.com/3" }
-      ]
+      ],
+      connectStatus: "正在连接后端服务器……"
     };
   },
   mounted() {
+    this.loading = this.$loading({
+      target: this.$refs.shelfWrapper,
+      lock: true,
+      text: "正在连接后端服务器……",
+      spinner: "el-icon-loading",
+      background: "rgb(247,247,247)"
+    });
     if (localStorage.url) {
       const that = this;
-      Axios.get("http://" + localStorage.url + "/getBookshelf")
+      Axios.get("http://" + localStorage.url + "/getBookshelf", {
+        timeout: 3000
+      })
         .then(function(response) {
           that.$store.commit("increaseBookNum", response.data.data.length);
           that.$store.commit("addBooks", response.data.data);
+          that.connectStatus = "已连接 " + localStorage.url;
         })
         .catch(function(error) {
+          that.loading.close();
+          that.connectStatus = "后端连接失败";
+          that.$message.error("连接失败，请检查后端状态");
           throw error;
         });
     }
@@ -256,6 +263,17 @@ export default {
 
   .shelf-wrapper {
     padding: 48px 48px;
+    width: 100%;
+
+    >>>.el-icon-loading {
+      font-size: 36px;
+      color: #B5B5B5;
+    }
+
+    >>>.el-loading-text {
+      font-weight: 500;
+      color: #B5B5B5;
+    }
 
     .books-wrapper {
       height: 100%;
