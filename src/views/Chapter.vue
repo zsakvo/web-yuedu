@@ -122,7 +122,6 @@ export default {
       err => {
         that.loading.close();
         that.$message.error("获取书籍目录失败");
-        console.log(err);
         throw err;
       }
     );
