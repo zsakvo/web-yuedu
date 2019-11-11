@@ -341,6 +341,7 @@ export default {
           align-items: left;
           height: 112px;
           margin-left: 20px;
+          flex: 1;
 
           .name {
             width: fit-content;
