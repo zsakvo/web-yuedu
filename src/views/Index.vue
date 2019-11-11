@@ -109,6 +109,7 @@ export default {
         timeout: 3000
       })
         .then(function(response) {
+          that.loading.close();
           that.$store.commit("increaseBookNum", response.data.data.length);
           that.$store.commit("addBooks", response.data.data);
           that.connectStatus = "已连接 " + localStorage.url;

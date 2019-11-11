@@ -1,39 +1,41 @@
 <template>
-  <div
-    class="chapter-wrapper"
-    v-loading.fullscreen.lock="loading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgb(255,255,255)"
-  >
+  <div class="chapter-wrapper">
     <div class="tool-bar">
       <div class="tools">
-        <el-popover
-          placement="right"
-          width="820"
-          trigger="click"
-          v-model="popCataVisible"
-        >
-          <PopCata @getContent="getContent" ref="popCata" />
+        <el-popover placement="right"
+                    width="820"
+                    trigger="click"
+                    v-model="popCataVisible">
+          <PopCata @getContent="getContent"
+                   ref="popCata" />
 
-          <div class="tool-icon" slot="reference" style="border-bottom:none">
+          <div class="tool-icon"
+               slot="reference"
+               style="border-bottom:none">
             <i class="el-icon-tickets"></i>
             <div class="icon-text">目录</div>
           </div>
         </el-popover>
-        <div class="tool-icon" style="border-bottom:none">
-          <i class="el-icon-s-tools " @click="toTop"></i>
+        <div class="tool-icon"
+             style="border-bottom:none">
+          <i class="el-icon-s-tools "
+             @click="toTop"></i>
           <div class="icon-text">设置</div>
         </div>
-        <div class="tool-icon" style="border-bottom:none" @click="toShelf">
+        <div class="tool-icon"
+             style="border-bottom:none"
+             @click="toShelf">
           <i class="el-icon-notebook-1"></i>
           <div class="icon-text">书架</div>
         </div>
-        <div class="tool-icon" style="border-bottom:none" @click="toTop">
+        <div class="tool-icon"
+             style="border-bottom:none"
+             @click="toTop">
           <i class="el-icon-top-right"></i>
           <div class="icon-text">顶部</div>
         </div>
-        <div class="tool-icon" @click="toBottom">
+        <div class="tool-icon"
+             @click="toBottom">
           <i class="el-icon-bottom-left"></i>
           <div class="icon-text">底部</div>
         </div>
@@ -41,25 +43,28 @@
     </div>
     <div class="read-bar">
       <div class="tools">
-        <div
-          class="tool-icon"
-          style="border-bottom:none"
-          @click="toLastChapter"
-        >
+        <div class="tool-icon"
+             style="border-bottom:none"
+             @click="toLastChapter">
           <i class="el-icon-arrow-up"></i>
         </div>
-        <div class="tool-icon" @click="toNextChapter">
+        <div class="tool-icon"
+             @click="toNextChapter">
           <i class="el-icon-arrow-down"></i>
         </div>
       </div>
     </div>
     <div class="chapter-bar"></div>
-    <div class="chapter" ref="content">
+    <div class="chapter"
+         ref="content">
       <div class="content">
-        <div class="top-bar" ref="top"></div>
-        <div class="title" ref="title">{{ title }}</div>
+        <div class="top-bar"
+             ref="top"></div>
+        <div class="title"
+             ref="title">{{ title }}</div>
         <Pcontent :carray="content" />
-        <div class="bottom-bar" ref="bottom"></div>
+        <div class="bottom-bar"
+             ref="bottom"></div>
       </div>
     </div>
   </div>
@@ -76,6 +81,15 @@ export default {
     Pcontent
   },
   mounted() {
+    // 初始化进度条
+    this.loadingFlag = true;
+    this.loading = this.$loading({
+      target: this.$refs.content,
+      lock: true,
+      text: "正在获取内容",
+      spinner: "el-icon-loading",
+      background: "rgb(255,255,255)"
+    });
     //获取书籍数据
     const that = this;
     let bookUrl = sessionStorage.getItem("bookUrl");
@@ -98,6 +112,8 @@ export default {
         this.getContent(index);
       },
       err => {
+        that.loading.close();
+        that.$message.error("获取书籍目录失败");
         console.log(err);
         throw err;
       }
@@ -145,14 +161,6 @@ export default {
       set(value) {
         this.$store.commit("setPopCataVisible", value);
       }
-    },
-    loading: {
-      get() {
-        return this.$store.state.contentLoading;
-      },
-      set(value) {
-        this.$store.commit("setContentLoading", value);
-      }
     }
   },
   methods: {
@@ -165,6 +173,16 @@ export default {
       );
     },
     getContent(index) {
+      //展示进度条
+      if (!this.loading.visible) {
+        this.loading = this.$loading({
+          target: this.$refs.content,
+          lock: true,
+          text: "正在获取内容",
+          spinner: "el-icon-loading",
+          background: "rgb(255,255,255)"
+        });
+      }
       //保存阅读进度
       let bookUrl = sessionStorage.getItem("bookUrl");
       let book = JSON.parse(localStorage.getItem(bookUrl));
@@ -196,9 +214,10 @@ export default {
           }
           that.content = contentData;
           this.$store.commit("setContentLoading", true);
-          // this.contentScroll = new BScroll(this.$refs.content);
+          that.loading.close();
         },
         err => {
+          that.$message.error("获取章节内容失败");
           that.content = "　　获取章节内容失败！";
           throw err;
         }
@@ -313,6 +332,16 @@ export default {
     text-align: left;
     color: #262626;
     height: 100vh;
+
+    >>>.el-icon-loading {
+      font-size: 36px;
+      color: #B5B5B5;
+    }
+
+    >>>.el-loading-text {
+      font-weight: 500;
+      color: #B5B5B5;
+    }
 
     // margin-top: 24px;
     .content {
