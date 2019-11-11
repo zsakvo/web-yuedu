@@ -10,7 +10,12 @@
         >
           <PopCata @getContent="getContent" ref="popCata" />
 
-          <div class="tool-icon" slot="reference" style="border-bottom:none">
+          <div
+            class="tool-icon"
+            :class="{ 'no-point': noPoint }"
+            slot="reference"
+            style="border-bottom:none"
+          >
             <i class="el-icon-tickets"></i>
             <div class="icon-text">目录</div>
           </div>
@@ -23,11 +28,20 @@
           <i class="el-icon-notebook-1"></i>
           <div class="icon-text">书架</div>
         </div>
-        <div class="tool-icon" style="border-bottom:none" @click="toTop">
+        <div
+          class="tool-icon"
+          :class="{ 'no-point': noPoint }"
+          style="border-bottom:none"
+          @click="toTop"
+        >
           <i class="el-icon-top-right"></i>
           <div class="icon-text">顶部</div>
         </div>
-        <div class="tool-icon" @click="toBottom">
+        <div
+          class="tool-icon"
+          :class="{ 'no-point': noPoint }"
+          @click="toBottom"
+        >
           <i class="el-icon-bottom-left"></i>
           <div class="icon-text">底部</div>
         </div>
@@ -37,12 +51,17 @@
       <div class="tools">
         <div
           class="tool-icon"
+          :class="{ 'no-point': noPoint }"
           style="border-bottom:none"
           @click="toLastChapter"
         >
           <i class="el-icon-arrow-up"></i>
         </div>
-        <div class="tool-icon" @click="toNextChapter">
+        <div
+          class="tool-icon"
+          :class="{ 'no-point': noPoint }"
+          @click="toNextChapter"
+        >
           <i class="el-icon-arrow-down"></i>
         </div>
       </div>
@@ -121,6 +140,7 @@ export default {
       title: "",
       content: [],
       nextFlag: true,
+      noPoint: true,
       currentID: parseInt(sessionStorage.getItem("chapterID"))
     };
   },
@@ -204,6 +224,7 @@ export default {
           that.content = contentData;
           this.$store.commit("setContentLoading", true);
           that.loading.close();
+          that.noPoint = false;
         },
         err => {
           that.$message.error("获取章节内容失败");
@@ -253,6 +274,10 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  >>>.no-point {
+    pointer-events: none;
+  }
 
   .tool-bar {
     position: fixed;
