@@ -80,17 +80,12 @@
 </template>
 
 <script>
-import "../assets/shlffont.css";
+import "../assets/shelffont.css";
 import Axios from "axios";
 export default {
   data() {
     return {
       search: "",
-      // readingRecent: [
-      //   { name: "诡秘之主", url: "https://www.baidu.com/1" },
-      //   { name: "特拉福买家俱乐部", url: "https://www.baidu.com/2" },
-      //   { name: "未来天王", url: "https://www.baidu.com/3" }
-      // ],
       readingRecent: {
         name: "尚无阅读记录",
         url: ""
