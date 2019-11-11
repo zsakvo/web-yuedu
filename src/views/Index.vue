@@ -118,7 +118,7 @@ export default {
         .catch(function(error) {
           that.loading.close();
           that.connectStatus = "后端连接失败";
-          that.$message.error("连接失败，请检查后端状态");
+          that.$message.error("点击设置后端 url 与 端口");
           that.newConnect = false;
           throw error;
         });
