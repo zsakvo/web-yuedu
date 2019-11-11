@@ -57,7 +57,11 @@
           <div class="cover-img">
             <img
               class="cover"
-              :src="book.customCoverPath || book.bookInfoBean.coverUrl"
+              :src="
+                book.customCoverPath ||
+                  book.bookInfoBean.coverUrl ||
+                  require('../assets/noCover.jpeg')
+              "
               alt=""
             />
           </div>
@@ -82,6 +86,7 @@
 <script>
 import "../assets/shelffont.css";
 import Axios from "axios";
+
 export default {
   data() {
     return {
