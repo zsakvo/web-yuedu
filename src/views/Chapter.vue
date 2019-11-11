@@ -104,12 +104,12 @@ export default {
     let bookName = sessionStorage.getItem("bookName");
     var book = JSON.parse(localStorage.getItem(bookUrl));
     if (book == null) {
-      book = JSON.stringify({
+      book = {
         bookName: bookName,
         bookUrl: bookUrl,
         index: 0
-      });
-      localStorage.setItem(bookUrl, book);
+      };
+      localStorage.setItem(bookUrl, JSON.stringify(book));
     }
     this.getCatalog(bookUrl).then(
       res => {

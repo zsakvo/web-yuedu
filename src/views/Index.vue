@@ -100,14 +100,14 @@ export default {
     if (readingRecentStr != null) {
       this.readingRecent = JSON.parse(readingRecentStr);
     }
-    this.loading = this.$loading({
-      target: this.$refs.shelfWrapper,
-      lock: true,
-      text: "正在获取书籍信息",
-      spinner: "el-icon-loading",
-      background: "rgb(247,247,247)"
-    });
     if (localStorage.url) {
+      this.loading = this.$loading({
+        target: this.$refs.shelfWrapper,
+        lock: true,
+        text: "正在获取书籍信息",
+        spinner: "el-icon-loading",
+        background: "rgb(247,247,247)"
+      });
       const that = this;
       Axios.get("http://" + localStorage.url + "/getBookshelf", {
         timeout: 3000
@@ -126,6 +126,10 @@ export default {
           that.newConnect = false;
           throw error;
         });
+    } else {
+      this.$message.error("请先设置后端 url 与端口");
+      this.connectStatus = "点击设置后端信息";
+      this.newConnect = false;
     }
   },
   methods: {
