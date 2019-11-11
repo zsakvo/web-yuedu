@@ -36,7 +36,11 @@
           基本设定
         </div>
         <div class="setting-item">
-          <div class="setting-connect" @click="setIP">
+          <div
+            class="setting-connect"
+            :class="{ 'no-point': newConnect }"
+            @click="setIP"
+          >
             {{ connectStatus }}
           </div>
         </div>
@@ -87,7 +91,8 @@ export default {
         { name: "特拉福买家俱乐部", url: "https://www.baidu.com/2" },
         { name: "未来天王", url: "https://www.baidu.com/3" }
       ],
-      connectStatus: "正在连接后端服务器……"
+      connectStatus: "正在连接后端服务器……",
+      newConnect: true
     };
   },
   mounted() {
@@ -107,11 +112,13 @@ export default {
           that.$store.commit("increaseBookNum", response.data.data.length);
           that.$store.commit("addBooks", response.data.data);
           that.connectStatus = "已连接 " + localStorage.url;
+          that.newConnect = false;
         })
         .catch(function(error) {
           that.loading.close();
           that.connectStatus = "后端连接失败";
           that.$message.error("连接失败，请检查后端状态");
+          that.newConnect = false;
           throw error;
         });
     }
@@ -126,9 +133,12 @@ export default {
         inputErrorMessage: "url 形式不正确",
         beforeClose: (action, instance, done) => {
           if (action === "confirm") {
+            that.newConnect = true;
             instance.confirmButtonLoading = true;
             instance.confirmButtonText = "校验中……";
-            Axios.get("http://" + instance.inputValue + "/getBookshelf")
+            Axios.get("http://" + instance.inputValue + "/getBookshelf", {
+              timeout: 3000
+            })
               .then(function(response) {
                 instance.confirmButtonLoading = false;
                 that.$store.commit(
@@ -136,12 +146,14 @@ export default {
                   response.data.data.length
                 );
                 that.$store.commit("addBooks", response.data.data);
+                that.newConnect = false;
                 done();
               })
               .catch(function(error) {
                 instance.confirmButtonLoading = false;
                 instance.confirmButtonText = "确定";
                 that.$message.error("访问失败，请检查您输入的 url");
+                that.newConnect = false;
                 throw error;
               });
           } else {
@@ -251,6 +263,10 @@ export default {
         font-size: 14px;
         color: #b1b1b1;
         font-family: FZZCYSK;
+      }
+
+      .no-point {
+        pointer-events: none;
       }
 
       .setting-connect {
