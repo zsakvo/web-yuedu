@@ -8,12 +8,13 @@
         清风不识字，何故乱翻书
       </div>
       <div class="search-wrapper">
-        <el-input size="mini"
-                  placeholder="搜索书籍"
-                  v-model="search"
-                  class="search-input">
-          <i slot="prefix"
-             class="el-input__icon el-icon-search"></i>
+        <el-input
+          size="mini"
+          placeholder="搜索书籍"
+          v-model="search"
+          class="search-input"
+        >
+          <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </div>
       <div class="recent-wrapper">
@@ -21,9 +22,11 @@
           最近阅读
         </div>
         <div class="reading-recent">
-          <div v-for="book in readingRecent"
-               :key="book.url"
-               class="recent-book">
+          <div
+            v-for="book in readingRecent"
+            :key="book.url"
+            class="recent-book"
+          >
             {{ book.name }}
           </div>
         </div>
@@ -33,27 +36,31 @@
           基本设定
         </div>
         <div class="setting-item">
-          <div class="setting-connect"
-               @click="setIP">
+          <div class="setting-connect" @click="setIP">
             {{ connectStatus }}
           </div>
         </div>
       </div>
     </div>
-    <div class="shelf-wrapper"
-         ref="shelfWrapper">
+    <div class="shelf-wrapper" ref="shelfWrapper">
       <div class="books-wrapper">
-        <div class="book"
-             v-for="book in shelf"
-             :key="book.noteUrl"
-             @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)">
+        <div
+          class="book"
+          v-for="book in shelf"
+          :key="book.noteUrl"
+          @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)"
+        >
           <div class="cover-img">
-            <img class="cover"
-                 :src="book.customCoverPath || book.bookInfoBean.coverUrl"
-                 alt="" />
+            <img
+              class="cover"
+              :src="book.customCoverPath || book.bookInfoBean.coverUrl"
+              alt=""
+            />
           </div>
-          <div class="info"
-               @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)">
+          <div
+            class="info"
+            @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)"
+          >
             <div class="name">{{ book.bookInfoBean.name }}</div>
             <div class="sub">
               <div class="author">作者：{{ book.bookInfoBean.author }}</div>
