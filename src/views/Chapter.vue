@@ -2,40 +2,32 @@
   <div class="chapter-wrapper">
     <div class="tool-bar">
       <div class="tools">
-        <el-popover placement="right"
-                    width="820"
-                    trigger="click"
-                    v-model="popCataVisible">
-          <PopCata @getContent="getContent"
-                   ref="popCata" />
+        <el-popover
+          placement="right"
+          width="820"
+          trigger="click"
+          v-model="popCataVisible"
+        >
+          <PopCata @getContent="getContent" ref="popCata" />
 
-          <div class="tool-icon"
-               slot="reference"
-               style="border-bottom:none">
+          <div class="tool-icon" slot="reference" style="border-bottom:none">
             <i class="el-icon-tickets"></i>
             <div class="icon-text">目录</div>
           </div>
         </el-popover>
-        <div class="tool-icon"
-             style="border-bottom:none">
-          <i class="el-icon-s-tools "
-             @click="toTop"></i>
+        <div class="tool-icon" style="border-bottom:none">
+          <i class="el-icon-s-tools " @click="toTop"></i>
           <div class="icon-text">设置</div>
         </div>
-        <div class="tool-icon"
-             style="border-bottom:none"
-             @click="toShelf">
+        <div class="tool-icon" style="border-bottom:none" @click="toShelf">
           <i class="el-icon-notebook-1"></i>
           <div class="icon-text">书架</div>
         </div>
-        <div class="tool-icon"
-             style="border-bottom:none"
-             @click="toTop">
+        <div class="tool-icon" style="border-bottom:none" @click="toTop">
           <i class="el-icon-top-right"></i>
           <div class="icon-text">顶部</div>
         </div>
-        <div class="tool-icon"
-             @click="toBottom">
+        <div class="tool-icon" @click="toBottom">
           <i class="el-icon-bottom-left"></i>
           <div class="icon-text">底部</div>
         </div>
@@ -43,28 +35,25 @@
     </div>
     <div class="read-bar">
       <div class="tools">
-        <div class="tool-icon"
-             style="border-bottom:none"
-             @click="toLastChapter">
+        <div
+          class="tool-icon"
+          style="border-bottom:none"
+          @click="toLastChapter"
+        >
           <i class="el-icon-arrow-up"></i>
         </div>
-        <div class="tool-icon"
-             @click="toNextChapter">
+        <div class="tool-icon" @click="toNextChapter">
           <i class="el-icon-arrow-down"></i>
         </div>
       </div>
     </div>
     <div class="chapter-bar"></div>
-    <div class="chapter"
-         ref="content">
+    <div class="chapter" ref="content">
       <div class="content">
-        <div class="top-bar"
-             ref="top"></div>
-        <div class="title"
-             ref="title">{{ title }}</div>
+        <div class="top-bar" ref="top"></div>
+        <div class="title" ref="title">{{ title }}</div>
         <Pcontent :carray="content" />
-        <div class="bottom-bar"
-             ref="bottom"></div>
+        <div class="bottom-bar" ref="bottom"></div>
       </div>
     </div>
   </div>
