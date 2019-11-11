@@ -108,7 +108,7 @@ export default {
     this.loading = this.$loading({
       target: this.$refs.shelfWrapper,
       lock: true,
-      text: "正在连接后端服务器……",
+      text: "正在获取书籍信息",
       spinner: "el-icon-loading",
       background: "rgb(247,247,247)"
     });
