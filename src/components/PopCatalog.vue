@@ -22,7 +22,7 @@
 
 <script>
 import jump from "../plugins/jump";
-import "../assets/catafont.css";
+import "../assets/fonts/catafont.css";
 export default {
   name: "PopCata",
   data() {
