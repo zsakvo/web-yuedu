@@ -1,6 +1,6 @@
 <template>
-  <div class="chapter-wrapper">
-    <div class="tool-bar">
+  <div class="chapter-wrapper" :style="getBodyColor">
+    <div class="tool-bar" :style="getPopupColor">
       <div class="tools">
         <el-popover
           placement="right"
@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-    <div class="read-bar">
+    <div class="read-bar" :style="getPopupColor">
       <div class="tools">
         <div
           class="tool-icon"
@@ -68,7 +68,7 @@
       </div>
     </div>
     <div class="chapter-bar"></div>
-    <div class="chapter" ref="content">
+    <div class="chapter" ref="content" :style="getChapterColor">
       <div class="content">
         <div class="top-bar" ref="top"></div>
         <div class="title" ref="title">{{ title }}</div>
@@ -84,6 +84,7 @@ import PopCata from "../components/PopCatalog.vue";
 import Pcontent from "../components/Content.vue";
 import Axios from "axios";
 import jump from "../plugins/jump";
+import settings from "../plugins/settings";
 export default {
   components: {
     PopCata,
@@ -170,6 +171,15 @@ export default {
       set(value) {
         this.$store.commit("setPopCataVisible", value);
       }
+    },
+    getBodyColor() {
+      return settings.themes[1].body;
+    },
+    getChapterColor() {
+      return settings.themes[1].content;
+    },
+    getPopupColor() {
+      return settings.themes[1].popup;
     }
   },
   methods: {
@@ -273,7 +283,6 @@ export default {
   padding: 0 4%;
   flex-direction: column;
   align-items: center;
-  background: #ede7da url('../assets/imgs/themes/body_0.png') repeat;
 
   >>>.no-point {
     pointer-events: none;
@@ -285,7 +294,6 @@ export default {
     left: 50%;
     margin-left: -468px;
     z-index: 100;
-    background: #ede7da url('../assets/imgs/themes/popup_0.png') repeat;
 
     .tools {
       display: flex;
@@ -314,7 +322,6 @@ export default {
     right: 50%;
     margin-right: -452px;
     z-index: 100;
-    background: #ede7da url('../assets/imgs/themes/popup_0.png') repeat;
 
     .tools {
       display: flex;
@@ -355,7 +362,6 @@ export default {
     min-height: 100vh;
     width: 670px;
     margin: 0 auto;
-    background: #ede7da url('../assets/imgs/themes/content_0.png') repeat;
 
     >>>.el-icon-loading {
       font-size: 36px;
