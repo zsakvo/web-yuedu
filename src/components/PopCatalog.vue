@@ -66,7 +66,9 @@ export default {
 
 <style lang="stylus" scoped>
 .cata-wrapper {
+  margin: -12px;
   padding: 18px 0 24px 25px;
+  background: #ede7da url('../assets/imgs/themes/popup_0.png') repeat;
 
   .title {
     font-size: 18px;

@@ -7,6 +7,7 @@
           width="820"
           trigger="click"
           v-model="popCataVisible"
+          popper-class="pop-cata"
         >
           <PopCata @getContent="getContent" ref="popCata" />
 
@@ -188,7 +189,8 @@ export default {
           lock: true,
           text: "正在获取内容",
           spinner: "el-icon-loading",
-          background: "rgb(255,255,255)"
+          background:
+            "    background: #ede7da url('../assets/imgs/themes/content_0.png') repeat;"
         });
       }
       //保存阅读进度
@@ -269,10 +271,9 @@ export default {
 <style lang="stylus" scoped>
 .chapter-wrapper {
   padding: 0 4%;
-  display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  background: #ede7da url('../assets/imgs/themes/body_0.png') repeat;
 
   >>>.no-point {
     pointer-events: none;
@@ -284,6 +285,7 @@ export default {
     left: 50%;
     margin-left: -468px;
     z-index: 100;
+    background: #ede7da url('../assets/imgs/themes/popup_0.png') repeat;
 
     .tools {
       display: flex;
@@ -310,8 +312,9 @@ export default {
     position: fixed;
     bottom: 0;
     right: 50%;
-    margin-right: -468px;
+    margin-right: -452px;
     z-index: 100;
+    background: #ede7da url('../assets/imgs/themes/popup_0.png') repeat;
 
     .tools {
       display: flex;
@@ -348,7 +351,11 @@ export default {
     font-family: 'Microsoft YaHei', PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', sans-serif;
     text-align: left;
     color: #262626;
-    height: 100vh;
+    padding: 0 65px;
+    min-height: 100vh;
+    width: 670px;
+    margin: 0 auto;
+    background: #ede7da url('../assets/imgs/themes/content_0.png') repeat;
 
     >>>.el-icon-loading {
       font-size: 36px;
@@ -360,20 +367,16 @@ export default {
       color: #B5B5B5;
     }
 
-    // margin-top: 24px;
     .content {
+      font-size: 18px;
+      line-height: 1.8;
+      overflow: hidden;
+      font-family: 'Microsoft YaHei', PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', sans-serif;
+
       .title {
         margin-bottom: 57px;
         font: 24px / 32px PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', 'Microsoft YaHei', sans-serif;
       }
-
-      font-size: 18px;
-      line-height: 1.8;
-      overflow: hidden;
-      // margin: 0.8em 0;
-      width: 630px;
-      // margin-top: 52px;
-      font-family: 'Microsoft YaHei', PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', sans-serif;
 
       .bottom-bar, .top-bar {
         height: 64px;
