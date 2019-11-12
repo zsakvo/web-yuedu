@@ -1,29 +1,50 @@
 <template>
-  <div class="settings-wrapper">
+  <div class="settings-wrapper" :style="getPopColor">
     <div class="settings-title">设置</div>
     <div class="setting-list">
       <ul>
         <li class="theme-list">
           <i>阅读主题</i>
-          <span title="默认" class="theme-item theme-0"
+          <span
+            title="默认"
+            class="theme-item theme-0"
+            :class="{ selected: isThemeSelected(0) }"
             ><em class="iconfont">&#58980;</em></span
           >
-          <span title="牛皮纸" class="theme-item theme-1"
+          <span
+            title="牛皮纸"
+            class="theme-item theme-1"
+            :class="{ selected: isThemeSelected(1) }"
             ><em class="iconfont">&#58980;</em></span
           >
-          <span title="淡绿色" class="theme-item theme-2"
+          <span
+            title="淡绿色"
+            class="theme-item theme-2"
+            :class="{ selected: isThemeSelected(2) }"
             ><em class="iconfont">&#58980;</em></span
           >
-          <span title="淡蓝色" class="theme-item theme-3"
+          <span
+            title="淡蓝色"
+            class="theme-item theme-3"
+            :class="{ selected: isThemeSelected(3) }"
             ><em class="iconfont">&#58980;</em></span
           >
-          <span title="淡粉色" class="theme-item theme-4"
+          <span
+            title="淡粉色"
+            class="theme-item theme-4"
+            :class="{ selected: isThemeSelected(4) }"
             ><em class="iconfont">&#58980;</em></span
           >
-          <span title="灰色" class="theme-item theme-5"
+          <span
+            title="灰色"
+            class="theme-item theme-5"
+            :class="{ selected: isThemeSelected(5) }"
             ><em class="iconfont">&#58980;</em></span
           >
-          <span title="黑色" class="theme-item theme-6"
+          <span
+            title="黑色"
+            class="theme-item theme-6"
+            :class="{ selected: isThemeSelected(6) }"
             ><em class="iconfont">&#58980;</em></span
           >
         </li>
@@ -57,8 +78,30 @@
 <script>
 import "../assets/fonts/popfont.css";
 import "../assets/fonts/iconfont.css";
+import config from "../plugins/config";
 export default {
-  name: "ReadSettings"
+  name: "ReadSettings",
+  props: ["config"],
+  data() {
+    return {
+      theme: 0
+    };
+  },
+  mounted() {
+    //初始化设置项目
+    var config = this.$store.state.config;
+    this.theme = config.theme;
+  },
+  computed: {
+    getPopColor() {
+      return config.themes[this.config.theme].popup;
+    }
+  },
+  methods: {
+    isThemeSelected(theme) {
+      return this.theme == theme;
+    }
+  }
 };
 </script>
 
@@ -120,18 +163,21 @@ export default {
           }
         }
 
-        .theme-0 {
-          background: rgba(250, 245, 235, 0.8);
-        }
-
-        .theme-1 {
-          background: rgba(245, 234, 204, 0.8);
+        .selected {
           border: 1px solid #ed4259;
           color: #ed4259;
 
           em {
             display: inline;
           }
+        }
+
+        .theme-0 {
+          background: rgba(250, 245, 235, 0.8);
+        }
+
+        .theme-1 {
+          background: rgba(245, 234, 204, 0.8);
         }
 
         .theme-2 {

@@ -1,5 +1,5 @@
 <template>
-  <div class="cata-wrapper">
+  <div class="cata-wrapper" :style="getPopColor">
     <div class="title">
       目录
     </div>
@@ -22,9 +22,11 @@
 
 <script>
 import jump from "../plugins/jump";
+import config from "../plugins/config";
 import "../assets/fonts/popfont.css";
 export default {
   name: "PopCata",
+  props: ["theme"],
   data() {
     return {
       index: this.$store.state.readingBook.index
@@ -36,6 +38,9 @@ export default {
     },
     popCataVisible() {
       return this.$store.state.popCataVisible;
+    },
+    getPopColor() {
+      return config.themes[this.theme].popup;
     }
   },
   mounted() {},
@@ -68,8 +73,8 @@ export default {
 .cata-wrapper {
   margin: -12px;
   padding: 18px 0 24px 25px;
-  background: #ede7da url('../assets/imgs/themes/popup_1.png') repeat;
 
+  // background: #ede7da url('../assets/imgs/themes/popup_1.png') repeat;
   .title {
     font-size: 18px;
     font-weight: 400;

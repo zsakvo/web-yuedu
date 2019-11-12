@@ -9,7 +9,11 @@
           v-model="popCataVisible"
           popper-class="pop-cata"
         >
-          <PopCata @getContent="getContent" ref="popCata" />
+          <PopCata
+            @getContent="getContent"
+            ref="popCata"
+            :theme="config.theme"
+          />
 
           <div
             class="tool-icon"
@@ -27,7 +31,7 @@
           trigger="click"
           v-model="readSettingsVisible"
         >
-          <ReadSettings />
+          <ReadSettings :config="config" />
 
           <div
             class="tool-icon"
@@ -99,14 +103,18 @@ import ReadSettings from "../components/ReadSettings.vue";
 import Pcontent from "../components/Content.vue";
 import Axios from "axios";
 import jump from "../plugins/jump";
-import settings from "../plugins/settings";
+import config from "../plugins/config";
 export default {
   components: {
     PopCata,
     Pcontent,
     ReadSettings
   },
+  beforeCreated() {},
   mounted() {
+    //初始化设置项目
+    // var config = this.initConfig();
+    // this.theme = config.theme;
     // 初始化进度条
     this.loadingFlag = true;
     this.loading = this.$loading({
@@ -158,6 +166,11 @@ export default {
       content: [],
       nextFlag: true,
       noPoint: true,
+      config: {
+        theme: 0,
+        fontSize: 18,
+        readWidth: 800
+      },
       currentID: parseInt(sessionStorage.getItem("chapterID"))
     };
   },
@@ -188,14 +201,22 @@ export default {
         this.$store.commit("setPopCataVisible", value);
       }
     },
+    readSettingsVisible: {
+      get() {
+        return this.$store.state.readSettingsVisible;
+      },
+      set(value) {
+        this.$store.commit("setReadSettingsVisible", value);
+      }
+    },
     getBodyColor() {
-      return settings.themes[1].body;
+      return config.themes[this.config.theme].body;
     },
     getChapterColor() {
-      return settings.themes[1].content;
+      return config.themes[this.config.theme].content;
     },
     getPopupColor() {
-      return settings.themes[1].popup;
+      return config.themes[this.config.theme].popup;
     }
   },
   methods: {

@@ -16,7 +16,9 @@ export default new Vuex.Store({
     bookName: "",
     readingBook: {},
     popCataVisible: false,
-    contentLoading: true
+    contentLoading: true,
+    config: {},
+    readSettingsVisible: false
   },
   mutations: {
     increaseBookNum(state, n) {
@@ -54,6 +56,12 @@ export default new Vuex.Store({
     },
     setReadingBook(state, readingBook) {
       state.readingBook = readingBook;
+    },
+    setConfig(state, config) {
+      state.config = config;
+    },
+    setReadSettingsVisible(state, visible) {
+      state.readSettingsVisible = visible;
     }
   }
 });
