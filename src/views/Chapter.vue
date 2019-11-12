@@ -21,10 +21,24 @@
             <div class="icon-text">目录</div>
           </div>
         </el-popover>
-        <div class="tool-icon" style="border-bottom:none">
-          <i class="el-icon-s-tools " @click="toTop"></i>
-          <div class="icon-text">设置</div>
-        </div>
+        <el-popover
+          placement="right"
+          width="470"
+          trigger="click"
+          v-model="readSettingsVisible"
+        >
+          <ReadSettings />
+
+          <div
+            class="tool-icon"
+            style="border-bottom:none"
+            :class="{ 'no-point': noPoint }"
+            slot="reference"
+          >
+            <i class="el-icon-s-tools " @click="toTop"></i>
+            <div class="icon-text">设置</div>
+          </div>
+        </el-popover>
         <div class="tool-icon" style="border-bottom:none" @click="toShelf">
           <i class="el-icon-notebook-1"></i>
           <div class="icon-text">书架</div>
@@ -81,6 +95,7 @@
 
 <script>
 import PopCata from "../components/PopCatalog.vue";
+import ReadSettings from "../components/ReadSettings.vue";
 import Pcontent from "../components/Content.vue";
 import Axios from "axios";
 import jump from "../plugins/jump";
@@ -88,7 +103,8 @@ import settings from "../plugins/settings";
 export default {
   components: {
     PopCata,
-    Pcontent
+    Pcontent,
+    ReadSettings
   },
   mounted() {
     // 初始化进度条
@@ -303,14 +319,16 @@ export default {
         font-size: 18px;
         width: 58px;
         height: 60px;
-        border: 1px solid #d8d8d8;
+        border: 1px solid #D9D0B4;
         text-align: center;
         padding-top: 16px;
         cursor: pointer;
         outline: none;
+        color: #000;
 
         .icon-text {
           font-size: 12px;
+          color: rgba(0, 0, 0, 0.4);
         }
       }
     }
@@ -332,11 +350,12 @@ export default {
         width: 42px;
         height: 42px;
         line-height: 42px;
-        border: 1px solid #d8d8d8;
+        border: 1px solid #D9D0B4;
         text-align: center;
         align-items: center;
         cursor: pointer;
         outline: none;
+        color: #000;
 
         .icon-text {
           font-size: 12px;

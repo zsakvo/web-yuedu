@@ -22,7 +22,7 @@
 
 <script>
 import jump from "../plugins/jump";
-import "../assets/fonts/catafont.css";
+import "../assets/fonts/popfont.css";
 export default {
   name: "PopCata",
   data() {
@@ -68,7 +68,7 @@ export default {
 .cata-wrapper {
   margin: -12px;
   padding: 18px 0 24px 25px;
-  background: #ede7da url('../assets/imgs/themes/popup_0.png') repeat;
+  background: #ede7da url('../assets/imgs/themes/popup_1.png') repeat;
 
   .title {
     font-size: 18px;
