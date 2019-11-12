@@ -26,7 +26,6 @@ import config from "../plugins/config";
 import "../assets/fonts/popfont.css";
 export default {
   name: "PopCata",
-  props: ["theme"],
   data() {
     return {
       index: this.$store.state.readingBook.index
@@ -38,6 +37,9 @@ export default {
     },
     popCataVisible() {
       return this.$store.state.popCataVisible;
+    },
+    theme() {
+      return this.$store.state.config.theme;
     },
     getPopColor() {
       return config.themes[this.theme].popup;

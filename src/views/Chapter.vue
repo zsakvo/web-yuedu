@@ -9,11 +9,7 @@
           v-model="popCataVisible"
           popper-class="pop-cata"
         >
-          <PopCata
-            @getContent="getContent"
-            ref="popCata"
-            :theme="config.theme"
-          />
+          <PopCata @getContent="getContent" ref="popCata" />
 
           <div
             class="tool-icon"
@@ -31,7 +27,7 @@
           trigger="click"
           v-model="readSettingsVisible"
         >
-          <ReadSettings :config="config" />
+          <ReadSettings />
 
           <div
             class="tool-icon"
@@ -110,7 +106,10 @@ export default {
     Pcontent,
     ReadSettings
   },
-  beforeCreated() {},
+  created() {
+    var config = JSON.parse(localStorage.getItem("config"));
+    if (config != null) this.$store.commit("setConfig", config);
+  },
   mounted() {
     //初始化设置项目
     // var config = this.initConfig();
@@ -166,11 +165,6 @@ export default {
       content: [],
       nextFlag: true,
       noPoint: true,
-      config: {
-        theme: 0,
-        fontSize: 18,
-        readWidth: 800
-      },
       currentID: parseInt(sessionStorage.getItem("chapterID"))
     };
   },
@@ -208,6 +202,9 @@ export default {
       set(value) {
         this.$store.commit("setReadSettingsVisible", value);
       }
+    },
+    config() {
+      return this.$store.state.config;
     },
     getBodyColor() {
       return config.themes[this.config.theme].body;

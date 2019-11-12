@@ -17,7 +17,11 @@ export default new Vuex.Store({
     readingBook: {},
     popCataVisible: false,
     contentLoading: true,
-    config: {},
+    config: {
+      theme: 0,
+      fontSize: 18,
+      readWidth: 800
+    },
     readSettingsVisible: false
   },
   mutations: {

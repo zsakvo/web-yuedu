@@ -81,7 +81,6 @@ import "../assets/fonts/iconfont.css";
 import config from "../plugins/config";
 export default {
   name: "ReadSettings",
-  props: ["config"],
   data() {
     return {
       theme: 0
@@ -93,6 +92,9 @@ export default {
     this.theme = config.theme;
   },
   computed: {
+    config() {
+      return this.$store.state.config;
+    },
     getPopColor() {
       return config.themes[this.config.theme].popup;
     }
