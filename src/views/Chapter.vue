@@ -281,7 +281,8 @@ export default {
   .tool-bar {
     position: fixed;
     top: 0;
-    left: 6vw;
+    left: 50%;
+    margin-left: -468px;
     z-index: 100;
 
     .tools {
@@ -308,7 +309,8 @@ export default {
   .read-bar {
     position: fixed;
     bottom: 0;
-    right: 8vw;
+    right: 50%;
+    margin-right: -468px;
     z-index: 100;
 
     .tools {
