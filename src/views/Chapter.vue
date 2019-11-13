@@ -1,6 +1,6 @@
 <template>
   <div class="chapter-wrapper" :style="bodyColor">
-    <div class="tool-bar" :style="popupColor">
+    <div class="tool-bar" :style="leftBarTheme">
       <div class="tools">
         <el-popover
           placement="right"
@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="read-bar" :style="popupColor">
+    <div class="read-bar" :style="rightBarTheme">
       <div class="tools">
         <div
           class="tool-icon"
@@ -164,6 +164,12 @@ export default {
     readWidth(width) {
       console.log(width);
       this.chapterTheme.width = width;
+      let leftToolMargin = -((parseInt(width) + 130) / 2 + 68) + "px";
+      let rightToolMargin = -((parseInt(width) + 130) / 2 + 52) + "px";
+      this.leftBarTheme.background = this.popupColor.background;
+      this.leftBarTheme.marginLeft = leftToolMargin;
+      this.rightBarTheme.background = this.popupColor.background;
+      this.rightBarTheme.marginRight = rightToolMargin;
     }
   },
   data() {
@@ -175,6 +181,14 @@ export default {
       chapterTheme: {
         background: config.themes[0].content.background,
         width: this.$store.state.config.readWidth
+      },
+      leftBarTheme: {
+        background: config.themes[0].popup.background,
+        marginLeft: "-468px"
+      },
+      rightBarTheme: {
+        background: config.themes[0].popup.background,
+        marginRight: "-452px"
       },
       currentID: parseInt(sessionStorage.getItem("chapterID"))
     };
@@ -340,7 +354,7 @@ export default {
     position: fixed;
     top: 0;
     left: 50%;
-    margin-left: -468px;
+    // margin-left: -468px;
     z-index: 100;
 
     .tools {
@@ -370,7 +384,7 @@ export default {
     position: fixed;
     bottom: 0;
     right: 50%;
-    margin-right: -452px;
+    // margin-right: -452px;
     z-index: 100;
 
     .tools {
