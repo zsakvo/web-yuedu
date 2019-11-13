@@ -85,7 +85,7 @@
     <div class="chapter" ref="content" :style="chapterTheme">
       <div class="content">
         <div class="top-bar" ref="top"></div>
-        <div class="title" ref="title">{{ title }}</div>
+        <div class="title" ref="title" v-if="show">{{ title }}</div>
         <Pcontent :carray="content" />
         <div class="bottom-bar" ref="bottom"></div>
       </div>
@@ -117,7 +117,7 @@ export default {
       lock: true,
       text: "正在获取内容",
       spinner: "el-icon-loading",
-      background: "rgb(255,255,255)"
+      background: "rgba(0,0,0,0)"
     });
     //获取书籍数据
     const that = this;
@@ -226,6 +226,9 @@ export default {
     },
     readWidth() {
       return this.$store.state.config.readWidth - 130 + "px";
+    },
+    show() {
+      return this.$store.state.showContent;
     }
   },
   methods: {
@@ -239,14 +242,14 @@ export default {
     },
     getContent(index) {
       //展示进度条
+      this.$store.commit("setShowContent", false);
       if (!this.loading.visible) {
         this.loading = this.$loading({
           target: this.$refs.content,
           lock: true,
           text: "正在获取内容",
           spinner: "el-icon-loading",
-          background:
-            "    background: #ede7da url('../assets/imgs/themes/content_0.png') repeat;"
+          background: "rgba(0,0,0,0)"
         });
       }
       //保存阅读进度
@@ -282,6 +285,7 @@ export default {
           this.$store.commit("setContentLoading", true);
           that.loading.close();
           that.noPoint = false;
+          that.$store.commit("setShowContent", true);
         },
         err => {
           that.$message.error("获取章节内容失败");

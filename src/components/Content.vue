@@ -3,9 +3,7 @@ import config from "../plugins/config";
 export default {
   name: "pcontent",
   data() {
-    return {
-      show: false
-    };
+    return {};
   },
   props: ["carray"],
   render() {
@@ -25,6 +23,9 @@ export default {
     }
   },
   computed: {
+    show() {
+      return this.$store.state.showContent;
+    },
     fontFamily() {
       return config.fonts[this.$store.state.config.font];
     },
@@ -35,9 +36,9 @@ export default {
   watch: {
     fontSize() {
       let that = this;
-      that.show = false;
+      that.$store.commit("setShowContent", false);
       this.$nextTick(() => {
-        that.show = true;
+        that.$store.commit("setShowContent", true);
       });
     }
   }

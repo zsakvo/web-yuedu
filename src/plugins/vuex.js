@@ -10,6 +10,7 @@ export default new Vuex.Store({
     readingBook: {},
     popCataVisible: false,
     contentLoading: true,
+    showContent: false,
     config: {
       theme: 0,
       font: 0,
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     },
     setReadSettingsVisible(state, visible) {
       state.readSettingsVisible = visible;
+    },
+    setShowContent(state, visible) {
+      state.showContent = visible;
     }
   }
 });
