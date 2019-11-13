@@ -136,7 +136,7 @@ export default {
     },
     lessFontSize() {
       let config = this.config;
-      if (config.fontSize > 18) config.fontSize -= 2;
+      if (config.fontSize > 12) config.fontSize -= 2;
       this.$store.commit("setConfig", config);
     },
     moreReadWidth() {
