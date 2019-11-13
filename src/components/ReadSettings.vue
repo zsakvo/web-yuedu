@@ -6,45 +6,12 @@
         <li class="theme-list">
           <i>阅读主题</i>
           <span
-            title="默认"
-            class="theme-item theme-0"
-            :class="{ selected: isThemeSelected(0) }"
-            ><em class="iconfont">&#58980;</em></span
-          >
-          <span
-            title="牛皮纸"
-            class="theme-item theme-1"
-            :class="{ selected: isThemeSelected(1) }"
-            ><em class="iconfont">&#58980;</em></span
-          >
-          <span
-            title="淡绿色"
-            class="theme-item theme-2"
-            :class="{ selected: isThemeSelected(2) }"
-            ><em class="iconfont">&#58980;</em></span
-          >
-          <span
-            title="淡蓝色"
-            class="theme-item theme-3"
-            :class="{ selected: isThemeSelected(3) }"
-            ><em class="iconfont">&#58980;</em></span
-          >
-          <span
-            title="淡粉色"
-            class="theme-item theme-4"
-            :class="{ selected: isThemeSelected(4) }"
-            ><em class="iconfont">&#58980;</em></span
-          >
-          <span
-            title="灰色"
-            class="theme-item theme-5"
-            :class="{ selected: isThemeSelected(5) }"
-            ><em class="iconfont">&#58980;</em></span
-          >
-          <span
-            title="黑色"
-            class="theme-item theme-6"
-            :class="{ selected: isThemeSelected(6) }"
+            class="theme-item"
+            v-for="(themeColor, index) in themeColors"
+            :key="index"
+            :style="themeColor"
+            @click="setTheme(index)"
+            :class="{ selected: selectedTheme == index }"
             ><em class="iconfont">&#58980;</em></span
           >
         </li>
@@ -83,7 +50,30 @@ export default {
   name: "ReadSettings",
   data() {
     return {
-      theme: 0
+      theme: 0,
+      themeColors: [
+        {
+          background: "rgba(250, 245, 235, 0.8)"
+        },
+        {
+          background: "rgba(245, 234, 204, 0.8)"
+        },
+        {
+          background: "rgba(230, 242, 230, 0.8)"
+        },
+        {
+          background: "rgba(228, 241, 245, 0.8)"
+        },
+        {
+          background: "rgba(245, 228, 228, 0.8)"
+        },
+        {
+          background: "rgba(224, 224, 224, 0.8)"
+        },
+        {
+          background: "rgba(25, 27, 28, 0.8)"
+        }
+      ]
     };
   },
   mounted() {
@@ -97,11 +87,16 @@ export default {
     },
     getPopColor() {
       return config.themes[this.config.theme].popup;
+    },
+    selectedTheme() {
+      return this.$store.state.config.theme;
     }
   },
   methods: {
-    isThemeSelected(theme) {
-      return this.theme == theme;
+    setTheme(theme) {
+      let config = this.config;
+      config.theme = theme;
+      this.$store.commit("setConfig", config);
     }
   }
 };
@@ -172,34 +167,6 @@ export default {
           em {
             display: inline;
           }
-        }
-
-        .theme-0 {
-          background: rgba(250, 245, 235, 0.8);
-        }
-
-        .theme-1 {
-          background: rgba(245, 234, 204, 0.8);
-        }
-
-        .theme-2 {
-          background: rgba(230, 242, 230, 0.8);
-        }
-
-        .theme-3 {
-          background: rgba(228, 241, 245, 0.8);
-        }
-
-        .theme-4 {
-          background: rgba(245, 228, 228, 0.8);
-        }
-
-        .theme-5 {
-          background: rgba(224, 224, 224, 0.8);
-        }
-
-        .theme-6 {
-          background: rgba(25, 27, 28, 0.8);
         }
       }
 
