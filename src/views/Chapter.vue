@@ -161,10 +161,12 @@ export default {
       this.chapterTheme.width = width;
       let leftToolMargin = -((parseInt(width) + 130) / 2 + 68) + "px";
       let rightToolMargin = -((parseInt(width) + 130) / 2 + 52) + "px";
-      this.leftBarTheme.background = this.popupColor.background;
       this.leftBarTheme.marginLeft = leftToolMargin;
-      this.rightBarTheme.background = this.popupColor.background;
       this.rightBarTheme.marginRight = rightToolMargin;
+    },
+    popupColor(color) {
+      this.leftBarTheme.background = color.background;
+      this.rightBarTheme.background = color.background;
     }
   },
   data() {
