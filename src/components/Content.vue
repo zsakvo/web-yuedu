@@ -2,20 +2,43 @@
 import config from "../plugins/config";
 export default {
   name: "pcontent",
+  data() {
+    return {
+      show: false
+    };
+  },
   props: ["carray"],
   render() {
-    const { fontFamily } = this;
-    return (
-      <div>
-        {this.carray.map(a => {
-          return <p style={fontFamily}>{a}</p>;
-        })}
-      </div>
-    );
+    const { fontFamily, fontSize } = this;
+    let style = fontFamily;
+    style.fontSize = fontSize;
+    if (this.show) {
+      return (
+        <div>
+          {this.carray.map(a => {
+            return <p style={style}>{a}</p>;
+          })}
+        </div>
+      );
+    } else {
+      return <div />;
+    }
   },
   computed: {
     fontFamily() {
       return config.fonts[this.$store.state.config.font];
+    },
+    fontSize() {
+      return this.$store.state.config.fontSize + "px";
+    }
+  },
+  watch: {
+    fontSize() {
+      let that = this;
+      that.show = false;
+      this.$nextTick(() => {
+        that.show = true;
+      });
     }
   }
 };

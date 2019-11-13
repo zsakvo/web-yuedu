@@ -131,22 +131,22 @@ export default {
     },
     moreFontSize() {
       let config = this.config;
-      config.fontSize = config.fontSize + 1;
+      if (config.fontSize < 48) config.fontSize += 2;
       this.$store.commit("setConfig", config);
     },
     lessFontSize() {
       let config = this.config;
-      config.fontSize = config.fontSize - 1;
+      if (config.fontSize > 18) config.fontSize -= 2;
       this.$store.commit("setConfig", config);
     },
     moreReadWidth() {
       let config = this.config;
-      config.readWidth = config.readWidth + 20;
+      if (config.readWidth < 960) config.readWidth += 160;
       this.$store.commit("setConfig", config);
     },
     lessReadWidth() {
       let config = this.config;
-      config.readWidth = config.readWidth - 20;
+      if (config.readWidth > 640) config.readWidth -= 160;
       this.$store.commit("setConfig", config);
     }
   }
