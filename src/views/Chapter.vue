@@ -1,6 +1,6 @@
 <template>
-  <div class="chapter-wrapper" :style="getBodyColor">
-    <div class="tool-bar" :style="getPopupColor">
+  <div class="chapter-wrapper" :style="bodyColor">
+    <div class="tool-bar" :style="popupColor">
       <div class="tools">
         <el-popover
           placement="right"
@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="read-bar" :style="getPopupColor">
+    <div class="read-bar" :style="popupColor">
       <div class="tools">
         <div
           class="tool-icon"
@@ -82,7 +82,7 @@
       </div>
     </div>
     <div class="chapter-bar"></div>
-    <div class="chapter" ref="content" :style="getChapterColor">
+    <div class="chapter" ref="content" :style="chapterTheme">
       <div class="content">
         <div class="top-bar" ref="top"></div>
         <div class="title" ref="title">{{ title }}</div>
@@ -157,6 +157,13 @@ export default {
     },
     content() {
       this.$store.commit("setContentLoading", false);
+    },
+    chapterColor(color) {
+      this.chapterTheme.background = color.background;
+    },
+    readWidth(width) {
+      console.log(width);
+      this.chapterTheme.width = width;
     }
   },
   data() {
@@ -165,6 +172,10 @@ export default {
       content: [],
       nextFlag: true,
       noPoint: true,
+      chapterTheme: {
+        background: config.themes[0].content.background,
+        width: this.$store.state.config.readWidth
+      },
       currentID: parseInt(sessionStorage.getItem("chapterID"))
     };
   },
@@ -206,14 +217,17 @@ export default {
     config() {
       return this.$store.state.config;
     },
-    getBodyColor() {
+    bodyColor() {
       return config.themes[this.config.theme].body;
     },
-    getChapterColor() {
+    chapterColor() {
       return config.themes[this.config.theme].content;
     },
-    getPopupColor() {
+    popupColor() {
       return config.themes[this.config.theme].popup;
+    },
+    readWidth() {
+      return this.$store.state.config.readWidth - 130 + "px";
     }
   },
   methods: {
