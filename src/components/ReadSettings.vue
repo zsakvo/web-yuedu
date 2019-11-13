@@ -17,24 +17,40 @@
         </li>
         <li class="font-list">
           <i>正文字体</i>
-          <span class="font-item">雅黑</span>
-          <span class="font-item">宋体</span>
-          <span class="font-item">楷书</span>
+          <span
+            class="font-item"
+            v-for="(font, index) in fonts"
+            :key="index"
+            :class="{ selected: selectedFont == index }"
+            @click="setFont(index)"
+            >{{ font }}</span
+          >
         </li>
-        <li class="font-size">
+        <li
+          class="
+                font-size"
+        >
           <i>字体大小</i>
           <div class="resize">
-            <span class="less"><em class="iconfont">&#58966;</em></span
-            ><b></b> <span class="lang">18</span><b></b>
-            <span class="more"><em class="iconfont">&#58976;</em></span>
+            <span class="less" @click="lessFontSize"
+              ><em class="iconfont">&#58966;</em></span
+            ><b></b> <span class="lang">{{ fontSize }}</span
+            ><b></b>
+            <span class="more" @click="moreFontSize"
+              ><em class="iconfont">&#58976;</em></span
+            >
           </div>
         </li>
         <li class="read-width">
           <i>页面宽度</i>
           <div class="resize">
-            <span class="less"><em class="iconfont">&#58965;</em></span
-            ><b></b> <span class="lang">800</span><b></b>
-            <span class="more"><em class="iconfont">&#58975;</em></span>
+            <span class="less" @click="lessReadWidth"
+              ><em class="iconfont">&#58965;</em></span
+            ><b></b> <span class="lang">{{ readWidth }}</span
+            ><b></b>
+            <span class="more" @click="moreReadWidth"
+              ><em class="iconfont">&#58975;</em></span
+            >
           </div>
         </li>
       </ul>
@@ -73,7 +89,8 @@ export default {
         {
           background: "rgba(25, 27, 28, 0.8)"
         }
-      ]
+      ],
+      fonts: ["雅黑", "宋体", "楷书"]
     };
   },
   mounted() {
@@ -90,12 +107,46 @@ export default {
     },
     selectedTheme() {
       return this.$store.state.config.theme;
+    },
+    selectedFont() {
+      return this.$store.state.config.font;
+    },
+    fontSize() {
+      return this.$store.state.config.fontSize;
+    },
+    readWidth() {
+      return this.$store.state.config.readWidth;
     }
   },
   methods: {
     setTheme(theme) {
       let config = this.config;
       config.theme = theme;
+      this.$store.commit("setConfig", config);
+    },
+    setFont(font) {
+      let config = this.config;
+      config.font = font;
+      this.$store.commit("setConfig", config);
+    },
+    moreFontSize() {
+      let config = this.config;
+      config.fontSize = config.fontSize + 1;
+      this.$store.commit("setConfig", config);
+    },
+    lessFontSize() {
+      let config = this.config;
+      config.fontSize = config.fontSize - 1;
+      this.$store.commit("setConfig", config);
+    },
+    moreReadWidth() {
+      let config = this.config;
+      config.readWidth = config.readWidth + 20;
+      this.$store.commit("setConfig", config);
+    },
+    lessReadWidth() {
+      let config = this.config;
+      config.readWidth = config.readWidth - 20;
       this.$store.commit("setConfig", config);
     }
   }
@@ -108,6 +159,7 @@ export default {
 }
 
 .settings-wrapper {
+  user-select: none;
   margin: -12px;
   width: 478px;
   height: 300px;
@@ -185,6 +237,11 @@ export default {
           background: rgba(255, 255, 255, 0.5);
           border: 1px solid rgba(0, 0, 0, 0.1);
           font: 14px / 34px PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', 'Microsoft YaHei', sans-serif;
+        }
+
+        .selected {
+          color: #ed4259;
+          border: 1px solid #ed4259;
         }
 
         .font-item:hover {

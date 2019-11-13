@@ -19,6 +19,7 @@ export default new Vuex.Store({
     contentLoading: true,
     config: {
       theme: 0,
+      font: 0,
       fontSize: 18,
       readWidth: 800
     },

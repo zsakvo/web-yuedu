@@ -95,6 +95,18 @@ var settings = {
         background: "#ede7da url(" + popup_6 + ") repeat"
       }
     }
+  ],
+  fonts: [
+    {
+      fontFamily:
+        "Microsoft YaHei, PingFangSC-Regular, HelveticaNeue-Light, Helvetica Neue Light, sans-serif"
+    },
+    {
+      fontFamily: "PingFangSC-Regular, -apple-system, Simsun"
+    },
+    {
+      fontFamily: "Kaiti"
+    }
   ]
 };
 export default settings;
