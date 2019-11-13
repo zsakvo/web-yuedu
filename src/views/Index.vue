@@ -198,9 +198,6 @@ export default {
     }
   },
   computed: {
-    bookNum() {
-      return this.$store.state.bookNum;
-    },
     shelf() {
       return this.$store.state.shelf;
     }

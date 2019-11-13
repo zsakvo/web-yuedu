@@ -111,10 +111,6 @@ export default {
     if (config != null) this.$store.commit("setConfig", config);
   },
   mounted() {
-    //初始化设置项目
-    // var config = this.initConfig();
-    // this.theme = config.theme;
-    // 初始化进度条
     this.loadingFlag = true;
     this.loading = this.$loading({
       target: this.$refs.content,
@@ -162,7 +158,6 @@ export default {
       this.chapterTheme.background = color.background;
     },
     readWidth(width) {
-      console.log(width);
       this.chapterTheme.width = width;
       let leftToolMargin = -((parseInt(width) + 130) / 2 + 68) + "px";
       let rightToolMargin = -((parseInt(width) + 130) / 2 + 52) + "px";
@@ -176,7 +171,6 @@ export default {
     return {
       title: "",
       content: [],
-      nextFlag: true,
       noPoint: true,
       chapterTheme: {
         background: config.themes[0].content.background,
@@ -189,22 +183,12 @@ export default {
       rightBarTheme: {
         background: config.themes[0].popup.background,
         marginRight: "-452px"
-      },
-      currentID: parseInt(sessionStorage.getItem("chapterID"))
+      }
     };
   },
   computed: {
     catalog() {
       return this.$store.state.catalog;
-    },
-    name() {
-      return sessionStorage.getItem("bookName");
-    },
-    chapterName() {
-      return this.$store.state.chapterName;
-    },
-    chapterUrl() {
-      return this.$store.state.chapterUrl;
     },
     windowHeight() {
       return window.innerHeight;
@@ -326,15 +310,6 @@ export default {
     },
     toShelf() {
       this.$router.push("/");
-    },
-    handleScroll() {
-      let scrollHeight = document.documentElement.scrollTop;
-      if (
-        this.windowHeight * 2 + scrollHeight >= this.contentHeight &&
-        this.nextFlag
-      ) {
-        this.getNext();
-      }
     }
   }
 };
