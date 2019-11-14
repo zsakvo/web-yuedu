@@ -1,5 +1,5 @@
 <template>
-  <div class="chapter-wrapper" :style="bodyColor">
+  <div class="chapter-wrapper" :style="bodyTheme">
     <div class="tool-bar" :style="leftBarTheme">
       <div class="tools">
         <el-popover
@@ -154,6 +154,9 @@ export default {
     content() {
       this.$store.commit("setContentLoading", false);
     },
+    bodyColor(color) {
+      this.bodyTheme.background = color.background;
+    },
     chapterColor(color) {
       this.chapterTheme.background = color.background;
     },
@@ -174,6 +177,9 @@ export default {
       title: "",
       content: [],
       noPoint: true,
+      bodyTheme: {
+        background: config.themes[0].body.background
+      },
       chapterTheme: {
         background: config.themes[0].content.background,
         width: this.$store.state.config.readWidth
