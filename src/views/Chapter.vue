@@ -14,8 +14,8 @@
           <div
             class="tool-icon"
             :class="{ 'no-point': noPoint }"
+            :style="[borderTheme, { borderBottom: 'none' }]"
             slot="reference"
-            style="border-bottom:none"
           >
             <i class="el-icon-tickets"></i>
             <div class="icon-text">目录</div>
@@ -31,7 +31,7 @@
 
           <div
             class="tool-icon"
-            style="border-bottom:none"
+            :style="[borderTheme, { borderBottom: 'none' }]"
             :class="{ 'no-point': noPoint }"
             slot="reference"
           >
@@ -39,14 +39,18 @@
             <div class="icon-text">设置</div>
           </div>
         </el-popover>
-        <div class="tool-icon" style="border-bottom:none" @click="toShelf">
+        <div
+          class="tool-icon"
+          :style="[borderTheme, { borderBottom: 'none' }]"
+          @click="toShelf"
+        >
           <i class="el-icon-notebook-1"></i>
           <div class="icon-text">书架</div>
         </div>
         <div
           class="tool-icon"
           :class="{ 'no-point': noPoint }"
-          style="border-bottom:none"
+          :style="[borderTheme, { borderBottom: 'none' }]"
           @click="toTop"
         >
           <i class="el-icon-top-right"></i>
@@ -54,6 +58,7 @@
         </div>
         <div
           class="tool-icon"
+          :style="[borderTheme]"
           :class="{ 'no-point': noPoint }"
           @click="toBottom"
         >
@@ -67,13 +72,14 @@
         <div
           class="tool-icon"
           :class="{ 'no-point': noPoint }"
-          style="border-bottom:none"
+          :style="[borderTheme, { borderBottom: 'none' }]"
           @click="toLastChapter"
         >
           <i class="el-icon-arrow-up"></i>
         </div>
         <div
           class="tool-icon"
+          :style="[borderTheme]"
           :class="{ 'no-point': noPoint }"
           @click="toNextChapter"
         >
@@ -190,6 +196,9 @@ export default {
       rightBarTheme: {
         background: config.themes[this.$store.state.config.theme].popup,
         marginRight: "-452px"
+      },
+      borderTheme: {
+        border: "1px solid rgba(0,0,0,0.1)"
       }
     };
   },
@@ -351,7 +360,7 @@ export default {
         font-size: 18px;
         width: 58px;
         height: 60px;
-        border: 1px solid #D9D0B4;
+        // border: 1px solid rgba(0, 0, 0, 0.1);
         text-align: center;
         padding-top: 16px;
         cursor: pointer;
@@ -382,7 +391,7 @@ export default {
         width: 42px;
         height: 42px;
         line-height: 42px;
-        border: 1px solid #D9D0B4;
+        // border: 1px solid rgba(0, 0, 0, 0.1);
         text-align: center;
         align-items: center;
         cursor: pointer;

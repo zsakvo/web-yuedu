@@ -183,7 +183,7 @@ export default {
 
 .settings-wrapper {
   user-select: none;
-  margin: -12px;
+  margin: -13px;
   width: 478px;
   height: 300px;
   text-align: left;
