@@ -1,5 +1,5 @@
 <template>
-  <div class="cata-wrapper" :style="getPopColor">
+  <div class="cata-wrapper" :style="popupTheme">
     <div class="title">
       目录
     </div>
@@ -41,8 +41,10 @@ export default {
     theme() {
       return this.$store.state.config.theme;
     },
-    getPopColor() {
-      return config.themes[this.theme].popup;
+    popupTheme() {
+      return {
+        background: config.themes[this.theme].popup
+      };
     }
   },
   mounted() {},

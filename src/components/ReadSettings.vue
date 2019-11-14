@@ -1,5 +1,5 @@
 <template>
-  <div class="settings-wrapper" :style="getPopColor">
+  <div class="settings-wrapper" :style="popupTheme">
     <div class="settings-title">设置</div>
     <div class="setting-list">
       <ul>
@@ -102,8 +102,10 @@ export default {
     config() {
       return this.$store.state.config;
     },
-    getPopColor() {
-      return config.themes[this.config.theme].popup;
+    popupTheme() {
+      return {
+        background: config.themes[this.config.theme].popup
+      };
     },
     selectedTheme() {
       return this.$store.state.config.theme;

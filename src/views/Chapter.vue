@@ -155,10 +155,10 @@ export default {
       this.$store.commit("setContentLoading", false);
     },
     bodyColor(color) {
-      this.bodyTheme.background = color.background;
+      this.bodyTheme.background = color;
     },
     chapterColor(color) {
-      this.chapterTheme.background = color.background;
+      this.chapterTheme.background = color;
     },
     readWidth(width) {
       this.chapterTheme.width = width;
@@ -168,8 +168,8 @@ export default {
       this.rightBarTheme.marginRight = rightToolMargin;
     },
     popupColor(color) {
-      this.leftBarTheme.background = color.background;
-      this.rightBarTheme.background = color.background;
+      this.leftBarTheme.background = color;
+      this.rightBarTheme.background = color;
     }
   },
   data() {
@@ -178,18 +178,18 @@ export default {
       content: [],
       noPoint: true,
       bodyTheme: {
-        background: config.themes[0].body.background
+        background: config.themes[0].body
       },
       chapterTheme: {
-        background: config.themes[0].content.background,
+        background: config.themes[0].content,
         width: this.$store.state.config.readWidth
       },
       leftBarTheme: {
-        background: config.themes[0].popup.background,
+        background: config.themes[0].popup,
         marginLeft: "-468px"
       },
       rightBarTheme: {
-        background: config.themes[0].popup.background,
+        background: config.themes[0].popup,
         marginRight: "-452px"
       }
     };
