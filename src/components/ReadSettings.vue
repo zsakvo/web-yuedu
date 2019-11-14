@@ -25,18 +25,15 @@
             class="font-item"
             v-for="(font, index) in fonts"
             :key="index"
-            :class="{ selected: selectedFont == index }"
+            :class="{ selected: selectedFont == index, night: isNight }"
             @click="setFont(index)"
             >{{ font }}</span
           >
         </li>
-        <li
-          class="
-                font-size"
-        >
+        <li class="font-size">
           <i>字体大小</i>
-          <div class="resize">
-            <span class="less" @click="lessFontSize"
+          <div class="resize" :class="{ night: isNight }">
+            <span class="less" @click="lessFontSize" :style="{ night: isNight }"
               ><em class="iconfont">&#58966;</em></span
             ><b></b> <span class="lang">{{ fontSize }}</span
             ><b></b>
@@ -47,7 +44,7 @@
         </li>
         <li class="read-width">
           <i>页面宽度</i>
-          <div class="resize">
+          <div class="resize" :class="{ night: isNight }">
             <span class="less" @click="lessReadWidth"
               ><em class="iconfont">&#58965;</em></span
             ><b></b> <span class="lang">{{ readWidth }}</span
@@ -71,6 +68,7 @@ export default {
   data() {
     return {
       theme: 0,
+      isNight: false,
       moonIcon: "",
       themeColors: [
         {
@@ -92,7 +90,7 @@ export default {
           background: "rgba(224, 224, 224, 0.8)"
         },
         {
-          background: "rgba(25, 27, 28, 0.8)"
+          background: "rgba(0, 0, 0, 0.5)"
         }
       ],
       moonIconStyle: {
@@ -137,9 +135,11 @@ export default {
   methods: {
     setTheme(theme) {
       if (theme == 6) {
+        this.isNight = true;
         this.moonIcon = "";
         this.moonIconStyle.color = "#ed4259";
       } else {
+        this.isNight = false;
         this.moonIcon = "";
         this.moonIconStyle.color = "rgba(255,255,255,0.2)";
       }
@@ -262,6 +262,11 @@ export default {
           font: 14px / 34px PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', 'Microsoft YaHei', sans-serif;
         }
 
+        .night {
+          border: 1px solid #666;
+          background: rgba(45, 45, 45, 0.5);
+        }
+
         .selected {
           color: #ed4259;
           border: 1px solid #ed4259;
@@ -314,6 +319,15 @@ export default {
             height: 20px;
             vertical-align: middle;
             border-right: 1px solid #e5e5e5;
+          }
+        }
+
+        .night {
+          border: 1px solid #666;
+          background: rgba(45, 45, 45, 0.5);
+
+          b {
+            border-right: 1px solid #666;
           }
         }
       }

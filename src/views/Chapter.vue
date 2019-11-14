@@ -14,11 +14,11 @@
           <div
             class="tool-icon"
             :class="{ 'no-point': noPoint }"
-            :style="[borderTheme, { borderBottom: 'none' }]"
+            :style="[borderTheme]"
             slot="reference"
           >
             <i class="el-icon-tickets"></i>
-            <div class="icon-text">目录</div>
+            <div class="icon-text" :class="{ night: isNight }">目录</div>
           </div>
         </el-popover>
         <el-popover
@@ -31,30 +31,26 @@
 
           <div
             class="tool-icon"
-            :style="[borderTheme, { borderBottom: 'none' }]"
+            :style="[borderTheme]"
             :class="{ 'no-point': noPoint }"
             slot="reference"
           >
             <i class="el-icon-s-tools " @click="toTop"></i>
-            <div class="icon-text">设置</div>
+            <div class="icon-text" :class="{ night: isNight }">设置</div>
           </div>
         </el-popover>
-        <div
-          class="tool-icon"
-          :style="[borderTheme, { borderBottom: 'none' }]"
-          @click="toShelf"
-        >
+        <div class="tool-icon" :style="[borderTheme]" @click="toShelf">
           <i class="el-icon-notebook-1"></i>
-          <div class="icon-text">书架</div>
+          <div class="icon-text" :class="{ night: isNight }">书架</div>
         </div>
         <div
           class="tool-icon"
           :class="{ 'no-point': noPoint }"
-          :style="[borderTheme, { borderBottom: 'none' }]"
+          :style="[borderTheme]"
           @click="toTop"
         >
           <i class="el-icon-top-right"></i>
-          <div class="icon-text">顶部</div>
+          <div class="icon-text" :class="{ night: isNight }">顶部</div>
         </div>
         <div
           class="tool-icon"
@@ -63,7 +59,7 @@
           @click="toBottom"
         >
           <i class="el-icon-bottom-left"></i>
-          <div class="icon-text">底部</div>
+          <div class="icon-text" :class="{ night: isNight }">底部</div>
         </div>
       </div>
     </div>
@@ -72,7 +68,7 @@
         <div
           class="tool-icon"
           :class="{ 'no-point': noPoint }"
-          :style="[borderTheme, { borderBottom: 'none' }]"
+          :style="[borderTheme]"
           @click="toLastChapter"
         >
           <i class="el-icon-arrow-up"></i>
@@ -159,6 +155,22 @@ export default {
     content() {
       this.$store.commit("setContentLoading", false);
     },
+    theme(theme) {
+      console.log(theme);
+      if (theme == 6) {
+        this.isNight = true;
+        this.borderTheme.border = "1px solid #444";
+        this.borderTheme.color = "#666";
+        this.chapterTheme.border = "1px solid #444";
+        this.chapterTheme.color = "#666";
+      } else {
+        this.isNight = false;
+        this.borderTheme.border = "1px solid rgba(0,0,0,0.1)";
+        this.borderTheme.color = "#262626";
+        this.chapterTheme.border = "1px solid #d8d8d8";
+        this.chapterTheme.color = "#262626";
+      }
+    },
     bodyColor(color) {
       this.bodyTheme.background = color;
     },
@@ -182,10 +194,13 @@ export default {
       title: "",
       content: [],
       noPoint: true,
+      isNight: false,
       bodyTheme: {
         background: config.themes[this.$store.state.config.theme].body
       },
       chapterTheme: {
+        border: "1px solid #d8d8d8",
+        color: "#262626",
         background: config.themes[this.$store.state.config.theme].content,
         width: this.$store.state.config.readWidth
       },
@@ -198,7 +213,9 @@ export default {
         marginRight: "-452px"
       },
       borderTheme: {
-        border: "1px solid rgba(0,0,0,0.1)"
+        color: "#262626",
+        border: "1px solid rgba(0,0,0,0.1)",
+        marginTop: "-1px"
       }
     };
   },
@@ -230,6 +247,9 @@ export default {
     },
     config() {
       return this.$store.state.config;
+    },
+    theme() {
+      return this.config.theme;
     },
     bodyColor() {
       return config.themes[this.config.theme].body;
@@ -369,7 +389,11 @@ export default {
 
         .icon-text {
           font-size: 12px;
-          color: rgba(0, 0, 0, 0.4);
+          color: #262626;
+        }
+
+        .night {
+          color: #666;
         }
       }
     }
