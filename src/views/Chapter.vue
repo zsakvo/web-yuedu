@@ -111,7 +111,7 @@ export default {
     if (config != null) this.$store.commit("setConfig", config);
   },
   mounted() {
-    this.loadingFlag = true;
+    console.log(this.$store.state.config);
     this.loading = this.$loading({
       target: this.$refs.content,
       lock: true,
@@ -178,18 +178,18 @@ export default {
       content: [],
       noPoint: true,
       bodyTheme: {
-        background: config.themes[0].body
+        background: config.themes[this.$store.state.config.theme].body
       },
       chapterTheme: {
-        background: config.themes[0].content,
+        background: config.themes[this.$store.state.config.theme].content,
         width: this.$store.state.config.readWidth
       },
       leftBarTheme: {
-        background: config.themes[0].popup,
+        background: config.themes[this.$store.state.config.theme].popup,
         marginLeft: "-468px"
       },
       rightBarTheme: {
-        background: config.themes[0].popup,
+        background: config.themes[this.$store.state.config.theme].popup,
         marginRight: "-452px"
       }
     };
