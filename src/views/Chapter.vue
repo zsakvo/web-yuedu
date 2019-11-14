@@ -111,7 +111,6 @@ export default {
     if (config != null) this.$store.commit("setConfig", config);
   },
   mounted() {
-    console.log(this.$store.state.config);
     this.loading = this.$loading({
       target: this.$refs.content,
       lock: true,

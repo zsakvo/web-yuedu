@@ -10,9 +10,11 @@
             v-for="(themeColor, index) in themeColors"
             :key="index"
             :style="themeColor"
+            ref="themes"
             @click="setTheme(index)"
             :class="{ selected: selectedTheme == index }"
-            ><em class="iconfont">&#58980;</em></span
+            ><em v-if="index < 6" class="iconfont">&#58980;</em
+            ><em v-else class="iconfont moon">&#58981;</em></span
           >
         </li>
         <li class="font-list">
@@ -97,6 +99,11 @@ export default {
     //初始化设置项目
     var config = this.$store.state.config;
     this.theme = config.theme;
+    // var vn = this.$refs.themes[6];
+    // var t = this.$createElement("div", 233);
+    // vn.appendChild(t);
+    // vn.nodeValue = "233";
+    // console.log(vn);
   },
   computed: {
     config() {
@@ -211,6 +218,11 @@ export default {
           em {
             display: none;
             font-style: normal;
+          }
+
+          .moon {
+            display: inline;
+            color: rgba(255, 255, 255, 0.2);
           }
         }
 
