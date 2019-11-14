@@ -14,7 +14,9 @@
             @click="setTheme(index)"
             :class="{ selected: selectedTheme == index }"
             ><em v-if="index < 6" class="iconfont">&#58980;</em
-            ><em v-else class="iconfont moon">&#58981;</em></span
+            ><em v-else class="iconfont" :style="moonIconStyle">{{
+              moonIcon
+            }}</em></span
           >
         </li>
         <li class="font-list">
@@ -69,6 +71,7 @@ export default {
   data() {
     return {
       theme: 0,
+      moonIcon: "",
       themeColors: [
         {
           background: "rgba(250, 245, 235, 0.8)"
@@ -92,6 +95,10 @@ export default {
           background: "rgba(25, 27, 28, 0.8)"
         }
       ],
+      moonIconStyle: {
+        display: "inline",
+        color: "rgba(255,255,255,0.2)"
+      },
       fonts: ["雅黑", "宋体", "楷书"]
     };
   },
@@ -129,6 +136,13 @@ export default {
   },
   methods: {
     setTheme(theme) {
+      if (theme == 6) {
+        this.moonIcon = "";
+        this.moonIconStyle.color = "#ed4259";
+      } else {
+        this.moonIcon = "";
+        this.moonIconStyle.color = "rgba(255,255,255,0.2)";
+      }
       let config = this.config;
       config.theme = theme;
       this.$store.commit("setConfig", config);
@@ -218,11 +232,6 @@ export default {
           em {
             display: none;
             font-style: normal;
-          }
-
-          .moon {
-            display: inline;
-            color: rgba(255, 255, 255, 0.2);
           }
         }
 
