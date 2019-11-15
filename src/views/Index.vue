@@ -47,6 +47,13 @@
           </el-tag>
         </div>
       </div>
+      <div class="bottom-icons">
+        <a href="https://github.com/zsakvo/web-yuedu" target="_blank">
+          <div class="bottom-icon">
+            <img :src="require('../assets/imgs/github.png')" alt="" />
+          </div>
+        </a>
+      </div>
     </div>
     <div class="shelf-wrapper" ref="shelfWrapper">
       <div class="books-wrapper">
@@ -296,6 +303,16 @@ export default {
         // color: #6B7C87;
         cursor: pointer;
       }
+    }
+
+    .bottom-icons {
+      position: fixed;
+      bottom: 0;
+      height: 120px;
+      width: 260px;
+      align-items: center;
+      display: flex;
+      flex-direction: row;
     }
   }
 
