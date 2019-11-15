@@ -21,7 +21,9 @@
             :class="{ 'no-point': noPoint }"
             slot="reference"
           >
-            <i class="el-icon-tickets"></i>
+            <div class="iconfont">
+              &#58905;
+            </div>
             <div class="icon-text">目录</div>
           </div>
         </el-popover>
@@ -40,16 +42,22 @@
             :class="{ 'no-point': noPoint }"
             slot="reference"
           >
-            <i class="el-icon-s-tools " @click="toTop"></i>
+            <div class="iconfont">
+              &#58971;
+            </div>
             <div class="icon-text">设置</div>
           </div>
         </el-popover>
         <div class="tool-icon" @click="toShelf">
-          <i class="el-icon-notebook-1"></i>
+          <div class="iconfont">
+            &#58892;
+          </div>
           <div class="icon-text">书架</div>
         </div>
         <div class="tool-icon" :class="{ 'no-point': noPoint }" @click="toTop">
-          <i class="el-icon-top-right"></i>
+          <div class="iconfont">
+            &#58914;
+          </div>
           <div class="icon-text">顶部</div>
         </div>
         <div
@@ -57,7 +65,9 @@
           :class="{ 'no-point': noPoint }"
           @click="toBottom"
         >
-          <i class="el-icon-bottom-left"></i>
+          <div class="iconfont">
+            &#58915;
+          </div>
           <div class="icon-text">底部</div>
         </div>
       </div>
@@ -69,14 +79,18 @@
           :class="{ 'no-point': noPoint }"
           @click="toLastChapter"
         >
-          <i class="el-icon-arrow-up"></i>
+          <div class="iconfont">
+            &#58920;
+          </div>
         </div>
         <div
           class="tool-icon"
           :class="{ 'no-point': noPoint }"
           @click="toNextChapter"
         >
-          <i class="el-icon-arrow-down"></i>
+          <div class="iconfont">
+            &#58913;
+          </div>
         </div>
       </div>
     </div>
@@ -114,7 +128,6 @@ export default {
     if (config != null) this.$store.commit("setConfig", config);
   },
   mounted() {
-    console.log(this.$store.state.config.readWidth);
     this.loading = this.$loading({
       target: this.$refs.content,
       lock: true,
@@ -382,11 +395,19 @@ export default {
       .tool-icon {
         font-size: 18px;
         width: 58px;
-        height: 60px;
+        height: 48px;
         text-align: center;
-        padding-top: 16px;
+        padding-top: 12px;
         cursor: pointer;
         outline: none;
+
+        .iconfont {
+          font-family: iconfont;
+          width: 16px;
+          height: 16px;
+          font-size: 16px;
+          margin: 0 auto 6px;
+        }
 
         .icon-text {
           font-size: 12px;
@@ -408,18 +429,20 @@ export default {
       .tool-icon {
         font-size: 18px;
         width: 42px;
-        height: 42px;
-        line-height: 42px;
-        // border: 1px solid rgba(0, 0, 0, 0.1);
+        height: 31px;
+        padding-top: 12px;
         text-align: center;
         align-items: center;
         cursor: pointer;
         outline: none;
-        // color: #262626;
         margin-top: -1px;
 
-        .icon-text {
-          font-size: 12px;
+        .iconfont {
+          font-family: iconfont;
+          width: 16px;
+          height: 16px;
+          font-size: 16px;
+          margin: 0 auto 6px;
         }
       }
     }
