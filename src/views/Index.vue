@@ -22,13 +22,14 @@
           最近阅读
         </div>
         <div class="reading-recent">
-          <div
+          <el-tag
+            type="warning"
             class="recent-book"
             @click="toDetail(readingRecent.url, readingRecent.name)"
             :class="{ 'no-point': readingRecent.url == '' }"
           >
             {{ readingRecent.name }}
-          </div>
+          </el-tag>
         </div>
       </div>
       <div class="setting-wrapper">
@@ -36,13 +37,14 @@
           基本设定
         </div>
         <div class="setting-item">
-          <div
+          <el-tag
+            :type="conStatus"
             class="setting-connect"
             :class="{ 'no-point': newConnect }"
             @click="setIP"
           >
             {{ connectStatus }}
-          </div>
+          </el-tag>
         </div>
       </div>
     </div>
@@ -91,6 +93,7 @@ export default {
   data() {
     return {
       search: "",
+      conStatus: "",
       readingRecent: {
         name: "尚无阅读记录",
         url: ""
@@ -120,6 +123,7 @@ export default {
         .then(function(response) {
           console.log(response);
           that.loading.close();
+          that.conStatus = "success";
           that.$store.commit("increaseBookNum", response.data.data.length);
           that.$store.commit("addBooks", response.data.data);
           that.connectStatus = "已连接 " + localStorage.url;
@@ -127,8 +131,9 @@ export default {
         })
         .catch(function(error) {
           that.loading.close();
-          that.connectStatus = "后端连接失败";
-          that.$message.error("点击设置后端 url 与 端口");
+          that.conStatus = "danger";
+          that.connectStatus = "点击设置后端 url 与 端口";
+          that.$message.error("后端连接失败");
           that.newConnect = false;
           throw error;
         });
@@ -136,6 +141,7 @@ export default {
       this.$message.error("请先设置后端 url 与端口");
       this.connectStatus = "点击设置后端信息";
       this.newConnect = false;
+      this.conStatus = "danger";
     }
   },
   methods: {
@@ -161,6 +167,8 @@ export default {
                   response.data.data.length
                 );
                 that.$store.commit("addBooks", response.data.data);
+                that.conStatus = "success";
+                that.connectStatus = "已连接 " + localStorage.url;
                 that.newConnect = false;
                 done();
               })
@@ -258,17 +266,13 @@ export default {
         margin: 18px 0;
 
         .recent-book {
-          font-size: 14px;
-          font-weight: 400;
-          margin: 12px 0;
-          font-weight: 500;
-          color: #6B7C87;
+          font-size: 10px;
+          // font-weight: 400;
+          // margin: 12px 0;
+          // font-weight: 500;
+          // color: #6B7C87;
           cursor: pointer;
-          padding: 6px 18px;
-        }
-
-        .recent-book:hover {
-          background-color: #e6e6e6;
+          // padding: 6px 18px;
         }
       }
     }
@@ -287,16 +291,10 @@ export default {
       }
 
       .setting-connect {
-        margin: 18px 0;
-        font-size: 14px;
-        font-weight: 500;
-        color: #6B7C87;
+        font-size: 8px;
+        margin-top: 16px;
+        // color: #6B7C87;
         cursor: pointer;
-        padding: 6px 18px;
-      }
-
-      .setting-connect:hover {
-        background-color: #e6e6e6;
       }
     }
   }

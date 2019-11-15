@@ -1,5 +1,8 @@
 // vue.config.js
 module.exports = {
   publicPath: "./",
-  productionSourceMap: false
+  productionSourceMap: false,
+  devServer: {
+    port: 8081
+  }
 };

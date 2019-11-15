@@ -10,7 +10,8 @@ import {
   TableColumn,
   Popover,
   Loading,
-  Input
+  Input,
+  Tag
 } from "element-ui";
 
 Vue.use(Button);
@@ -21,6 +22,7 @@ Vue.use(Table);
 Vue.use(TableColumn);
 Vue.use(Popover);
 Vue.use(Input);
+Vue.use(Tag);
 Vue.use(Loading.directive);
 
 Vue.prototype.$msgbox = MessageBox;
