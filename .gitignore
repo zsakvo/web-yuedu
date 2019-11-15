@@ -23,4 +23,4 @@ yarn-error.log*
 #Carlo build output
 /dist_carlo
 /.profile
-dist.zip
+dist*.zip
