@@ -332,7 +332,7 @@ export default {
 
     .books-wrapper {
       height: 100%;
-      overflow: auto;
+      overflow: scroll;
 
       .book {
         display: flex;
