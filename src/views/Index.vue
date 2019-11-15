@@ -118,6 +118,7 @@ export default {
         timeout: 3000
       })
         .then(function(response) {
+          console.log(response);
           that.loading.close();
           that.$store.commit("increaseBookNum", response.data.data.length);
           that.$store.commit("addBooks", response.data.data);

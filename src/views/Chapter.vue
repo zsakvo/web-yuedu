@@ -14,7 +14,7 @@
           v-model="popCataVisible"
           popper-class="pop-cata"
         >
-          <PopCata @getContent="getContent" ref="popCata" />
+          <PopCata @getContent="getContent" ref="popCata" class="popup" />
 
           <div
             class="tool-icon"
@@ -35,7 +35,7 @@
           v-model="readSettingsVisible"
           popper-class="pop-setting"
         >
-          <ReadSettings />
+          <ReadSettings class="popup" />
 
           <div
             class="tool-icon"
@@ -494,6 +494,10 @@ export default {
 }
 
 .day {
+  >>>.popup {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  }
+
   >>>.tool-icon {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-top: -1px;
@@ -511,6 +515,10 @@ export default {
 }
 
 .night {
+  >>>.popup {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.48), 0 0 6px rgba(0, 0, 0, 0.16);
+  }
+
   >>>.tool-icon {
     border: 1px solid #444;
     margin-top: -1px;
