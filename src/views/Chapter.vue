@@ -1,11 +1,16 @@
 <template>
-  <div class="chapter-wrapper" :style="bodyTheme">
+  <div
+    class="chapter-wrapper"
+    :style="bodyTheme"
+    :class="{ night: isNight, day: !isNight }"
+  >
     <div class="tool-bar" :style="leftBarTheme">
       <div class="tools">
         <el-popover
           placement="right"
           width="820"
           trigger="click"
+          :visible-arrow="false"
           v-model="popCataVisible"
           popper-class="pop-cata"
         >
@@ -14,52 +19,45 @@
           <div
             class="tool-icon"
             :class="{ 'no-point': noPoint }"
-            :style="[borderTheme]"
             slot="reference"
           >
             <i class="el-icon-tickets"></i>
-            <div class="icon-text" :class="{ night: isNight }">目录</div>
+            <div class="icon-text">目录</div>
           </div>
         </el-popover>
         <el-popover
           placement="right"
           width="470"
           trigger="click"
+          :visible-arrow="false"
           v-model="readSettingsVisible"
         >
           <ReadSettings />
 
           <div
             class="tool-icon"
-            :style="[borderTheme]"
             :class="{ 'no-point': noPoint }"
             slot="reference"
           >
             <i class="el-icon-s-tools " @click="toTop"></i>
-            <div class="icon-text" :class="{ night: isNight }">设置</div>
+            <div class="icon-text">设置</div>
           </div>
         </el-popover>
-        <div class="tool-icon" :style="[borderTheme]" @click="toShelf">
+        <div class="tool-icon" @click="toShelf">
           <i class="el-icon-notebook-1"></i>
-          <div class="icon-text" :class="{ night: isNight }">书架</div>
+          <div class="icon-text">书架</div>
         </div>
-        <div
-          class="tool-icon"
-          :class="{ 'no-point': noPoint }"
-          :style="[borderTheme]"
-          @click="toTop"
-        >
+        <div class="tool-icon" :class="{ 'no-point': noPoint }" @click="toTop">
           <i class="el-icon-top-right"></i>
-          <div class="icon-text" :class="{ night: isNight }">顶部</div>
+          <div class="icon-text">顶部</div>
         </div>
         <div
           class="tool-icon"
-          :style="[borderTheme]"
           :class="{ 'no-point': noPoint }"
           @click="toBottom"
         >
           <i class="el-icon-bottom-left"></i>
-          <div class="icon-text" :class="{ night: isNight }">底部</div>
+          <div class="icon-text">底部</div>
         </div>
       </div>
     </div>
@@ -68,14 +66,12 @@
         <div
           class="tool-icon"
           :class="{ 'no-point': noPoint }"
-          :style="[borderTheme]"
           @click="toLastChapter"
         >
           <i class="el-icon-arrow-up"></i>
         </div>
         <div
           class="tool-icon"
-          :style="[borderTheme]"
           :class="{ 'no-point': noPoint }"
           @click="toNextChapter"
         >
@@ -156,19 +152,10 @@ export default {
       this.$store.commit("setContentLoading", false);
     },
     theme(theme) {
-      console.log(theme);
       if (theme == 6) {
         this.isNight = true;
-        this.borderTheme.border = "1px solid #444";
-        this.borderTheme.color = "#666";
-        this.chapterTheme.border = "1px solid #444";
-        this.chapterTheme.color = "#666";
       } else {
         this.isNight = false;
-        this.borderTheme.border = "1px solid rgba(0,0,0,0.1)";
-        this.borderTheme.color = "#262626";
-        this.chapterTheme.border = "1px solid #d8d8d8";
-        this.chapterTheme.color = "#262626";
       }
     },
     bodyColor(color) {
@@ -194,13 +181,11 @@ export default {
       title: "",
       content: [],
       noPoint: true,
-      isNight: false,
+      isNight: this.$store.state.config.theme == 6,
       bodyTheme: {
         background: config.themes[this.$store.state.config.theme].body
       },
       chapterTheme: {
-        border: "1px solid #d8d8d8",
-        color: "#262626",
         background: config.themes[this.$store.state.config.theme].content,
         width: this.$store.state.config.readWidth
       },
@@ -211,11 +196,6 @@ export default {
       rightBarTheme: {
         background: config.themes[this.$store.state.config.theme].popup,
         marginRight: "-452px"
-      },
-      borderTheme: {
-        color: "#262626",
-        border: "1px solid rgba(0,0,0,0.1)",
-        marginTop: "-1px"
       }
     };
   },
@@ -369,7 +349,6 @@ export default {
     position: fixed;
     top: 0;
     left: 50%;
-    // margin-left: -468px;
     z-index: 100;
 
     .tools {
@@ -380,20 +359,13 @@ export default {
         font-size: 18px;
         width: 58px;
         height: 60px;
-        // border: 1px solid rgba(0, 0, 0, 0.1);
         text-align: center;
         padding-top: 16px;
         cursor: pointer;
         outline: none;
-        color: #000;
 
         .icon-text {
           font-size: 12px;
-          color: #262626;
-        }
-
-        .night {
-          color: #666;
         }
       }
     }
@@ -403,7 +375,6 @@ export default {
     position: fixed;
     bottom: 0;
     right: 50%;
-    // margin-right: -452px;
     z-index: 100;
 
     .tools {
@@ -420,7 +391,8 @@ export default {
         align-items: center;
         cursor: pointer;
         outline: none;
-        color: #000;
+        // color: #262626;
+        margin-top: -1px;
 
         .icon-text {
           font-size: 12px;
@@ -441,7 +413,6 @@ export default {
   .chapter {
     font-family: 'Microsoft YaHei', PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', sans-serif;
     text-align: left;
-    color: #262626;
     padding: 0 65px;
     min-height: 100vh;
     width: 670px;
@@ -472,6 +443,44 @@ export default {
         height: 64px;
       }
     }
+  }
+}
+
+.day {
+  >>>.tool-icon {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: -1px;
+    color: #000;
+
+    .icon-text {
+      color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  >>>.chapter {
+    border: 1px solid #d8d8d8;
+    color: #262626;
+  }
+}
+
+.night {
+  >>>.tool-icon {
+    border: 1px solid #444;
+    margin-top: -1px;
+    color: #666;
+
+    .icon-text {
+      color: #666;
+    }
+  }
+
+  >>>.chapter {
+    border: 1px solid #444;
+    color: #666;
+  }
+
+  >>>.popper__arrow {
+    background: #666;
   }
 }
 </style>

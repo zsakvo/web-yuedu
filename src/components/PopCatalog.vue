@@ -3,7 +3,11 @@
     <div class="title">
       目录
     </div>
-    <div class="data-wrapper" ref="cataData">
+    <div
+      class="data-wrapper"
+      ref="cataData"
+      :class="{ night: isNight, day: !isNight }"
+    >
       <div class="cata">
         <div
           class="log"
@@ -28,6 +32,7 @@ export default {
   name: "PopCata",
   data() {
     return {
+      isNight: this.$store.state.config.theme == 6,
       index: this.$store.state.readingBook.index
     };
   },
@@ -49,6 +54,13 @@ export default {
   },
   mounted() {},
   watch: {
+    theme(theme) {
+      if (theme == 6) {
+        this.isNight = true;
+      } else {
+        this.isNight = false;
+      }
+    },
     popCataVisible() {
       this.$nextTick(function() {
         let index = this.$store.state.readingBook.index;
@@ -113,9 +125,20 @@ export default {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        border-bottom: 1px solid #F2F2F2;
         font: 16px / 40px PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', 'Microsoft YaHei', sans-serif;
       }
+    }
+  }
+
+  .night {
+    >>>.log {
+      border-bottom: 1px solid #666;
+    }
+  }
+
+  .day {
+    >>>.log {
+      border-bottom: 1px solid #f2f2f2;
     }
   }
 }
