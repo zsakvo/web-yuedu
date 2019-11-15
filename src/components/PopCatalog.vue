@@ -17,7 +17,9 @@
           @click="gotoChapter(note)"
           ref="cata"
         >
-          {{ note.durChapterName }}
+          <div class="log-text">
+            {{ note.durChapterName }}
+          </div>
         </div>
       </div>
     </div>
@@ -65,8 +67,6 @@ export default {
       this.$nextTick(function() {
         let index = this.$store.state.readingBook.index;
         let wrapper = this.$refs.cataData;
-        // this.scroll = new BScroll(this.$refs.cataData, {});
-        // this.scroll.scrollToElement(this.$refs.cata[index]);
         jump(this.$refs.cata[index], { container: wrapper, duration: 0 });
       });
     }
@@ -87,7 +87,7 @@ export default {
 
 <style lang="stylus" scoped>
 .cata-wrapper {
-  margin: -13px;
+  margin: -16px;
   padding: 18px 0 24px 25px;
 
   // background: #ede7da url('../assets/imgs/themes/popup_1.png') repeat;
@@ -116,16 +116,18 @@ export default {
       }
 
       .log {
-        width: 365px;
+        width: 50%;
         height: 40px;
         cursor: pointer;
-        padding-right: 25px;
         float: left;
-        max-width: 80%;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
         font: 16px / 40px PingFangSC-Regular, HelveticaNeue-Light, 'Helvetica Neue Light', 'Microsoft YaHei', sans-serif;
+
+        .log-text {
+          margin-right: 26px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       }
     }
   }

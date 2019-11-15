@@ -8,7 +8,7 @@
       <div class="tools">
         <el-popover
           placement="right"
-          width="820"
+          :width="cataWidth"
           trigger="click"
           :visible-arrow="false"
           v-model="popCataVisible"
@@ -26,11 +26,12 @@
           </div>
         </el-popover>
         <el-popover
-          placement="right"
+          placement="bottom-right"
           width="470"
           trigger="click"
           :visible-arrow="false"
           v-model="readSettingsVisible"
+          popper-class="pop-setting"
         >
           <ReadSettings />
 
@@ -109,6 +110,7 @@ export default {
     if (config != null) this.$store.commit("setConfig", config);
   },
   mounted() {
+    console.log(this.$store.state.config.readWidth);
     this.loading = this.$loading({
       target: this.$refs.content,
       lock: true,
@@ -187,15 +189,15 @@ export default {
       },
       chapterTheme: {
         background: config.themes[this.$store.state.config.theme].content,
-        width: this.$store.state.config.readWidth
+        width: this.$store.state.config.readWidth - 130 + "px"
       },
       leftBarTheme: {
         background: config.themes[this.$store.state.config.theme].popup,
-        marginLeft: "-468px"
+        marginLeft: -(this.$store.state.config.readWidth / 2 + 68) + "px"
       },
       rightBarTheme: {
         background: config.themes[this.$store.state.config.theme].popup,
-        marginRight: "-452px"
+        marginRight: -(this.$store.state.config.readWidth / 2 + 52) + "px"
       }
     };
   },
@@ -242,6 +244,9 @@ export default {
     },
     readWidth() {
       return this.$store.state.config.readWidth - 130 + "px";
+    },
+    cataWidth() {
+      return this.$store.state.config.readWidth - 33;
     },
     show() {
       return this.$store.state.showContent;
@@ -336,6 +341,15 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+>>>.pop-setting {
+  margin-left: 68px;
+  top: 0;
+}
+
+>>>.pop-cata {
+  margin-left: 10px;
+}
+
 .chapter-wrapper {
   padding: 0 4%;
   flex-direction: column;
