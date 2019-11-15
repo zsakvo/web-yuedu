@@ -109,6 +109,10 @@ export default {
     var config = JSON.parse(localStorage.getItem("config"));
     if (config != null) this.$store.commit("setConfig", config);
   },
+  beforeCreate() {
+    let config = JSON.parse(localStorage.getItem("config"));
+    if (config != null) this.$store.commit("setConfig", config);
+  },
   mounted() {
     console.log(this.$store.state.config.readWidth);
     this.loading = this.$loading({
@@ -176,6 +180,12 @@ export default {
     popupColor(color) {
       this.leftBarTheme.background = color;
       this.rightBarTheme.background = color;
+    },
+    readSettingsVisible(visible) {
+      if (!visible) {
+        let configText = JSON.stringify(this.$store.state.config);
+        localStorage.setItem("config", configText);
+      }
     }
   },
   data() {
