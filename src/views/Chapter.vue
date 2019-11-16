@@ -128,16 +128,6 @@ export default {
     if (config != null) this.$store.commit("setConfig", config);
   },
   mounted() {
-    window.addEventListener("keyup", event => {
-      switch (event.keyCode) {
-        case 37:
-          this.toLastChapter();
-          break;
-        case 39:
-          this.toNextChapter();
-          break;
-      }
-    });
     this.loading = this.$loading({
       target: this.$refs.content,
       lock: true,
