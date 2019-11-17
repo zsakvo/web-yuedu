@@ -57,33 +57,40 @@
     </div>
     <div class="shelf-wrapper" ref="shelfWrapper">
       <div class="books-wrapper">
-        <div
-          class="book"
-          v-for="book in shelf"
-          :key="book.noteUrl"
-          @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)"
-        >
-          <div class="cover-img">
-            <img
-              class="cover"
-              :src="
-                book.customCoverPath ||
-                  book.bookInfoBean.coverUrl ||
-                  require('../assets/imgs/noCover.jpeg')
-              "
-              alt=""
-            />
-          </div>
+        <div class="wrapper">
           <div
-            class="info"
+            class="book"
+            v-for="book in shelf"
+            :key="book.noteUrl"
             @click="toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)"
           >
-            <div class="name">{{ book.bookInfoBean.name }}</div>
-            <div class="sub">
-              <div class="author">作者：{{ book.bookInfoBean.author }}</div>
+            <div class="cover-img">
+              <img
+                class="cover"
+                :src="
+                  book.customCoverPath ||
+                    book.bookInfoBean.coverUrl ||
+                    require('../assets/imgs/noCover.jpeg')
+                "
+                alt=""
+              />
             </div>
-            <div class="intro">
-              {{ book.bookInfoBean.introduce }}
+            <div
+              class="info"
+              @click="
+                toDetail(book.bookInfoBean.noteUrl, book.bookInfoBean.name)
+              "
+            >
+              <div class="name">{{ book.bookInfoBean.name }}</div>
+              <div class="sub">
+                <div class="author">
+                  {{ book.bookInfoBean.author }}
+                </div>
+                <div class="dot">•</div>
+                <div class="size">共{{ book.chapterListSize }}章</div>
+              </div>
+              <div class="dur-chapter">已读：{{ book.durChapterName }}</div>
+              <div class="last-chapter">最新：{{ book.lastChapterName }}</div>
             </div>
           </div>
         </div>
@@ -334,69 +341,79 @@ export default {
       height: 100%;
       overflow: scroll;
 
-      .book {
+      .wrapper {
         display: flex;
-        cursor: pointer;
-        margin-bottom: 18px;
-        padding: 24px 24px;
-        flex-direction: row;
+        flex-wrap: wrap;
         justify-content: space-around;
 
-        .cover-img {
-          width: 84px;
-          height: 112px;
+        .book {
+          user-select: none;
+          display: flex;
+          cursor: pointer;
+          margin-bottom: 18px;
+          padding: 24px 24px;
+          width: 360px;
+          flex-direction: row;
+          justify-content: space-around;
 
-          .cover {
+          .cover-img {
             width: 84px;
             height: 112px;
-          }
-        }
 
-        .info {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-around;
-          align-items: left;
-          height: 112px;
-          margin-left: 20px;
-          flex: 1;
-
-          .name {
-            width: fit-content;
-            font-size: 16px;
-            font-weight: 700;
-            color: #33373D;
-          }
-
-          .sub {
-            display: flex;
-            flex-direction: row;
-            font-size: 12px;
-            font-weight: 600;
-            color: #6b6b6b;
-
-            .author {
-              margin-right: 5px;
+            .cover {
+              width: 84px;
+              height: 112px;
             }
           }
 
-          .intro {
-            color: #969ba3;
-            font-size: 14px;
-            font-weight: 500;
-            word-wrap: break-word;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            text-align: left;
+          .info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: left;
+            height: 112px;
+            margin-left: 20px;
+            flex: 1;
+
+            .name {
+              width: fit-content;
+              font-size: 16px;
+              font-weight: 700;
+              color: #33373D;
+            }
+
+            .sub {
+              display: flex;
+              flex-direction: row;
+              font-size: 12px;
+              font-weight: 600;
+              color: #6b6b6b;
+
+              .dot {
+                margin: 0 7px;
+              }
+            }
+
+            .intro, .dur-chapter, .last-chapter {
+              color: #969ba3;
+              font-size: 13px;
+              margin-top: 3px;
+              font-weight: 500;
+              word-wrap: break-word;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+              text-align: left;
+            }
           }
         }
-      }
 
-      .book:hover {
-        background-color: #f2f2f2;
+        .book:hover {
+          background: rgba(0, 0, 0, 0.1);
+          transition-duration: 0.5s;
+        }
       }
     }
 
