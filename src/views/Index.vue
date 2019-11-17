@@ -133,7 +133,6 @@ export default {
           timeout: 3000
         })
           .then(function(response) {
-            console.log(response);
             that.loading.close();
             that.$store.commit("setConnectType", "success");
             that.$store.commit("increaseBookNum", response.data.data.length);
