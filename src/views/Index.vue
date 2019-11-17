@@ -356,9 +356,10 @@ export default {
       overflow: scroll;
 
       .wrapper {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid ;
+        grid-template-columns: repeat(auto-fill, 380px);
         justify-content: space-around;
+        grid-gap: 10px;
 
         .book {
           user-select: none;
@@ -428,6 +429,10 @@ export default {
           background: rgba(0, 0, 0, 0.1);
           transition-duration: 0.5s;
         }
+      }
+
+      .wrapper:last-child {
+        margin-right: auto;
       }
     }
 
