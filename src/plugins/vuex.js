@@ -5,7 +5,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    shelf: {},
+    connectStatus: "正在连接后端服务器……",
+    connectType: "",
+    newConnect: true,
+    shelf: [],
     catalog: "",
     readingBook: {},
     popCataVisible: false,
@@ -20,6 +23,15 @@ export default new Vuex.Store({
     readSettingsVisible: false
   },
   mutations: {
+    setConnectStatus(state, connectStatus) {
+      state.connectStatus = connectStatus;
+    },
+    setConnectType(state, connectType) {
+      state.connectType = connectType;
+    },
+    setNewConnect(state, newConnect) {
+      state.newConnect = newConnect;
+    },
     addBooks(state, books) {
       state.shelf = books;
     },

@@ -38,7 +38,7 @@
         </div>
         <div class="setting-item">
           <el-tag
-            :type="conStatus"
+            :type="connectType"
             class="setting-connect"
             :class="{ 'no-point': newConnect }"
             @click="setIP"
@@ -107,13 +107,10 @@ export default {
   data() {
     return {
       search: "",
-      conStatus: "",
       readingRecent: {
         name: "尚无阅读记录",
         url: ""
-      },
-      connectStatus: "正在连接后端服务器……",
-      newConnect: true
+      }
     };
   },
   mounted() {
@@ -122,40 +119,45 @@ export default {
     if (readingRecentStr != null) {
       this.readingRecent = JSON.parse(readingRecentStr);
     }
-    if (localStorage.url) {
-      this.loading = this.$loading({
-        target: this.$refs.shelfWrapper,
-        lock: true,
-        text: "正在获取书籍信息",
-        spinner: "el-icon-loading",
-        background: "rgb(247,247,247)"
-      });
-      const that = this;
-      Axios.get("http://" + localStorage.url + "/getBookshelf", {
-        timeout: 3000
-      })
-        .then(function(response) {
-          console.log(response);
-          that.loading.close();
-          that.conStatus = "success";
-          that.$store.commit("increaseBookNum", response.data.data.length);
-          that.$store.commit("addBooks", response.data.data);
-          that.connectStatus = "已连接 " + localStorage.url;
-          that.newConnect = false;
-        })
-        .catch(function(error) {
-          that.loading.close();
-          that.conStatus = "danger";
-          that.connectStatus = "点击设置后端 url 与 端口";
-          that.$message.error("后端连接失败");
-          that.newConnect = false;
-          throw error;
+    if (this.shelf.length == 0) {
+      if (localStorage.url) {
+        this.loading = this.$loading({
+          target: this.$refs.shelfWrapper,
+          lock: true,
+          text: "正在获取书籍信息",
+          spinner: "el-icon-loading",
+          background: "rgb(247,247,247)"
         });
-    } else {
-      this.$message.error("请先设置后端 url 与端口");
-      this.connectStatus = "点击设置后端信息";
-      this.newConnect = false;
-      this.conStatus = "danger";
+        const that = this;
+        Axios.get("http://" + localStorage.url + "/getBookshelf", {
+          timeout: 3000
+        })
+          .then(function(response) {
+            console.log(response);
+            that.loading.close();
+            that.$store.commit("setConnectType", "success");
+            that.$store.commit("increaseBookNum", response.data.data.length);
+            that.$store.commit("addBooks", response.data.data);
+            that.$store.commit(
+              "setConnectStatus",
+              "已连接 " + localStorage.url
+            );
+            that.$store.commit("setNewConnect", false);
+          })
+          .catch(function(error) {
+            that.loading.close();
+            that.$store.commit("setConnectType", "danger");
+            that.$store.commit("setConnectStatus", "点击设置后端 url 与 端口");
+            that.$message.error("后端连接失败");
+            that.$store.commit("setNewConnect", false);
+            throw error;
+          });
+      } else {
+        this.$message.error("请先设置后端 url 与端口");
+        this.$store.commit("setConnectStatus", "点击设置后端 url 与 端口");
+        this.$store.commit("setNewConnect", false);
+        this.$store.commit("setConnectType", "danger");
+      }
     }
   },
   methods: {
@@ -168,7 +170,7 @@ export default {
         inputErrorMessage: "url 形式不正确",
         beforeClose: (action, instance, done) => {
           if (action === "confirm") {
-            that.newConnect = true;
+            that.$store.commit("setNewConnect", true);
             instance.confirmButtonLoading = true;
             instance.confirmButtonText = "校验中……";
             Axios.get("http://" + instance.inputValue + "/getBookshelf", {
@@ -181,16 +183,19 @@ export default {
                   response.data.data.length
                 );
                 that.$store.commit("addBooks", response.data.data);
-                that.conStatus = "success";
-                that.connectStatus = "已连接 " + localStorage.url;
-                that.newConnect = false;
+                that.$store.commit("setConnectType", "success");
+                that.$store.commit(
+                  "setConnectStatus",
+                  "已连接 " + localStorage.url
+                );
+                that.$store.commit("setNewConnect", false);
                 done();
               })
               .catch(function(error) {
                 instance.confirmButtonLoading = false;
                 instance.confirmButtonText = "确定";
                 that.$message.error("访问失败，请检查您输入的 url");
-                that.newConnect = false;
+                that.$store.commit("setNewConnect", false);
                 throw error;
               });
           } else {
@@ -223,6 +228,15 @@ export default {
   computed: {
     shelf() {
       return this.$store.state.shelf;
+    },
+    connectStatus() {
+      return this.$store.state.connectStatus;
+    },
+    connectType() {
+      return this.$store.state.connectType;
+    },
+    newConnect() {
+      return this.$store.state.newConnect;
     }
   }
 };
